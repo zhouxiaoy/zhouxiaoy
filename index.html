@@ -128,13 +128,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -220,6 +220,1109 @@
     
     <div class="post-body" itemprop="articleBody">
           <h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/1.%20%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/1.%20%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">图像分类</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-01-23 19:45:55 / 修改时间：21:06:25" itemprop="dateCreated datePublished" datetime="2022-01-23T19:45:55+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/categories/" itemprop="url" rel="index"><span itemprop="name">categories</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="图像分类"><a href="#图像分类" class="headerlink" title="图像分类"></a>图像分类</h3><h4 id="1-什么是图像分类任务？"><a href="#1-什么是图像分类任务？" class="headerlink" title="1. 什么是图像分类任务？"></a>1. 什么是图像分类任务？</h4><p>图像分类：从一至的类别标签中为给定的输入图片选定一个标签。eg：标签：{狗，猫，卡车，飞机，…}</p>
+<h4 id="2-它有哪些应用场景？"><a href="#2-它有哪些应用场景？" class="headerlink" title="2. 它有哪些应用场景？"></a>2. 它有哪些应用场景？</h4><ul>
+<li>淘宝搜索同类宝贝</li>
+<li>识别个人不认识的动物/植物</li>
+</ul>
+<p><code>即将语言不好描述的东西，使用图像描述来识别。</code><br><code>跨越&quot;语义鸿沟&quot;建立像素到语义的映射</code></p>
+<h4 id="3-图像识别有哪些难点"><a href="#3-图像识别有哪些难点" class="headerlink" title="3. 图像识别有哪些难点"></a>3. 图像识别有哪些难点</h4><ul>
+<li>视角<br><img src="./images/%E8%A7%86%E8%A7%92.png" alt="视角"></li>
+<li>光照<br><img src="./images/%E5%85%89%E7%85%A7.png" alt="光照"></li>
+<li>尺度<br><img src="./images/%E5%B0%BA%E5%BA%A6.png" alt="尺度"><br>即不管人站的近还是远，都能识别出人脸</li>
+<li>遮挡<br><img src="./images/%E9%81%AE%E6%8C%A1.png" alt="遮挡"></li>
+<li>形变<br><img src="./images/%E5%BD%A2%E5%8F%98.png" alt="形变"></li>
+<li>背景杂波<br><img src="./images/%E8%83%8C%E6%99%AF%E6%9D%82%E6%B3%A2.png" alt="背景杂波"></li>
+<li>类内形变(多形态)<br><img src="./images/%E7%B1%BB%E5%86%85%E5%BD%A2%E5%8F%98.png" alt="类内形变"></li>
+<li>运动模糊<br><img src="./images/%E8%BF%90%E5%8A%A8%E6%A8%A1%E7%B3%8A.png" alt="运动模糊"><br>可以使用高速相机或将图像恢复成正常状态来进行识别</li>
+<li>类别繁多<br><img src="./images/%E7%B1%BB%E5%88%AB%E7%B9%81%E5%A4%9A.png" alt="类别繁多"></li>
+</ul>
+<p><code>不是每个识别都要处理所有的难点，而是根据场景的不同，处理部分的难点。</code></p>
+<h4 id="4-基于规则的方法是否可行？"><a href="#4-基于规则的方法是否可行？" class="headerlink" title="4. 基于规则的方法是否可行？"></a>4. 基于规则的方法是否可行？</h4><p>通过<code>硬编码</code>的方法识别猫或其他类，是一件<code>很困难</code>的事。</p>
+<h4 id="5-什么是数据驱动的图像分类"><a href="#5-什么是数据驱动的图像分类" class="headerlink" title="5. 什么是数据驱动的图像分类"></a>5. 什么是数据驱动的图像分类</h4><p>数据驱动的图像分类步骤：</p>
+<ol>
+<li>数据集构建</li>
+<li>分类器设计与学习</li>
+<li>分类器决策<br><img src="./images/%E8%AE%AD%E7%BB%83%E6%AD%A5%E9%AA%A4.png" alt="训练步骤"></li>
+</ol>
+<h5 id="图像表示"><a href="#图像表示" class="headerlink" title="图像表示"></a>图像表示</h5><ul>
+<li>像素表示<ul>
+<li>全局特征表示(GIST)</li>
+<li>局部特征表示(SIFT特征+词袋模型)</li>
+</ul>
+</li>
+</ul>
+<h5 id="分类器"><a href="#分类器" class="headerlink" title="分类器"></a>分类器</h5><ul>
+<li>近邻分类器</li>
+<li>贝叶斯分类器</li>
+<li><code>线性分类器</code></li>
+<li>支持向量机分类器</li>
+<li><code>神经网络分类器</code></li>
+<li>随机森林</li>
+<li>adaboost</li>
+</ul>
+<h5 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h5><ul>
+<li>0-1损失</li>
+<li>多类支撑向量机损失</li>
+<li>交叉熵损失</li>
+<li>L1损失</li>
+<li>L2损失</li>
+<li>折页损失</li>
+</ul>
+<h5 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h5><p>一阶方法</p>
+<ul>
+<li>梯度下降</li>
+<li>随机梯度</li>
+<li>小批量梯度下降</li>
+</ul>
+<p>二阶方法</p>
+<ul>
+<li>牛顿法</li>
+<li>BFGS</li>
+<li>L-BFGS</li>
+</ul>
+<h5 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h5><ul>
+<li>数据集划分</li>
+<li>数据预处理</li>
+<li>数据增强</li>
+<li>欠拟合和过拟合<ul>
+<li>减小算法复杂度</li>
+<li>使用权重正则项</li>
+<li>使用droput正则化</li>
+</ul>
+</li>
+<li>超参数调整</li>
+<li>模型集成</li>
+</ul>
+<h4 id="5-常用分类任务的评价指标"><a href="#5-常用分类任务的评价指标" class="headerlink" title="5. 常用分类任务的评价指标"></a>5. 常用分类任务的评价指标</h4><ul>
+<li><p>正确率：分对的样本数/全部样本数</p>
+</li>
+<li><p>错误率：1 - 正确率</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-16 17:53:26" itemprop="dateModified" datetime="2022-01-16T17:53:26+08:00">2022-01-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
+<ul>
+<li>分类：不考虑空间位置</li>
+<li>语义分割：像素的类别</li>
+<li>目标检测：多目标</li>
+<li>实例分割：多目标</li>
+</ul>
+<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
+<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%A4%BA%E4%BE%8B.gif" alt="滑动窗口示例"></p>
+<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
+<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.jpg" alt="FCN网络结构"></p>
+<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
+<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <em><strong>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</strong></em> 。</p>
+<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
+<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
+<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
+<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/%E5%85%A8%E5%8D%B7%E7%A7%AF.png" alt="全卷积"></p>
+<p><code>问题：什么是上采样呢？</code></p>
+<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
+<ul>
+<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
+</li>
+<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
+</li>
+<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：<br>$$<br>input = \begin{bmatrix}<br>x_1 &amp; x_2 &amp; x_3 &amp; x_4 \<br>x_6 &amp; x_7 &amp; x_8 &amp; x_9 \<br>x_{10} &amp; x_{11} &amp; x_{12} &amp; x_{13} \<br>x_{14} &amp; x_{15} &amp; x_{16} &amp; x_{17} \<br>\end{bmatrix}<br>\<br>kernel = \begin{bmatrix}<br>w_{0,0} &amp; w_{0,1} &amp; w_{0,2} \<br>w_{1,0} &amp; w_{1,1} &amp; w_{1,2} \<br>w_{2,0} &amp; w_{2,1} &amp; w_{2,2} \<br>\end{bmatrix}<br>$$<br>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output<br>$$<br>output=\begin{bmatrix}<br>y_0 &amp; y_1 \<br>y_2 &amp; y_3 \<br>\end{bmatrix}<br>$$<br>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：<br>$$<br>X = \begin{bmatrix}<br>x_1 \ x_2 \…\x_17<br>\end{bmatrix}<br>\<br>Y = \begin{bmatrix}<br>y_0 \ y_1 \ y_2 \y_3<br>\end{bmatrix}<br>$$<br>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：<br>$$<br>Y = C X<br>$$<br>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：<br>$$<br>C = \begin{bmatrix}<br>w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0 &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2}\<br>\end{bmatrix}<br>$$</p>
+</li>
+</ul>
+<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：<br>$$<br>X = C^T Y<br>$$<br>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
+<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-16 11:03:14" itemprop="dateModified" datetime="2022-01-16T11:03:14+08:00">2022-01-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="经典网络解析"><a href="#经典网络解析" class="headerlink" title="经典网络解析"></a>经典网络解析</h2><ul>
+<li><p>AlexNet</p>
+</li>
+<li><p>ZFNet</p>
+</li>
+<li><p>VGG</p>
+</li>
+<li><p>GoogleNet</p>
+</li>
+<li><p>ResNet</p>
+</li>
+</ul>
+<h4 id="经典网络解析——AlexNet"><a href="#经典网络解析——AlexNet" class="headerlink" title="经典网络解析——AlexNet"></a>经典网络解析——AlexNet</h4><p>AlexNet——验证了深度卷积神经网络 的高效性</p>
+<ul>
+<li><p>主体贡献：<br>  1.提出了一种卷积层加全连接层的卷积神经网络结构<br>  2.首次使用 ReLU 函数 做为 神经网络的 激活函数<br>  3.首次提出 Dropout 正则化来控制过拟合<br>  4.使用加入动量的小批量 梯度下降算法加速了 训练过程的 收敛；<br>  5.使用数据增强策略，极大地抑制了训练过程的 过拟合；<br>  6.利用了GPU的并行计算能力，加速了网络的训练与推断。<br><img src="./images/Alex%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84.jpg" alt="Alex网络架构"><br><img src="./images/Alex%E7%BB%93%E6%9E%84.png" alt="Alex结构"><br><code>NORM 是局部响应归一化层</code></p>
+</li>
+<li><p>层数统计说明：</p>
+<ul>
+<li><p>计算网络层数时，仅统计卷积层与全连接层；</p>
+</li>
+<li><p>池化层与各种归一化层都是对它们前面卷积层输出的特征图进行后处理，不单独算作一层。</p>
+</li>
+<li><p>AlexNet共8层</p>
+<ul>
+<li><p>5 个卷积层 (CONV1 CONV5)</p>
+</li>
+<li><p>3 个全连接层 (FC6 FC8)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>在第3，4层卷积层没有进行最大池化与局部归一化</code></p>
+<ul>
+<li><p>重要说明</p>
+<ul>
+<li><p>用于提取图像特征的卷积层以及用于分类的全连接层是同时学习的</p>
+</li>
+<li><p>卷积层与全连接层在学习过程中会相互影响、相互促进</p>
+</li>
+</ul>
+</li>
+<li><p>重要技巧</p>
+<ul>
+<li><p>Dropout 策略防止过拟合</p>
+</li>
+<li><p>使用加入动量的随机梯度下降算法 ，加速收敛</p>
+</li>
+<li><p>验证集损失不下降时 手动降低 10 倍的学习率</p>
+</li>
+<li><p>采用样本增强策略增加训练样本数量， 防止过拟合；</p>
+</li>
+<li><p>集成多个模型，进一步提高精度。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="AlexNet-卷积层在做什么？"><a href="#AlexNet-卷积层在做什么？" class="headerlink" title="AlexNet 卷积层在做什么？"></a>AlexNet 卷积层在做什么？</h6><ul>
+<li><p>从数据中学习对于分类有意义的结构特征，</p>
+</li>
+<li><p>描述输入图像中的结构信息</p>
+</li>
+<li><p>描述结果存储在 256 个 6 × 6 的特征响应图里。</p>
+</li>
+</ul>
+<h3 id="经典网络解析——ZFNet"><a href="#经典网络解析——ZFNet" class="headerlink" title="经典网络解析——ZFNet"></a>经典网络解析——ZFNet</h3><p>与AlexNet网络结构基本一致</p>
+<p>主要改进：</p>
+<ul>
+<li>将第一个卷积层的卷积核大小改为了 7 × 7(可以感受更细致的东西，浅层丢掉细致的东西，后面无法学习)</li>
+<li>将第二、第三个卷积层的卷积步长都设置为 2(图像信息尺度减少速度不会太快，能多学特征信息)</li>
+<li>增加了第三、第四个卷积层的卷积核个数。(层数高了后会学到语义信息，卷积核个数太少描述不好，就学不好；如：同一张图的猫的头朝向，角度等等)<br><img src="./images/Alex%E7%BB%93%E6%9E%84.png" alt="Alex结构"></li>
+</ul>
+<h3 id="经典网络解析——VGG"><a href="#经典网络解析——VGG" class="headerlink" title="经典网络解析——VGG"></a>经典网络解析——VGG</h3><p>VGG网络贡献：</p>
+<ul>
+<li><p>使用尺寸更小的 3x3 卷积核串联来获得更大的感受野</p>
+</li>
+<li><p>放弃使用 11x11 和 5x5 这样的大尺寸卷积核</p>
+</li>
+<li><p>深度更深、非线性更强，网络的参数也更少</p>
+</li>
+<li><p>去掉了 AlexNet 中的局部响应归一化层（ LRN ）层 。</p>
+</li>
+</ul>
+<p><img src="./images/VGG%E7%BB%93%E6%9E%84.png" alt="VGG结构"></p>
+<p>VGG16</p>
+<ul>
+<li><p>13 个卷积层与 3 个全连接</p>
+</li>
+<li><p>分为 5 段 conv1,…,conv5 每一段中卷积层的卷积核个数均相同</p>
+</li>
+<li><p>卷积层均采用 3x3 的卷积核及 ReLU 激活函数；</p>
+</li>
+<li><p>所有的池化层都采用最大池化，其窗口大小为 2x2 、步长为 2</p>
+</li>
+<li><p>经过一次池化操作，其后卷积层的卷积核个数就增加一倍 ，直至到达 512</p>
+</li>
+<li><p>全连接层中也使用了Dropout策略</p>
+</li>
+</ul>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><img src="./images/%E5%B0%8F%E5%8D%B7%E7%A7%AF.png" alt="小卷积"></p>
+<p><img src="./images/%E6%80%9D%E8%80%832.png" alt="思考2"></p>
+<p><img src="./images/%E6%80%9D%E8%80%833.png" alt="思考3"></p>
+<h3 id="经典网络解析——GoogLeNet"><a href="#经典网络解析——GoogLeNet" class="headerlink" title="经典网络解析——GoogLeNet"></a>经典网络解析——GoogLeNet</h3><p>GoogleNet的创新点</p>
+<ul>
+<li><p>提出了一种 Inception 结构，它能保留输入信号中的更多特征信息；</p>
+</li>
+<li><p>去掉了 AlexNet 的前两个全连接层，并采用了平均池化，这一设计使得GoogLeNet 只有 500 万参数，比 AlexNet 少了 12 倍；</p>
+</li>
+<li><p>在网络的中部引入了辅助分类器，克服了训练过程中的梯度消失问题。</p>
+</li>
+</ul>
+<p><img src="./images/GoogleNet%E7%BD%91%E7%BB%9C.jpg" alt="GoogleNet网络"></p>
+<p><img src="./images/Inception%E6%A8%A1%E5%9D%97.png" alt="Inception模块"><br><img src="./images/Inception%E6%A8%A1%E5%9D%97v1.png" alt="Inception模块v1"></p>
+<p><code>层数更深、参数更少、计算效率更高、非线性表达能力也更强</code></p>
+<p>GoogleNet的后面几层<br><img src="./images/GoogleNet%E6%B7%B1%E5%B1%82.png" alt="GoogleNet深层"></p>
+<ul>
+<li><p>VGG 的第一个全连接层参数占了整个网络 74% 的参数 ，需dropout策略应对过拟合。</p>
+</li>
+<li><p>GoogLeNet 采用平均池化 GoogLeNet 的参数总量不到 500 万，无须使用 Dropout 策略 。</p>
+</li>
+</ul>
+<p><img src="./images/%E8%BE%85%E5%8A%A9%E5%88%86%E7%B1%BB%E5%99%A8.png" alt="辅助分类器"></p>
+<h6 id="为什么引入辅助分类器？"><a href="#为什么引入辅助分类器？" class="headerlink" title="为什么引入辅助分类器？"></a>为什么引入辅助分类器？</h6><p>原因：虽然 ReLU 单元能够一定程度解决梯度消失问题，但是并不能完全解决深层网络难以训练的问题 。 离输出远的层就不如靠近输出的层训练得好。</p>
+<p>结果：让低层的卷积层学习到的特征也有很好的区分能力，从而让网络更好地被训练，而且低层的卷积层学到了好的特征也能加速整个网络的收敛。</p>
+<p>网络推断：仅利用网络最后的输出作为预测结果，忽略辅助分类器的输出。</p>
+<h5 id="思考-1"><a href="#思考-1" class="headerlink" title="思考"></a>思考</h5><p>问题1: 平均池化向量化与直接展开向量化有什么区别？</p>
+<ul>
+<li><p>特征响应图上每个位置的值反应了图像对应位置的结构与卷积核记录的语义结构的相似程度</p>
+</li>
+<li><p>平均池化丢失了语义结构的空间位置信息</p>
+</li>
+<li><p>忽略语义结构的位置信息，有助于提升卷积层提取到的特征的平移不变性</p>
+</li>
+</ul>
+<p>问题2: 利用 1x1 卷积进行压缩会损失信息吗？<br><img src="./images/1%C3%971%E5%8E%8B%E7%BC%A9.png" alt="1×1压缩"></p>
+<ul>
+<li><p>位置A的这个 64 维向量是一个非常稀疏向量</p>
+</li>
+<li><p>利用1x1卷积进行非线性压缩通常不会损失信息。</p>
+</li>
+</ul>
+<h4 id="经典网络解析——ResNet"><a href="#经典网络解析——ResNet" class="headerlink" title="经典网络解析——ResNet"></a>经典网络解析——ResNet</h4><p>实验：持续向一个“基础”的卷积神经网络上面叠加更深的层数会发生什么？<br><img src="./images/Res.png" alt="Res"></p>
+<p>ResNet具有以下贡献：</p>
+<ul>
+<li><p>提出了一种残差模块，通过堆叠残差模块可以构建任意<br>深度的神经网络，而不会出现“退化”现象。</p>
+</li>
+<li><p>提出了批归一化方法来对抗梯度消失，该方法降低了网<br>络训练过程对于权重初始化的依赖；</p>
+</li>
+<li><p>提出了一种针对 ReLU 激活函数的初始化方法；</p>
+</li>
+</ul>
+<p><img src="./images/%E6%AE%8B%E5%B7%AE%E6%A8%A1%E5%9D%97.png" alt="残差模块"><br>研究者考虑了这样一个问题<br>浅层网络学习到了有效的分类模式后，如何向上堆积新层来建立更深的网络， 使其满足即使不能提升浅层网络的性能，深层网络也不应降低性能。</p>
+<p>解决方案：残差模块<br>假设卷积层学习的变换为$𝐹(𝑋)$ ，残差结构的输出是$𝐻(𝑋)$ ，则有：<br>$$<br>𝐻(𝑋)  =  𝐹(𝑋)  + 𝑋 \<br>F(X) = H(X) - X<br>$$<br>残差(F(x))也是由此得来</p>
+<p>关于残差结构：</p>
+<ol>
+<li><p>残差结构能够避免普通的卷积层堆叠存在信息丢失问题 保证前向信息流的顺畅 。</p>
+</li>
+<li><p>残差结构能够应对梯度反传过程中的梯度消失问题 保证反向梯度流的通顺 。</p>
+</li>
+</ol>
+<h6 id="思考-2"><a href="#思考-2" class="headerlink" title="思考"></a>思考</h6><p><img src="./images/%E7%93%B6%E9%A2%88%E7%BB%93%E6%9E%84.png" alt="瓶颈结构"><br>问题1：为什么在残差结构里是先1×1卷积再3×1再1×1，有什么好处？</p>
+<p>先通过1×1卷积，将数据压缩(不降低数据量)，减少数据参数和计算，最后再放大成原来的通道数。</p>
+<p>问题2：为什么残差网络性能这么好？<br>一种典型的解释：残差网络可以看作是一种集成模型！<br><img src="./images/%E5%B1%95%E5%BC%80%E7%9A%84%E6%AE%8B%E5%B7%AE.png" alt="瓶颈结构"><br>看成多个子网络的集成<br>结论：残差网络是一种集成模型,这是重要特点也是它高效的一个原因！</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>介绍了 5 种经典的卷积神经网络 AlexNet、 ZFNet、 VGG、 GoogLeNet 和 ResNet</p>
+<p>残差网络和 Inception V4 是 公认 的推广性能最好的两个分类模型</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/4.%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/4.%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-15 21:28:35" itemprop="dateModified" datetime="2022-01-15T21:28:35+08:00">2022-01-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="卷积神经网络CNN"><a href="#卷积神经网络CNN" class="headerlink" title="卷积神经网络CNN"></a>卷积神经网络CNN</h2><p>网络主要成分：</p>
+<ul>
+<li>CONV————卷积层</li>
+<li>RELU————激活层</li>
+<li>POOL————池化层</li>
+<li>FC————全连接层</li>
+</ul>
+<h5 id="卷积网络中的卷积核"><a href="#卷积网络中的卷积核" class="headerlink" title="卷积网络中的卷积核"></a>卷积网络中的卷积核</h5><p>卷积核：</p>
+<ul>
+<li><p>不仅具有宽 和 高 还具有深度 ，常写成如下形式<br>  宽度 x 高度 x 深度</p>
+</li>
+<li><p>卷积核参数不仅包括核中存储的权值，还包括一个偏置值</p>
+</li>
+</ul>
+<p><img src="./images/%E5%8D%B7%E7%A7%AF%E6%A0%B8%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="卷积核示意图"></p>
+<h5 id="卷积网络中的卷积操作"><a href="#卷积网络中的卷积操作" class="headerlink" title="卷积网络中的卷积操作"></a>卷积网络中的卷积操作</h5><p>卷积结果，计算过程如下：</p>
+<ul>
+<li><p>将卷积核展成一个 5x5x3 的向量，同时将其覆盖的图像区域按相同的展开方式展成 5x5x3 的向量</p>
+</li>
+<li><p>计算两者的点乘。</p>
+</li>
+<li><p>在点乘的结果上加上偏移量</p>
+</li>
+</ul>
+<p>公式如下：<br>$$<br>𝒘𝑻x + 𝑏<br>$$<br>$𝒘$为卷积核的权值， $𝑏$为卷积核的偏置<br><code>特征响应图中每个位置上的值反映了图像上对应位置是否存在卷积核所记录的基元结构信息</code></p>
+<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><ul>
+<li><p>特征响应图组深度等于卷积核的个数</p>
+</li>
+<li><p>不同的特征响应图反映了输入图像对不同卷积核的响应结果；</p>
+</li>
+<li><p>同一特征响应图上不同位置的值表示输入图像上不同位置对同一卷积核的响应结果。<br><code>注意：卷积层输入不局限于图像，可以是任意三维数据矩阵该层的卷积核深度要求与输入的 三维 矩阵的深度一致 。</code></p>
+<h5 id="卷积步长-stride"><a href="#卷积步长-stride" class="headerlink" title="卷积步长(stride)"></a>卷积步长(stride)</h5><p>卷积神经网络中，卷积核可以按照指定的间隔进行卷积操作这个间隔就是 <em><strong>卷积步长</strong></em> 。</p>
+</li>
+</ul>
+<h5 id="边界填充-padding"><a href="#边界填充-padding" class="headerlink" title="边界填充(padding)"></a>边界填充(padding)</h5><p>卷积神经网络中最常用的填充方式是 <em><strong>零值填充</strong></em> 。</p>
+<h5 id="常见的字母缩写及尺寸计算"><a href="#常见的字母缩写及尺寸计算" class="headerlink" title="常见的字母缩写及尺寸计算"></a>常见的字母缩写及尺寸计算</h5><ul>
+<li><p>F————卷积核 尺寸</p>
+</li>
+<li><p>S————卷积步长</p>
+</li>
+<li><p>P————零填充 数量</p>
+</li>
+<li><p>K————卷积核个数</p>
+</li>
+<li><p>输入数据矩阵尺寸：$W_1 × H_1 × D_1$</p>
+</li>
+<li><p>输出特征图组尺寸：$W_2 × H_2 × D_2$<br>$W_2$ 与 $W_1$ 关系如下：<br>$$<br>W_2=(W_1F+2P)/S+1\<br>H_2=(H_2F +2P)/S+1\<br>D_2 = K<br>$$<br><code>作用：保持输入、输出尺寸的一致</code></p>
+</li>
+</ul>
+<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><ul>
+<li><p>池化的作用：对 每一个特征响应图独立进行 降低特征响应图组中每个特征响应图的宽度和高度，减少 后续卷积层的 参数的数量， 降低 计算资源耗费 ，进而 控制过拟合。</p>
+</li>
+<li><p>池化操作：对特征响应图某个区域进行池化就是在该区域上指定一个值来代表整个区域 。</p>
+</li>
+<li><p>常见的池化操作：</p>
+<ul>
+<li><p>最大池化 使用区域内的最大值来代表这个区域；</p>
+</li>
+<li><p>平均池化 采用区域内所有值的均值作为代表。</p>
+</li>
+</ul>
+</li>
+<li><p>池化层的超参数： 池化窗口和池化步长</p>
+</li>
+</ul>
+<h5 id="池化操作示例"><a href="#池化操作示例" class="headerlink" title="池化操作示例"></a>池化操作示例</h5><ul>
+<li><p>池化操作对每一个特征响应图独立进行</p>
+</li>
+<li><p>对特征响应图某个区域进行池化就是在该区域上指定一个值来代表整个区域 。</p>
+</li>
+</ul>
+<p><img src="./images/%E6%B1%A0%E5%8C%96%E6%93%8D%E4%BD%9C.png" alt="池化操作"></p>
+<h4 id="损失函数-amp-优化算法"><a href="#损失函数-amp-优化算法" class="headerlink" title="损失函数 &amp; 优化算法"></a>损失函数 &amp; 优化算法</h4><ul>
+<li><p>损失函数 ：交叉熵损失</p>
+</li>
+<li><p>优化算法 SGD 、带动量的 SGD 以及 ADAM</p>
+</li>
+</ul>
+<h5 id="图像增强"><a href="#图像增强" class="headerlink" title="图像增强"></a>图像增强</h5><ul>
+<li><p>存在的问题 ：过拟合的原因是学习样本太少，导致无法训练出能够泛化到新数据的模型。</p>
+</li>
+<li><p>数据增强 ：是从现有的训练样本中生成更多的训练数据，其方法是利用多种能够生成可信图像的随机变换来增加样本。</p>
+</li>
+<li><p>数据增强的目标 ：模型在训练时不会两次查看完全相同的图像。这让模型能够观察到数据的更多内容，从而具有更好的泛化能力</p>
+</li>
+</ul>
+<h6 id="样本增强——翻转"><a href="#样本增强——翻转" class="headerlink" title="样本增强——翻转"></a>样本增强——翻转</h6><p><img src="./images/%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA-%E7%BF%BB%E8%BD%AC.png" alt="图像增强-翻转"></p>
+<h6 id="样本增强——随机缩放-amp-抠图"><a href="#样本增强——随机缩放-amp-抠图" class="headerlink" title="样本增强——随机缩放 &amp; 抠图"></a>样本增强——随机缩放 &amp; 抠图</h6><p><img src="./images/%E9%9A%8F%E6%9C%BA%E7%BC%A9%E6%94%BE&%E6%8A%A0%E5%9B%BE.png" alt="图像增强-随机缩放&amp;抠图"></p>
+<h6 id="样本增强——色彩抖动"><a href="#样本增强——色彩抖动" class="headerlink" title="样本增强——色彩抖动"></a>样本增强——色彩抖动</h6><p>操作步骤：<br>1.利用主成分分析方法提取当前图像的色彩数据([R G B])的主轴<br>2.沿着主轴方向随机采样一个偏移；<br>3.将偏移量加入当前图像的每个像素。</p>
+<p><img src="./images/%E8%89%B2%E5%BD%A9%E6%8A%96%E5%8A%A8.png" alt="图像增强-色彩抖动"></p>
+<h6 id="样本增强——其他方案"><a href="#样本增强——其他方案" class="headerlink" title="样本增强——其他方案"></a>样本增强——其他方案</h6><p>随机联合下述操作</p>
+<ul>
+<li>平移</li>
+<li>旋转</li>
+<li>拉伸</li>
+<li>径向畸变（相关描述见摄像机几何章节）</li>
+<li>裁剪<br>…</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-15 20:57:25" itemprop="dateModified" datetime="2022-01-15T20:57:25+08:00">2022-01-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="卷积与图像去噪"><a href="#卷积与图像去噪" class="headerlink" title="卷积与图像去噪"></a>卷积与图像去噪</h2><h3 id="图像类型"><a href="#图像类型" class="headerlink" title="图像类型"></a>图像类型</h3><ul>
+<li><ol>
+<li>二值图像（Binary Image）<br>一幅二值图像的二维矩阵仅由0、1两个值构成，“0”代表黑色，“1”代白色。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>灰度图像（Gray Image）<br>灰度图像矩阵元素的取值范围通常为[0，255]。因此其数据类型一般为8位无符号整数的（int8），这就是人们经常提到的256灰度图像。“0”表示纯黑色，“255”表示纯白色，中间的数字从小到大表示由黑到白的过渡色。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>RGB彩色图像（Color Image）<br>RGB图像分别用红（R）、绿（G）、蓝（B）三原色的组合来表示每个像素的颜色。RGB图像的数据类型一般为8位无符号整形，通常用于表示和存放真彩色图像，当然也可以存放灰度图像。</li>
+</ol>
+</li>
+</ul>
+<h3 id="图像去噪与卷积"><a href="#图像去噪与卷积" class="headerlink" title="图像去噪与卷积"></a>图像去噪与卷积</h3><h4 id="噪音图像"><a href="#噪音图像" class="headerlink" title="噪音图像"></a>噪音图像</h4><p>噪音图像：噪音也就是一个像素点和周围的像素点差别较大。</p>
+<h5 id="图像去噪"><a href="#图像去噪" class="headerlink" title="图像去噪"></a>图像去噪</h5><p>对噪音像素点求加权平均值。如：<br>$$<br>\text{去噪前} = \begin{bmatrix}64 &amp; 76 &amp; 69 \ 71 &amp; \color{Aqua}253 &amp; 75\68 &amp; 74 &amp; 78\end{bmatrix}\text{去噪后} = \begin{bmatrix}64 &amp; 76 &amp; 69 \ 71 &amp; \color{Aqua}92 &amp; 75\68 &amp; 74 &amp; 78\end{bmatrix}<br>$$</p>
+<p>其中$92 = 64 * \frac{1}{9} + 76* \frac{1}{9} + 69 * \frac{1}{9} + 71 * \frac{1}{9} + 253 * \frac{1}{9} + 78 * \frac{1}{9} + 68* \frac{1}{9} + 74* \frac{1}{9} + 78* \frac{1}{9}$ </p>
+<p>像这类对像素进行统一操作，封装为卷积核。</p>
+<h6 id="噪声的分类"><a href="#噪声的分类" class="headerlink" title="噪声的分类"></a>噪声的分类</h6><ul>
+<li>椒盐噪声，就是黑点，白点。处理方式：中值滤波</li>
+<li>脉冲噪声，只有白点</li>
+<li>高斯噪声<br>这里主要介绍高斯噪声，高斯噪声数学模型是一个独立的加和模型$f(x,y) = \hat f(x, y) + \eta(x, y)$即认为图像是由真实图像+高斯噪声组成的，高斯噪声的产生一个是由于采集器附加的噪声，另一个是由于光学问题带来的噪声。将两者合起来就是最终看到的带有噪声的图像。因此对于高斯噪声就有了这样的假设：首先噪声的产生是相互独立的，而且服从均值为0的正态分布。<br><img src="./images/%E9%AB%98%E6%96%AF%E5%99%AA%E9%9F%B3.jpg" alt="高斯噪音"><br>在应对高斯的噪声的处理时，自然就会想到高斯滤波，但是它也是有成本有代价，虽然它可能滤除噪声，但是它也会衰减部分信号，比如轮廓信息。</li>
+</ul>
+<h3 id="卷积的定义"><a href="#卷积的定义" class="headerlink" title="卷积的定义"></a>卷积的定义</h3><p>令F为图像，H为卷积核，F与H的卷积记为$R = F * H$<br>$$<br> R_{ij} = \sum_{u,v} H_{i-u,j-v} F_{u,v}<br>$$</p>
+<p>$<br>R_{ij} = \sum_{u,v} H_{i+u,j+v} F_{u,v} \text{称之为相关}<br>$</p>
+<h4 id="卷积性质"><a href="#卷积性质" class="headerlink" title="卷积性质"></a>卷积性质</h4><ul>
+<li>叠加性：$filter(f_1 + f_2) = filter(f_1) + filter(f_2)$</li>
+<li>平移不变性：$filter(shift(f)) = shift(filter(f))$</li>
+<li>交换律</li>
+<li>结合律</li>
+<li>分配律</li>
+<li>标量</li>
+</ul>
+<h4 id="边界填充"><a href="#边界填充" class="headerlink" title="边界填充"></a>边界填充</h4><ul>
+<li>拉伸填充</li>
+<li>镜像填充</li>
+<li>常数填充(零填充)</li>
+</ul>
+<p>卷积操作后的图像要小于输入时图像，通过边界填充，我们可以实现卷积前后图像的尺寸不变</p>
+<h4 id="卷积的三种模式"><a href="#卷积的三种模式" class="headerlink" title="卷积的三种模式"></a>卷积的三种模式</h4><ul>
+<li><ol>
+<li>full<br>full模式的意思是，从filter和image刚相交开始做卷积，</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>same<br>当filter的中心(K)与image的边角重合时，开始做卷积运算</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>valid<br>当filter全部在image里面的时候，进行卷积运算</li>
+</ol>
+</li>
+</ul>
+<h4 id="卷积示例"><a href="#卷积示例" class="headerlink" title="卷积示例"></a>卷积示例</h4><ul>
+<li><p>向左平移一个像素<br>$<br>\begin{bmatrix}<br>0  &amp;  0  &amp;  0 \<br>0  &amp;  0  &amp;  1 \<br>0  &amp;  0  &amp;  0 \<br>\end{bmatrix}<br>$</p>
+</li>
+<li><p>向右平移一个像素<br>$<br>\begin{bmatrix}<br>0  &amp;  0  &amp;  0 \<br>1  &amp;  0  &amp;  0 \<br>0  &amp;  0  &amp;  0 \<br>\end{bmatrix}<br>$</p>
+</li>
+</ul>
+<ul>
+<li><p>图像平滑<br>$<br>\begin{bmatrix}<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>\end{bmatrix}<br>$<br><img src="./images/%E5%B9%B3%E6%BB%91%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="平滑卷积示意图"></p>
+</li>
+<li><p>图像锐化<br>$<br>\begin{bmatrix}<br>0 &amp; 0 &amp; 0 \<br>0 &amp; 2 &amp; 0 \<br>0 &amp; 0 &amp; 0 \<br>\end{bmatrix} -<br>\begin{bmatrix}<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>\end{bmatrix}<br>$<br>即原图 - 平滑 = 边缘， 原图 + 边缘 = 锐化<br><img src="./images/%E9%94%90%E5%8C%96%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="锐化卷积示意图"></p>
+</li>
+</ul>
+<h4 id="高斯卷积核"><a href="#高斯卷积核" class="headerlink" title="高斯卷积核"></a>高斯卷积核</h4><p>均值平滑卷积核存在的问题<br><img src="./images/%E6%8C%AF%E9%93%83.png" alt="振铃"><br>解决方法：根据邻域像素与中心的远近程度分配权重<br>引出高斯卷积核：高斯核用于图像的模糊处理,和均值滤波的作用类似.但不同的是高斯滤波进行的是一种加权平均,越靠近核中心的数值权重越大<br>$$<br>𝐺\sigma = \frac{1}{2\pi \sigma^2}e^{− \frac{(x^2+y2)}{2\sigma^2}}<br>$$<br><img src="./images/%E9%AB%98%E6%96%AF%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="高斯卷积示意图"></p>
+<p>生成步骤：</p>
+<ol>
+<li><p>确定卷积核的尺寸 比如 5×5</p>
+</li>
+<li><p>设置高斯函数 的标准 差 ，比如 σ=1</p>
+</li>
+<li><p>计算卷积核各个位置权重值</p>
+</li>
+<li><p>对权重值进行归一化</p>
+</li>
+</ol>
+<p>一般来说有个经验性的值。窗口大小为 $6\sigma + 1$</p>
+<ul>
+<li>高斯滤波，非常重要，贯穿整个计算机视觉，甚至现在的神经网络提取到的某些特征跟高斯滤波输出的结果都十分相似。其实高斯滤波就是滤除高频信息，是一个低通滤波器。 </li>
+<li>高斯卷积的另外一个特性就是对一副图像进行连续两次  的高斯卷积输出结果等价于使用 $\sqrt{2}\sigma$ 的高斯卷积一次的输出结果。这个满足勾股定理的，比如连续的两次高斯卷积核大小为 $2\sigma,3\sigma$ 可以使用 $\sqrt{13}\sigma$ 高斯卷积核代替。大致意思就是两个小高斯核的连续卷积可以用一个大的高斯核代替。</li>
+<li>高斯核还可以分解。<br><img src="./images/%E9%AB%98%E6%96%AF%E6%A0%B8%E5%88%86%E8%A7%A3.jpg" alt="高斯核分解"></li>
+</ul>
+<p>现在就举个例子解释高斯核分解，假设有一个高斯卷积核与一个3x3大小的图像卷积得到应该是一个点。那么此时将高斯核拆解为两个一维向量，分别与图像进行卷积操作。它的主要作用就是加速运算。<br><img src="./images/%E9%AB%98%E6%96%AF%E5%88%86%E8%A7%A3.jpg" alt="高斯分解"></p>
+<p>如果使用一个mxm的卷积核对一副nxn大小的图像进行卷积，它的算法复杂度是 $O(n^2m^2)$ 而使用分解卷积算法复杂度 $O(n^2m)$ 【其实这是x或者y一个方向上的复杂度】，也就是说如果对核进行分离，那么复杂度就能够降低一个等级，这是一件很有意义的事情。从这里也可以看出来如果使用小核进行卷积也能够加速运算。</p>
+<p>这些东西在深度神经网络中也会遇到，但是这里高斯卷积是完全等价的，在深度学习中不一定保证是等价的。</p>
+<h2 id="卷积与边缘提取"><a href="#卷积与边缘提取" class="headerlink" title="卷积与边缘提取"></a>卷积与边缘提取</h2><h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>边缘检测是图像处理和计算机视觉中，尤其是特征提取中的一个研究领域。有许多方法用于边缘检测，它们的绝大部分可以划分为两类：</p>
+<ul>
+<li>基于一阶导数<br>首先计算边缘强度， 通常用一阶导数表示， 例如梯度模，然后，用计算估计边缘的局部方向， 通常采用梯度的方向，并利用此方向找到局部梯度模的最大值。即：图像一阶导数中的最大和最小值来检测边界，通常是将边界定位在梯度最大的方向。<br>一阶:Roberts Cross算子，Prewitt算子，Sobel算子， Kirsch算子，罗盘算子；<br>基于 零穿越/零交叉 的一类：二阶导数<br>基于零穿越的方法通过寻找图像二阶导数零穿越来寻找边界，通常是Laplacian过零点或者非线性差分表示的过零点。</li>
+<li>基于二阶导数： Marr-Hildreth，在梯度方向的二阶导数过零点，Canny算子，Laplacian算子。</li>
+</ul>
+<h4 id="边缘检测"><a href="#边缘检测" class="headerlink" title="边缘检测"></a>边缘检测</h4><p>为什么要进行边缘检测呢？因为这是稳定的视觉特征，是人类经验的结果。边缘检测的目的是标识数字图像中亮度变化明显的点。图像属性中的显著变化通常反映了属性的重要事件和变化。主要包括：</p>
+<ul>
+<li>深度上的不连续（物体处在不同的物平面上）；</li>
+<li>表面方向不连续（如正方体的不同的两个面）</li>
+<li>物质属性变化（表面颜色不同，会导致光的反射系数不同）</li>
+<li>场景照明变化（阴影）</li>
+</ul>
+<p>那么，对于下面这张图像进行边缘检测时，沿着这条红色的水平线，得到其每个像素点上的强度（也就是灰度值），由此可知边缘就是在像素值发生突变的地方。那么如果从一个信号中找到突变的地方呢？<br><img src="./images/%E8%BE%B9%E7%BC%98.jpg" alt="边缘"></p>
+<p>显然，根据数学知识，对信号曲线进行求一阶导数，对于边缘来说，并不需要关注方向，只需要关注极值即可，所以可以通过求导得到边缘所在位置。由此将这根红色的水平线从上至下滑动即可得到整个图像的竖直方向上的边缘。<br><img src="./images/%E8%BE%B9%E7%BC%98%E5%AF%BC%E6%95%B0.jpg" alt="边缘导数"></p>
+<p>对于一个二元函数 $f(x,y)$ ，响应的的求导公式：<br>$$<br>\frac{\partial f(x,y)}{\partial x} = \lim_{\epsilon \rightarrow 0} \frac{f(x+\varepsilon, y) - f(x,y)}{\varepsilon} $$</p>
+<p>在图像处理过程中，对于像素值的位置的最小单位是 1 px，因此令 $\varepsilon = 1$ ，使用这种近似来作为点前位置的导数，则有：<br>$$<br>\frac{\partial f(x,y)}{\partial x} \approx \lim_{\varepsilon \rightarrow 0} \frac{f(x+1, y) - f(x,y)}{1}<br>$$<br>其实由这个公式可以看出，就是右面一个像素减去左面一个像素，作为当前位置的导数，这样简化之后其实就可以把这个过程使用卷积代替，即卷积核为：这就是检测竖直方向上边缘的卷积核。同理也可以得到水平方向上边缘的卷积核。<br><img src="./images/%E5%AF%BC%E6%95%B0.png" alt="导数"></p>
+<p>那么接下来举个例子，下面这两个边缘检测结果哪个是水平方向卷积核检测到的？哪个是竖直方向卷积核检测到的？因为只有水平卷积核检测的是左右差异较大的像素值，自然而然连成线之后就是竖直方向的线条。<br><img src="./images/%E5%9B%BE%E5%83%8F%E5%81%8F%E5%AF%BC.png" alt="图像偏导"></p>
+<p>接下来，解释一下梯度（一维叫导数，高维叫梯度），对于一副图像的一个像素点$<br>\triangledown f = [\frac{\partial f}{\partial x} , \frac{\partial f}{\partial y}]<br>$<br><img src="./images/%E5%83%8F%E7%B4%A0%E6%A2%AF%E5%BA%A6.jpg" alt="像素梯度"><br>对于夹角的计算方式 $\theta = \tan^{-1} (\frac{\partial f}{\partial y} / \frac{\partial f}{\partial x})$ ，而梯度的幅值：<br>$$<br>\parallel \triangledown \parallel = \sqrt{(\frac{\partial f}{\partial x})^2 + (\frac{\partial f}{\partial y})^2}<br>$$</p>
+<p>这个幅值越大说面这点附近像素值变化越剧烈，就越有可能是边缘。</p>
+<p>其实梯度对于一副图像来说就是图像变化剧烈的方向。而且 <em><strong>梯度方向与边缘是垂直</strong></em> 的。</p>
+<h4 id="边缘检测流程"><a href="#边缘检测流程" class="headerlink" title="边缘检测流程"></a>边缘检测流程</h4><p>由于在实际应用过程中信号的采集往往伴随着噪声的出现，假设有下面这么一个一维信号，很显然边缘就在突变的地方。但是由于真实点附近存在噪声，如果直接使用边缘滤波器（边缘卷积）得到的结果会是什么样？<br><img src="./images/%E5%99%AA%E9%9F%B3%E5%9B%BE%E5%83%8F.jpg" alt="噪音图像"><br><img src="./images/%E5%99%AA%E9%9F%B3%E6%B1%82%E5%AF%BC.jpg" alt="噪音求导"></p>
+<p>显然，通过边缘检测器之后得到导数（梯度）是无法确定极大值极小值的，因此无法判断边缘位置。所以，往往在进行边缘检测前首先要进行滤波。这是因为边缘检测算子主要是基于图像强度的一阶导数和二阶导数，但是通常情况下导数对噪声十分敏感，因此必须使用滤波器来进行平滑噪声。<br><img src="./images/%E8%BF%87%E6%BB%A4%E5%90%8E.jpg" alt="噪音过滤"></p>
+<p>因此对于一维图像 $f$ 使用高斯卷积核 $g$ 进行滤波， 通过将 $f*g$ (卷积)得到的结果可以看出，最左边和最右面为什么没了呢？ <em><strong>这就是因为卷积过程中如果不对边界补充的话，卷积结果相比原来图像会小一圈。</strong></em> 经过高斯卷积之后的图像就相对平滑很多，在这个基础上再进行边缘检测，得到结果如下。很显然求极值就十分简单了。<br><img src="./images/%E7%BB%93%E6%9E%9C.jpg" alt="噪音过滤结果"></p>
+<p>因此，我们在对图像进行边缘检测前首先用高斯卷积对图像进行平滑就是了，因为我们也无法确定图像是否包含噪声。虽然上面这个过程实现了边缘检测，但是在这个过程中使用了两次卷积，首先是滤波过程的卷积，然后是求导过程的卷积，显然卷积是十分耗时的，那么能否使用一次卷积完成这个操作呢？<br>$$<br>\frac{d}{dx} (f*g) = f * \frac{d}{dx} g $$</p>
+<p>这个公式成立是因此卷积是满足交换律，结合律和分配率的。所以使用右面的公式，先对高斯卷积核进行求导，这个模板一般比较小，求导也相对简单，然后再进行卷积。 这样就能加速运算过程了。</p>
+<p>这就是高斯卷积核求导之后的三维图像<br>虽然，使用平滑对图像进行去噪，但是它也会模糊图像，因此我们可以考虑在不同的scale下进行边缘检测。也就是选择响应的窗宽和标准差即可对图像进行平滑并边缘检测，由于窗宽一般默认经验值 $3\sigma$ ，因此只需要指定参数 $\sigma$ 即可执行这两个过程。所以可以考虑使用不用的$\sigma$在不同的scale下进行边缘检测。</p>
+<p>因此，接下来对比重新认识一下高斯卷积核与高斯一阶导数核的区别：</p>
+<p>高斯卷积核（smoothing filters）：高斯卷积实际上是滤除高频信号，是低通滤波器，滤波器模板中的数值没有负数，而且这些值相加和为1。<br><img src="./images/%E9%AB%98%E6%96%AF%E5%8D%B7%E7%A7%AF%E6%A0%B8.jpg" alt="高斯卷积核"></p>
+<ul>
+<li>高斯一阶导数核（derivative filters）：滤波器模板中的数值一定有负数，而且这些相加为0。<br><img src="./images/%E9%AB%98%E6%96%AF%E4%B8%80%E9%98%B6%E5%AF%BC%E6%95%B0%E6%A0%B8.jpg" alt="高斯一阶导数核"><br>总结一下，对于一副图像进行边缘检测的流程</li>
+<li>滤波</li>
+<li>增强，增强算法可以将图像灰度点邻阈强度值有显著变化的点凸显出来。</li>
+<li>边缘检测，经过增强的图像，往往邻域中有很多点的梯度值比较大，而在特定应用中，这些点并不是要找的边缘点，所以应该采用某些方法对这些点进行取舍。实际工程中，常用的方法是通过阈值化的方法进行检测。<br>三、Canny边缘检测<br><img src="./images/%E5%8E%9F%E5%9B%BE.jpg" alt="原图"><br>对于这样一张图像进行边缘检测时，首先第一步，对图像进行滤波处理，然后计算两个方向的梯度，先计算每个像素点的梯度，然后计算幅值，得到下面这张图像。<br>$$<br>\parallel \triangledown f \parallel = \sqrt{(\frac{\partial f}{\partial x})^2 + (\frac{\partial f}{\partial y})^2} \<br>$$<br><img src="./images/%E8%BE%B9%E7%BC%98%E6%8F%90%E5%8F%96%E5%90%8E.jpg" alt="边缘提取后"><br>在进行梯度计算时，梯度较大的地方可能是边缘也有可能是噪声，虽然已经进行过一次平滑滤波，但是仍然还会有一些高强度的噪声无法滤除，因此在这里选择使用阈值对其进行第二次过滤，去除一些梯度相对较小的点。<br><img src="./images/%E9%9D%9E%E6%9E%81%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6.png" alt="非极大值抑制"></li>
+</ul>
+<p>然而经过阈值处理后，还是会有一些小问题，就是图像中的边缘会很宽，这是由于图像中的边缘像素值都是缓慢变化的，不会是一个垂直的突变，即使原始图像中的边缘是一个垂直的突变，经过高斯平滑之后它就会变得不那么垂直了，所以这就是为什么边会那么宽。那如何解决呢？</p>
+<p>接下来就介绍了一个著名的算法： <em><strong>NMS非极大值抑制</strong></em>。它的一个主要思想就是，首先确定边上的一个点，然后沿着边的梯度方向比较跟相邻点的梯度进行比较，也即是右图中的 q 与 p，r 进行比较。如果 q 最大则保留，如果不是则舍去。<br><img src="./images/NMS%E9%9D%9E%E6%9C%80%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6.jpg" alt="NMS非极大值抑制"></p>
+<p>经过抑制以后：显然这就细化了很多，但是也会存在一定的问题，比如脖子下面的边缘消失了，出现了断断续续的情况，出现这种情况的原因是什么呢？这是因为设置的阈值太高了，导致这部分梯度被滤除掉了，但是如果阈值设置的较低又会出现很多“假边”，因此这里需要对刚刚设置阈值过滤这一步进行改进。<br><img src="./images/%E8%BE%B9%E6%B6%88%E5%A4%B1.jpg" alt="双阈值"></p>
+<p>改进的思路：就是使用双阈值法，首先使用一个较高的阈值去将那些确定度较高的边检测出来，称为“强边”，然后再使用一个较小的阈值显露更多的边，称为“弱边”，此时选择保留那些跟强边有连接关系的边。这个想法就很巧妙。<br><img src="./images/%E5%8F%8C%E9%98%88%E5%80%BC.jpg" alt="双阈值"></p>
+<p>左边是高阈值，中间是低阈值，右边是双阈值</p>
+<h5 id="Canny边缘检测器总结"><a href="#Canny边缘检测器总结" class="headerlink" title="Canny边缘检测器总结"></a>Canny边缘检测器总结</h5><ul>
+<li><ol>
+<li>用高斯一阶偏导核卷积图像</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>计算每个点的梯度幅值和方向</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>非极大值抑制：</li>
+</ol>
+<ul>
+<li>将宽的“边缘”细化至单个像素宽度</li>
+</ul>
+</li>
+<li>4.连接与阈值（滞后）：<ul>
+<li>定义两个阈值：低和高</li>
+<li>使用高阈值开始边缘曲线，使用低阈值继续边缘曲线</li>
+</ul>
+</li>
+</ul>
+<p>关于Canny边缘检测是有严格意义上的数学推导的，这个后续补充一下！</p>
+<h3 id="纹理表示"><a href="#纹理表示" class="headerlink" title="纹理表示"></a>纹理表示</h3><h6 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h6><p>什么是纹理？计算机图形学中的纹理既包括通常意义上物体表面的纹理即使物体表面呈现凹凸不平的沟纹，同时也包括在物体的光滑表面上的彩色图案，通常我们更多地称之为花纹。</p>
+<p>纹理是由于物体表面的物理属性的多样性而造成的,物理属性不同表示某个特定表面特征的灰度或者颜色信息不同,不同的物理表面会产生不同的纹理图像,因而纹理作为图像的一个极为重要的属性,在计算机视觉和图像处理中占有举足轻重的地位。纹理是图像中特征值强度的某种局部重复模式的宏观表现。然而,对于自然纹理图像而言这种重复模式往往是近似的和复杂的,难以用语言描述,而人类对纹理的感受多是与心理效果相结合的,因此,迄今都没有一个对纹理的正式的、广泛认可的和一致的定义。</p>
+<p>Hawkins曾经对纹理给出了一个比较详细的描述,他认为纹理有三个主要的标志:</p>
+<p>1)某种局部的序列性在比该序列更大的区域内不断重复</p>
+<p>2)序列是由基本元素非随机排列组成的</p>
+<p>3)各部分大致是均匀的统体,在纹理区域内的任何地方都有大致相同的结构尺</p>
+<p>除了下面这种规则的纹理，也有不规则的，然而对于纹理（texture）的关注，其意义或者用途在于：Texture-related tasks。纹理相关任务</p>
+<ul>
+<li>shape from texture。从纹理中恢复形状。</li>
+<li>segmentation/classification from texture cues。纹理分析</li>
+<li>synthesis。用于图像合成</li>
+</ul>
+<p>该怎么表示纹理呢</p>
+<h4 id="基于卷积核组的纹理表示方法"><a href="#基于卷积核组的纹理表示方法" class="headerlink" title="基于卷积核组的纹理表示方法"></a>基于卷积核组的纹理表示方法</h4><p>思路：利用 <em><strong>卷积核组</strong></em> 提取图像中的纹理基；利用基元的统计信息来表示图像中的纹理<br><img src="./images/%E5%8D%B7%E7%A7%AF%E6%A0%B8%E7%BB%84.png" alt="卷积核组"></p>
+<h5 id="表示方法及其过程"><a href="#表示方法及其过程" class="headerlink" title="表示方法及其过程"></a>表示方法及其过程</h5><ul>
+<li>法1<ul>
+<li>设计卷积核组；</li>
+<li>利用卷积核组对图像进行卷积操作获得对应的特征响应图组</li>
+<li>利用特征响应图的某种统计信息来表示图像中的纹理 。</li>
+</ul>
+</li>
+</ul>
+<p><img src="./images/%E8%A1%A8%E7%A4%BA%E6%B3%951.png" alt="表示法1"><br>其中$r_i = [r_{i1},r_{i2},…,r_{i\times n}]$表示第i个特征图展开的向量<br>$r_{i\times n}$表示第i个特征图上第n个位置的响应值</p>
+<p>将每个特征图都拉成向量使用全连接层进行分类。</p>
+<ul>
+<li>法2：忽略基元位置；关注出现了哪种基元对应的纹理以及基元出现的频率</li>
+</ul>
+<p>过程同上<br><img src="./images/%E8%A1%A8%E7%A4%BA%E6%B3%952.png" alt="表示法2"><br>其中的$\overline{r_1}$是取特征图$r_1$的均值，是一个值，这个值越大表示出现该特征的频率越高。<br>如下所示<br><img src="./images/%E5%B0%8F%E6%B8%B8%E6%88%8F.png" alt="小游戏"></p>
+<h5 id="卷积核组设计"><a href="#卷积核组设计" class="headerlink" title="卷积核组设计"></a>卷积核组设计</h5><p>设计重点：</p>
+<ul>
+<li><p>卷积核类型 (边缘、条形以及点状)</p>
+</li>
+<li><p>卷积核尺度 (36 个尺度)</p>
+</li>
+<li><p>卷积核方向 ( 6 个角度)</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/2.%20%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/2.%20%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-15 11:07:54" itemprop="dateModified" datetime="2022-01-15T11:07:54+08:00">2022-01-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="全连接神经网络"><a href="#全连接神经网络" class="headerlink" title="全连接神经网络"></a>全连接神经网络</h1><h5 id="全连接神经网络组成"><a href="#全连接神经网络组成" class="headerlink" title="全连接神经网络组成"></a>全连接神经网络组成</h5><p>一个输入层、一个输出层以及多个隐层</p>
+<p>输入层与输出层的神经元个数由任务决定，而隐层数量以及每个隐层的神经元个数需要人为指定</p>
+<h5 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h5><p>激活函数是全连接神经网络中的一个重要部分，缺少了激活函数，全连接神经网络将退化为线性分类器。</p>
+<p>常用的激活函数有：relu、tanh、sigmoid</p>
+<h5 id="网络结构设计"><a href="#网络结构设计" class="headerlink" title="网络结构设计"></a>网络结构设计</h5><ol>
+<li>用不用隐层，用一个还是几个隐层？（深度设计）</li>
+<li>每个隐层设置多少个神经元比较合适?（宽度设计）</li>
+</ol>
+<p><code>结论：神经元个数越多，分界面就可以越复杂，在这个集合上的分类能力就越强</code></p>
+<p><code>为什么一般的神经网络都需要两层全连接隐层，是因为第一层会提取同个类别的多个&quot;不同角度&quot;比如，头朝向、角度等等，这样分类更精准</code></p>
+<h5 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h5><ul>
+<li>softmax<br>将分类的预测值，变成概率（0-1之间）。</li>
+</ul>
+<ul>
+<li>交叉熵<br>度量分类器预测分布与真实分布的距离<br><img src="./images/%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1.png" alt="交叉熵损失"></li>
+</ul>
+<p><code>真实分布是 one-hot编码</code></p>
+<ul>
+<li>交叉熵相关概念<ul>
+<li>熵$ H(p) = - \sum_xp(x)logp(x)$</li>
+<li>交叉熵$ H(p, q) = - \sum_xp(x)logq(x)$</li>
+<li>相对熵$ KL(p || q) = - \sum_xp(x)log\frac{q(x)}{p(x)}$</li>
+</ul>
+</li>
+</ul>
+<p><code>相对熵也叫KL散度；用来度量两个分布之间的不相似性——即p，q不可交换</code><br><code>交叉熵会将预测正确的分数提高，其他分数降低，如下图所示，[10,9,9]还是预测准确，但还是有0.23损失，</code><br><img src="./images/%E4%BA%A4%E5%8F%89%E7%86%B5%E5%8A%9F%E8%83%BD.png" alt="交叉熵功能"></p>
+<p>三者之间的关系：<br>$$<br>\begin{align*}<br>H(p, q) =&amp; - \sum_xp(x)logq(x) \<br>    =&amp; - \sum_xp(x)logp(x) - \sum_xp(x)log\frac{q(x)}{p(x)} \<br>    =&amp; H(p) + KL(p || q)<br>\end{align*}<br>$$</p>
+<p><code>真实分布为one-hot编码时，交叉熵损失简化为</code>$L_i =  - log(q_j)\text{, 其中j为真实类别}$</p>
+<h4 id="什么是计算图？"><a href="#什么是计算图？" class="headerlink" title="什么是计算图？"></a>什么是计算图？</h4><p>计算图是一种有向图，它用来表达输入、输出以及中间变量之间得计算关系，图中的每个节点对应着一种数学运算。<br><img src="./images/%E8%AE%A1%E7%AE%97%E5%9B%BE%E4%BE%8B%E5%AD%90.png" alt="计算图例子"><br><code>正向计算得到变量之间的关系，反向计算可计算对应的梯度</code></p>
+<ul>
+<li>前向计算的过程<br><img src="./images/%E5%89%8D%E5%90%91%E8%AE%A1%E7%AE%97%E8%BF%87%E7%A8%8B.png" alt="前向计算过程"></li>
+<li>反向计算的过程<br><img src="./images/%E5%8F%8D%E5%90%91%E8%AE%A1%E7%AE%97%E7%9A%84%E8%BF%87%E7%A8%8B.png" alt="反向计算过程"><br>即可通过上游梯度和局部梯度快速的得到当前梯度</li>
+</ul>
+<h5 id="计算图的颗粒度"><a href="#计算图的颗粒度" class="headerlink" title="计算图的颗粒度"></a>计算图的颗粒度</h5><p><img src="./images/%E8%AE%A1%E7%AE%97%E5%9B%BE%E7%9A%84%E9%A2%97%E7%B2%92%E5%BA%A6.png" alt="计算图的颗粒度"><br>如上图将常用的函数变为一个整体计算，增大了计算的颗粒度，简化计算，缺点：可能需要自己定义颗粒度。</p>
+<h5 id="计算图总结"><a href="#计算图总结" class="headerlink" title="计算图总结"></a>计算图总结</h5><ul>
+<li>任意复杂的函数，都可以用计算图的形式表示</li>
+<li>在整个计算图中，每个门单位都会得到一些输入，然后，进行下面两个计算：<ul>
+<li>a) 这个门的输出值</li>
+<li>b) 其输出值关于输入值的局部梯度</li>
+</ul>
+</li>
+<li>利用链式法则，门单位应该将回传的梯度乘以它对其的输入的局部梯度，从而得到整个网络的输出对该门单元的每个输入值的梯度。</li>
+</ul>
+<h4 id="再看激活函数"><a href="#再看激活函数" class="headerlink" title="再看激活函数"></a>再看激活函数</h4><h5 id="梯度消失"><a href="#梯度消失" class="headerlink" title="梯度消失"></a>梯度消失</h5><p>梯度消失是神经网络训练中非常致命的一个问题，其本质是由于链式法则的乘法特性导致的。即当中间一个结点的梯度为0时，后续的梯度也全为零。</p>
+<p><code>sigmoid和tanh函数，也是因为梯度特性不好，才导致使用较少</code></p>
+<h5 id="梯度爆炸"><a href="#梯度爆炸" class="headerlink" title="梯度爆炸"></a>梯度爆炸</h5><p>其本质也是由于链式法则的乘法特性导致的。即当中间一个结点的梯度乘以学习率后得到一个非常大的值，从而“飞”出了合理区域，最终导致算法不收敛。</p>
+<p>解决：把沿梯度方向前进的步长限制在某个值内就可避免。这个方法也叫<code>梯度裁剪</code>。</p>
+<h5 id="激活函数选择总结"><a href="#激活函数选择总结" class="headerlink" title="激活函数选择总结"></a>激活函数选择总结</h5><p>尽量选择ReLU函数或者Leakly ReLU函数，相对于Sigmoid/tanh,ReLU函数或者leaklyReLU函数会让梯度流更加顺畅，训练过程收敛得更快。</p>
+<h4 id="梯度下降法存在的问题"><a href="#梯度下降法存在的问题" class="headerlink" title="梯度下降法存在的问题"></a>梯度下降法存在的问题</h4><p>损失函数特性：一个方向上变化迅速而在另一个方向上变化缓慢。<br>优化目标：从起点处走到底端笑脸处<br>梯度下降算法存在的问题：山壁间震荡，往谷低方向的行进较慢。<br><img src="./images/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98.png" alt="梯度下降法存在的问题"><br>仅增大步长并不能加快算法收敛速度！</p>
+<h4 id="梯度算法改进"><a href="#梯度算法改进" class="headerlink" title="梯度算法改进"></a>梯度算法改进</h4><ul>
+<li>动量法</li>
+<li>自适应梯度与RMSProp</li>
+<li>ADAM</li>
+<li>总结<h5 id="动量法"><a href="#动量法" class="headerlink" title="动量法"></a>动量法</h5>目标：改进梯度下降算法的问题，即减少震荡，加速通往谷低<br>改进思想：利用累加历史梯度信息更新梯度（震荡的方向经过累加会减少，平坦方向会增大）<br><img src="./images/%E5%8A%A8%E9%87%8F%E6%B3%95.png" alt="动量法"></li>
+</ul>
+<h6 id="动量法还有什么效果？"><a href="#动量法还有什么效果？" class="headerlink" title="动量法还有什么效果？"></a>动量法还有什么效果？</h6><p>现象：损失函数常具有不太好的局部最小值或鞍点(高维空间非常常见)<br><code>梯度下降算法存在的问题</code>：局部最小处与鞍点处梯度为0，算法无法通过。<br><code>动量法的优势</code>: 由于动量的存在算法可以冲出局部最小点以及鞍点，找到更优的解。<br><img src="./images/%E9%9E%8D%E7%82%B9%E4%B8%8E%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E7%82%B9.png" alt="鞍点与局部最小点"></p>
+<h5 id="自适应梯度法"><a href="#自适应梯度法" class="headerlink" title="自适应梯度法"></a>自适应梯度法</h5><p>自适应梯度法利用梯度的平方来减少震荡方向步长，增大平坦方向步长。来减少震荡，加速通往谷底方向（设定不同的学习率来更改步长）<br><img src="./images/AdaGrad.png" alt="AdaGrad"><br><code>缺点</code>：当累计过多时，r会过大，导致真实的学习率会过小。就有了改进的RMSProp方法</p>
+<h6 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h6><p><img src="./images/RMSProp.png" alt="RMSProp"></p>
+<h5 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h5><p>同时使用动量与自适应梯度思想<br><img src="./images/adam.png" alt="adam"><br><code>修正偏差</code>：极大缓解算法初期的冷启动问题</p>
+<h3 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h3><h4 id="权值初始化"><a href="#权值初始化" class="headerlink" title="权值初始化"></a>权值初始化</h4><ul>
+<li><p>全零初始化：网络中不同的神经元有相同的输出，进行同样的参数更新；因此，这些神经元学到的参数都一样，等价于一个神经元。（没法训练）</p>
+</li>
+<li><p>随机初始化：使用随机数进行初始化，eg：权值采用N(0, 0.01)的高斯分布，N(0, 1)的高斯分布，等都会有问题</p>
+</li>
+</ul>
+<p><code>建议：采用随机初始化，避免全零初始化！</code></p>
+<p>要求：<br>    * 实验结论：初始化让权值不相等，并不能保证网络能够正常的被训练。</p>
+<pre><code>* 有效的初始化方法：使网络各层的激活值和局部梯度的方差在传播过程中尽量保持一致；以保持网络中正向和反向数据流动。
+</code></pre>
+<h5 id="Xavier初始化"><a href="#Xavier初始化" class="headerlink" title="Xavier初始化"></a>Xavier初始化</h5><p>网络结构：10个隐层，1个输出层，每个隐层包含500个神经元，使用的<code>双曲正切</code>激活函数。<br>随机初始化：权值采样自$N(0, 1/N)$的高斯分布，$N$为输入神经元个数</p>
+<p>一个神经元，其输入为$z_1,z_2,…,z_N$,这N个输入是独立同分布的；其权值为$w_1,w_2,…,w_N$。它们也是独立同分布的，且$w\text{与}z$是独立的；其激活函数为$f$；其最总输出$y$的表达式为：<br>$$<br>y = f(w_1 * z_1 + w_2 * z_2 + … + w_N * z_N)<br>$$<br><img src="./images/Xavier.png" alt="Xavier"><br>目标：使网络各层的激活值和局部梯度的方差在传播过程中尽量保持一致，即寻找w的分布使得输出y和输出z的方差一致。</p>
+<h5 id="HE初始化-MSRA"><a href="#HE初始化-MSRA" class="headerlink" title="HE初始化(MSRA)"></a>HE初始化(MSRA)</h5><p>网络结构：10个隐层，1个输出层，每个隐层包含500个神经元，使用的<code>ReLU</code>激活函数。<br>随机初始化：权值采样自$N(0, 2/N)$的高斯分布，$N$为输入神经元个数</p>
+<h4 id="权值初始化小结"><a href="#权值初始化小结" class="headerlink" title="权值初始化小结"></a>权值初始化小结</h4><ul>
+<li>好的初始化方法可以防止前向传播过程中的消息消失，也可以解决反向传递过程中的梯度消失。</li>
+<li>激活函数选择双曲正切或者sigmoid时，建议使用Xaizer初始化方法；</li>
+<li>激活函数选择ReLU或者Leakly ReLU时，建议使用He初始化方法；</li>
+</ul>
+<h4 id="批归一化-BN"><a href="#批归一化-BN" class="headerlink" title="批归一化(BN)"></a>批归一化(BN)</h4><p>直接对神经元的输出进行批归一化<br>操作：对一批输出进行减均值除方差操作；可保证当前神经元的输出值的分布符合0均值1方差。</p>
+<p><code>如果每一层的每个神经元进行批归一化，就能解决前向传递过程中的信号消失问题。</code></p>
+<p><code>经常插入到全连接层后，非线性激活前</code><br><img src="./images/%E6%89%B9%E5%BD%92%E4%B8%80%E5%8C%96.png" alt="批归一化"><br><img src="./images/%E6%89%B9%E5%BD%92%E4%B8%80%E5%8C%96%E7%AE%97%E6%B3%95.png" alt="批归一化"></p>
+<h4 id="过拟合与欠拟合"><a href="#过拟合与欠拟合" class="headerlink" title="过拟合与欠拟合"></a>过拟合与欠拟合</h4><h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
+<li>最优方案————获取更多的训练数据</li>
+<li>次优方案————调节模型允许存储的信息量或者对模型允许存储的信息加以约束，该类方法也称为正则化。<ul>
+<li>调节模型大小</li>
+<li>越苏模型权重，即权重正则化(常用的有L1、L2正则化)</li>
+<li>随机失活(Dropout)</li>
+</ul>
+</li>
+</ul>
+<h6 id="随机失活-Dropout"><a href="#随机失活-Dropout" class="headerlink" title="随机失活(Dropout)"></a>随机失活(Dropout)</h6><ul>
+<li><p>随机失活: 让隐层的神经元以一定的概率不被激活。</p>
+</li>
+<li><p>实现方式：训练过程中，对某一层使用Dropout，就是随机将该层的一些输出舍弃(输出值设为0)，这些被舍弃的神经元就好像被网络删除了一样。</p>
+</li>
+<li><p>随机失活比率：是被设定为0的特征所占的比例，通常在0.2————0.5范围内。</p>
+</li>
+</ul>
+<h6 id="为什么随机失活能够防止过拟合？"><a href="#为什么随机失活能够防止过拟合？" class="headerlink" title="为什么随机失活能够防止过拟合？"></a>为什么随机失活能够防止过拟合？</h6><ul>
+<li><p>解释1：随机失火使得每次更新梯度时参与计算的网络参数减少了，降低了模型容量，所以能防止过拟合。</p>
+</li>
+<li><p>解释2：随机失活鼓励重分散，从这个角度来看随机失活也能起到正则化的作用，进而防止过拟合。（即失活前，可能每个神经元只学习单一的特征例如眼睛、鼻子等，失活后，神经元个数减少所以每个神经元学的的特征会变多，不再是单一特征）</p>
+</li>
+<li><p>解释3：随机失活可以看成模型集成</p>
+</li>
+</ul>
+<h4 id="神经网络中的超参数"><a href="#神经网络中的超参数" class="headerlink" title="神经网络中的超参数"></a>神经网络中的超参数</h4><p>超参数：<br>    * 网络结构————隐层神经元个数，网络层数，非线性单元选择等<br>    * 优化相关————学习率、dropout比率、正则项强度等</p>
+<ul>
+<li><p>常用超参数优化方法</p>
+<ul>
+<li>网格搜索法：<br>①每个超参数分别取几个值)组合这些超参数值，形成多组超参数;<br>②(在验证集上评估每组超参数的模型性能;<br>③选择性能最优的模型所采用的那组值作为最终的超参数的值。</li>
+<li>随机搜索法：<br>①参数空间内随机取点，每个点对应一组超参数;<br>②在验证集上评估每组超参数的模型性能;<br>③选择性能最优的模型所采用的那组值作为最终的超参数的值。</li>
+</ul>
+</li>
+<li><p>超参数搜索策略：</p>
+<ul>
+<li>粗搜索：使用随机法在交大范围采样，训练一个周期，依次缩小超参数范围。</li>
+<li>精搜索：利用随机法在粗搜索后的范围内采样，运行模型五到十个周期，选择验证集上精度最高的那组超参数。</li>
+</ul>
+</li>
+</ul>
+<p><code>对于学习率、正则项强度这类超参数，在对数空间上进行随机采样更合适！（不敏感）即：0.0001， 0.001，0.01，0.1，1</code></p>
+
       
     </div>
 

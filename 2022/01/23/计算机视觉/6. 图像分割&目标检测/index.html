@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="视觉识别视觉识别任务  分类：不考虑空间位置 语义分割：像素的类别 目标检测：多目标 实例分割：多目标  语义分割给每个像素分配类别标签，不区分实例，只考虑像素类别。 分割思路：滑动窗口简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标， 利用CNN对中心点像素分类,如下所示问题: 效率太低 重叠区域的特征反复被计算 分割思路：全卷积让整个网络只包含卷积层，一次性输出所有像素的类别预">
+<meta property="og:type" content="article">
+<meta property="og:title" content="My Blog">
+<meta property="og:url" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="视觉识别视觉识别任务  分类：不考虑空间位置 语义分割：像素的类别 目标检测：多目标 实例分割：多目标  语义分割给每个像素分配类别标签，不区分实例，只考虑像素类别。 分割思路：滑动窗口简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标， 利用CNN对中心点像素分类,如下所示问题: 效率太低 重叠区域的特征反复被计算 分割思路：全卷积让整个网络只包含卷积层，一次性输出所有像素的类别预">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%A4%BA%E4%BE%8B.gif">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/FCN%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/FCN%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/%E5%85%A8%E5%8D%B7%E7%A7%AF.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/Unpooling.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/MaxPooling.png">
+<meta property="article:published_time" content="2022-01-23T11:30:18.543Z">
+<meta property="article:modified_time" content="2022-01-16T09:53:26.985Z">
+<meta property="article:author" content="zhouxy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/images/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%A4%BA%E4%BE%8B.gif">
+
+
+<link rel="canonical" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/","path":"2022/01/23/计算机视觉/6. 图像分割&目标检测/","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | My Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">My Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E8%A7%89%E8%AF%86%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">视觉识别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2"><span class="nav-number">1.1.</span> <span class="nav-text">语义分割</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E6%80%9D%E8%B7%AF%EF%BC%9A%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">分割思路：滑动窗口</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E6%80%9D%E8%B7%AF%EF%BC%9A%E5%85%A8%E5%8D%B7%E7%A7%AF"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">分割思路：全卷积</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#FCN%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">FCN的优缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">1.2.</span> <span class="nav-text">思考</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#FCN%E4%B8%8A%E9%87%87%E6%A0%B7%E7%90%86%E8%AE%BA"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">FCN上采样理论</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhouxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-16 17:53:26" itemprop="dateModified" datetime="2022-01-16T17:53:26+08:00">2022-01-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
+<ul>
+<li>分类：不考虑空间位置</li>
+<li>语义分割：像素的类别</li>
+<li>目标检测：多目标</li>
+<li>实例分割：多目标</li>
+</ul>
+<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
+<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%A4%BA%E4%BE%8B.gif" alt="滑动窗口示例"></p>
+<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
+<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84.jpg" alt="FCN网络结构"></p>
+<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
+<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <em><strong>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</strong></em> 。</p>
+<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
+<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
+<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
+<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/%E5%85%A8%E5%8D%B7%E7%A7%AF.png" alt="全卷积"></p>
+<p><code>问题：什么是上采样呢？</code></p>
+<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
+<ul>
+<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
+</li>
+<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
+</li>
+<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：<br>$$<br>input = \begin{bmatrix}<br>x_1 &amp; x_2 &amp; x_3 &amp; x_4 \<br>x_6 &amp; x_7 &amp; x_8 &amp; x_9 \<br>x_{10} &amp; x_{11} &amp; x_{12} &amp; x_{13} \<br>x_{14} &amp; x_{15} &amp; x_{16} &amp; x_{17} \<br>\end{bmatrix}<br>\<br>kernel = \begin{bmatrix}<br>w_{0,0} &amp; w_{0,1} &amp; w_{0,2} \<br>w_{1,0} &amp; w_{1,1} &amp; w_{1,2} \<br>w_{2,0} &amp; w_{2,1} &amp; w_{2,2} \<br>\end{bmatrix}<br>$$<br>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output<br>$$<br>output=\begin{bmatrix}<br>y_0 &amp; y_1 \<br>y_2 &amp; y_3 \<br>\end{bmatrix}<br>$$<br>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：<br>$$<br>X = \begin{bmatrix}<br>x_1 \ x_2 \…\x_17<br>\end{bmatrix}<br>\<br>Y = \begin{bmatrix}<br>y_0 \ y_1 \ y_2 \y_3<br>\end{bmatrix}<br>$$<br>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：<br>$$<br>Y = C X<br>$$<br>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：<br>$$<br>C = \begin{bmatrix}<br>w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0 &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0\<br>0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2}\<br>\end{bmatrix}<br>$$</p>
+</li>
+</ul>
+<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：<br>$$<br>X = C^T Y<br>$$<br>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
+<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/" rel="prev" title="">
+                  <i class="fa fa-chevron-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/1.%20%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1%E4%BB%8B%E7%BB%8D/" rel="next" title="图像分类">
+                  图像分类 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhouxy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

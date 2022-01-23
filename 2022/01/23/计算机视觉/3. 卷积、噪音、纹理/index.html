@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="卷积与图像去噪图像类型  二值图像（Binary Image）一幅二值图像的二维矩阵仅由0、1两个值构成，“0”代表黑色，“1”代白色。    灰度图像（Gray Image）灰度图像矩阵元素的取值范围通常为[0，255]。因此其数据类型一般为8位无符号整数的（int8），这就是人们经常提到的256灰度图像。“0”表示纯黑色，“255”表示纯白色，中间的数字从小到大表示由黑到白的过渡色。    R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="My Blog">
+<meta property="og:url" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="卷积与图像去噪图像类型  二值图像（Binary Image）一幅二值图像的二维矩阵仅由0、1两个值构成，“0”代表黑色，“1”代白色。    灰度图像（Gray Image）灰度图像矩阵元素的取值范围通常为[0，255]。因此其数据类型一般为8位无符号整数的（int8），这就是人们经常提到的256灰度图像。“0”表示纯黑色，“255”表示纯白色，中间的数字从小到大表示由黑到白的过渡色。    R">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%AB%98%E6%96%AF%E5%99%AA%E9%9F%B3.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%B9%B3%E6%BB%91%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%94%90%E5%8C%96%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E6%8C%AF%E9%93%83.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%AB%98%E6%96%AF%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%AB%98%E6%96%AF%E6%A0%B8%E5%88%86%E8%A7%A3.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%AB%98%E6%96%AF%E5%88%86%E8%A7%A3.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E8%BE%B9%E7%BC%98.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E8%BE%B9%E7%BC%98%E5%AF%BC%E6%95%B0.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%AF%BC%E6%95%B0.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%9B%BE%E5%83%8F%E5%81%8F%E5%AF%BC.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%83%8F%E7%B4%A0%E6%A2%AF%E5%BA%A6.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%99%AA%E9%9F%B3%E5%9B%BE%E5%83%8F.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%99%AA%E9%9F%B3%E6%B1%82%E5%AF%BC.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E8%BF%87%E6%BB%A4%E5%90%8E.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E7%BB%93%E6%9E%9C.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%AB%98%E6%96%AF%E5%8D%B7%E7%A7%AF%E6%A0%B8.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%AB%98%E6%96%AF%E4%B8%80%E9%98%B6%E5%AF%BC%E6%95%B0%E6%A0%B8.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%8E%9F%E5%9B%BE.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E8%BE%B9%E7%BC%98%E6%8F%90%E5%8F%96%E5%90%8E.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%9D%9E%E6%9E%81%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/NMS%E9%9D%9E%E6%9C%80%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E8%BE%B9%E6%B6%88%E5%A4%B1.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%8F%8C%E9%98%88%E5%80%BC.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%8D%B7%E7%A7%AF%E6%A0%B8%E7%BB%84.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E8%A1%A8%E7%A4%BA%E6%B3%951.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E8%A1%A8%E7%A4%BA%E6%B3%952.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E5%B0%8F%E6%B8%B8%E6%88%8F.png">
+<meta property="article:published_time" content="2022-01-23T11:30:18.535Z">
+<meta property="article:modified_time" content="2022-01-15T12:57:25.988Z">
+<meta property="article:author" content="zhouxy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/images/%E9%AB%98%E6%96%AF%E5%99%AA%E9%9F%B3.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/","path":"2022/01/23/计算机视觉/3. 卷积、噪音、纹理/","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | My Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">My Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%8E%BB%E5%99%AA"><span class="nav-number">1.</span> <span class="nav-text">卷积与图像去噪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">图像类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%8E%BB%E5%99%AA%E4%B8%8E%E5%8D%B7%E7%A7%AF"><span class="nav-number">1.2.</span> <span class="nav-text">图像去噪与卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%99%AA%E9%9F%B3%E5%9B%BE%E5%83%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">噪音图像</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%8E%BB%E5%99%AA"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">图像去噪</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%99%AA%E5%A3%B0%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.2.1.1.1.</span> <span class="nav-text">噪声的分类</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.3.</span> <span class="nav-text">卷积的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E6%80%A7%E8%B4%A8"><span class="nav-number">1.3.1.</span> <span class="nav-text">卷积性质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E5%A1%AB%E5%85%85"><span class="nav-number">1.3.2.</span> <span class="nav-text">边界填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E7%9A%84%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.3.3.</span> <span class="nav-text">卷积的三种模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.3.4.</span> <span class="nav-text">卷积示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E5%8D%B7%E7%A7%AF%E6%A0%B8"><span class="nav-number">1.3.5.</span> <span class="nav-text">高斯卷积核</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E4%B8%8E%E8%BE%B9%E7%BC%98%E6%8F%90%E5%8F%96"><span class="nav-number">2.</span> <span class="nav-text">卷积与边缘提取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">前言</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B"><span class="nav-number">2.0.1.</span> <span class="nav-text">边缘检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E6%B5%81%E7%A8%8B"><span class="nav-number">2.0.2.</span> <span class="nav-text">边缘检测流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Canny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8%E6%80%BB%E7%BB%93"><span class="nav-number">2.0.2.1.</span> <span class="nav-text">Canny边缘检测器总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.1.</span> <span class="nav-text">纹理表示</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%89%8D%E8%A8%80-1"><span class="nav-number">2.1.0.0.1.</span> <span class="nav-text">前言</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E6%A0%B8%E7%BB%84%E7%9A%84%E7%BA%B9%E7%90%86%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">基于卷积核组的纹理表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%B6%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">表示方法及其过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF%E6%A0%B8%E7%BB%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">卷积核组设计</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhouxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-15 20:57:25" itemprop="dateModified" datetime="2022-01-15T20:57:25+08:00">2022-01-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="卷积与图像去噪"><a href="#卷积与图像去噪" class="headerlink" title="卷积与图像去噪"></a>卷积与图像去噪</h2><h3 id="图像类型"><a href="#图像类型" class="headerlink" title="图像类型"></a>图像类型</h3><ul>
+<li><ol>
+<li>二值图像（Binary Image）<br>一幅二值图像的二维矩阵仅由0、1两个值构成，“0”代表黑色，“1”代白色。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>灰度图像（Gray Image）<br>灰度图像矩阵元素的取值范围通常为[0，255]。因此其数据类型一般为8位无符号整数的（int8），这就是人们经常提到的256灰度图像。“0”表示纯黑色，“255”表示纯白色，中间的数字从小到大表示由黑到白的过渡色。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>RGB彩色图像（Color Image）<br>RGB图像分别用红（R）、绿（G）、蓝（B）三原色的组合来表示每个像素的颜色。RGB图像的数据类型一般为8位无符号整形，通常用于表示和存放真彩色图像，当然也可以存放灰度图像。</li>
+</ol>
+</li>
+</ul>
+<h3 id="图像去噪与卷积"><a href="#图像去噪与卷积" class="headerlink" title="图像去噪与卷积"></a>图像去噪与卷积</h3><h4 id="噪音图像"><a href="#噪音图像" class="headerlink" title="噪音图像"></a>噪音图像</h4><p>噪音图像：噪音也就是一个像素点和周围的像素点差别较大。</p>
+<h5 id="图像去噪"><a href="#图像去噪" class="headerlink" title="图像去噪"></a>图像去噪</h5><p>对噪音像素点求加权平均值。如：<br>$$<br>\text{去噪前} = \begin{bmatrix}64 &amp; 76 &amp; 69 \ 71 &amp; \color{Aqua}253 &amp; 75\68 &amp; 74 &amp; 78\end{bmatrix}\text{去噪后} = \begin{bmatrix}64 &amp; 76 &amp; 69 \ 71 &amp; \color{Aqua}92 &amp; 75\68 &amp; 74 &amp; 78\end{bmatrix}<br>$$</p>
+<p>其中$92 = 64 * \frac{1}{9} + 76* \frac{1}{9} + 69 * \frac{1}{9} + 71 * \frac{1}{9} + 253 * \frac{1}{9} + 78 * \frac{1}{9} + 68* \frac{1}{9} + 74* \frac{1}{9} + 78* \frac{1}{9}$ </p>
+<p>像这类对像素进行统一操作，封装为卷积核。</p>
+<h6 id="噪声的分类"><a href="#噪声的分类" class="headerlink" title="噪声的分类"></a>噪声的分类</h6><ul>
+<li>椒盐噪声，就是黑点，白点。处理方式：中值滤波</li>
+<li>脉冲噪声，只有白点</li>
+<li>高斯噪声<br>这里主要介绍高斯噪声，高斯噪声数学模型是一个独立的加和模型$f(x,y) = \hat f(x, y) + \eta(x, y)$即认为图像是由真实图像+高斯噪声组成的，高斯噪声的产生一个是由于采集器附加的噪声，另一个是由于光学问题带来的噪声。将两者合起来就是最终看到的带有噪声的图像。因此对于高斯噪声就有了这样的假设：首先噪声的产生是相互独立的，而且服从均值为0的正态分布。<br><img src="./images/%E9%AB%98%E6%96%AF%E5%99%AA%E9%9F%B3.jpg" alt="高斯噪音"><br>在应对高斯的噪声的处理时，自然就会想到高斯滤波，但是它也是有成本有代价，虽然它可能滤除噪声，但是它也会衰减部分信号，比如轮廓信息。</li>
+</ul>
+<h3 id="卷积的定义"><a href="#卷积的定义" class="headerlink" title="卷积的定义"></a>卷积的定义</h3><p>令F为图像，H为卷积核，F与H的卷积记为$R = F * H$<br>$$<br> R_{ij} = \sum_{u,v} H_{i-u,j-v} F_{u,v}<br>$$</p>
+<p>$<br>R_{ij} = \sum_{u,v} H_{i+u,j+v} F_{u,v} \text{称之为相关}<br>$</p>
+<h4 id="卷积性质"><a href="#卷积性质" class="headerlink" title="卷积性质"></a>卷积性质</h4><ul>
+<li>叠加性：$filter(f_1 + f_2) = filter(f_1) + filter(f_2)$</li>
+<li>平移不变性：$filter(shift(f)) = shift(filter(f))$</li>
+<li>交换律</li>
+<li>结合律</li>
+<li>分配律</li>
+<li>标量</li>
+</ul>
+<h4 id="边界填充"><a href="#边界填充" class="headerlink" title="边界填充"></a>边界填充</h4><ul>
+<li>拉伸填充</li>
+<li>镜像填充</li>
+<li>常数填充(零填充)</li>
+</ul>
+<p>卷积操作后的图像要小于输入时图像，通过边界填充，我们可以实现卷积前后图像的尺寸不变</p>
+<h4 id="卷积的三种模式"><a href="#卷积的三种模式" class="headerlink" title="卷积的三种模式"></a>卷积的三种模式</h4><ul>
+<li><ol>
+<li>full<br>full模式的意思是，从filter和image刚相交开始做卷积，</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>same<br>当filter的中心(K)与image的边角重合时，开始做卷积运算</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>valid<br>当filter全部在image里面的时候，进行卷积运算</li>
+</ol>
+</li>
+</ul>
+<h4 id="卷积示例"><a href="#卷积示例" class="headerlink" title="卷积示例"></a>卷积示例</h4><ul>
+<li><p>向左平移一个像素<br>$<br>\begin{bmatrix}<br>0  &amp;  0  &amp;  0 \<br>0  &amp;  0  &amp;  1 \<br>0  &amp;  0  &amp;  0 \<br>\end{bmatrix}<br>$</p>
+</li>
+<li><p>向右平移一个像素<br>$<br>\begin{bmatrix}<br>0  &amp;  0  &amp;  0 \<br>1  &amp;  0  &amp;  0 \<br>0  &amp;  0  &amp;  0 \<br>\end{bmatrix}<br>$</p>
+</li>
+</ul>
+<ul>
+<li><p>图像平滑<br>$<br>\begin{bmatrix}<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>\end{bmatrix}<br>$<br><img src="./images/%E5%B9%B3%E6%BB%91%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="平滑卷积示意图"></p>
+</li>
+<li><p>图像锐化<br>$<br>\begin{bmatrix}<br>0 &amp; 0 &amp; 0 \<br>0 &amp; 2 &amp; 0 \<br>0 &amp; 0 &amp; 0 \<br>\end{bmatrix} -<br>\begin{bmatrix}<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>1/9 &amp; 1/9 &amp; 1/9 \<br>\end{bmatrix}<br>$<br>即原图 - 平滑 = 边缘， 原图 + 边缘 = 锐化<br><img src="./images/%E9%94%90%E5%8C%96%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="锐化卷积示意图"></p>
+</li>
+</ul>
+<h4 id="高斯卷积核"><a href="#高斯卷积核" class="headerlink" title="高斯卷积核"></a>高斯卷积核</h4><p>均值平滑卷积核存在的问题<br><img src="./images/%E6%8C%AF%E9%93%83.png" alt="振铃"><br>解决方法：根据邻域像素与中心的远近程度分配权重<br>引出高斯卷积核：高斯核用于图像的模糊处理,和均值滤波的作用类似.但不同的是高斯滤波进行的是一种加权平均,越靠近核中心的数值权重越大<br>$$<br>𝐺\sigma = \frac{1}{2\pi \sigma^2}e^{− \frac{(x^2+y2)}{2\sigma^2}}<br>$$<br><img src="./images/%E9%AB%98%E6%96%AF%E5%8D%B7%E7%A7%AF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="高斯卷积示意图"></p>
+<p>生成步骤：</p>
+<ol>
+<li><p>确定卷积核的尺寸 比如 5×5</p>
+</li>
+<li><p>设置高斯函数 的标准 差 ，比如 σ=1</p>
+</li>
+<li><p>计算卷积核各个位置权重值</p>
+</li>
+<li><p>对权重值进行归一化</p>
+</li>
+</ol>
+<p>一般来说有个经验性的值。窗口大小为 $6\sigma + 1$</p>
+<ul>
+<li>高斯滤波，非常重要，贯穿整个计算机视觉，甚至现在的神经网络提取到的某些特征跟高斯滤波输出的结果都十分相似。其实高斯滤波就是滤除高频信息，是一个低通滤波器。 </li>
+<li>高斯卷积的另外一个特性就是对一副图像进行连续两次  的高斯卷积输出结果等价于使用 $\sqrt{2}\sigma$ 的高斯卷积一次的输出结果。这个满足勾股定理的，比如连续的两次高斯卷积核大小为 $2\sigma,3\sigma$ 可以使用 $\sqrt{13}\sigma$ 高斯卷积核代替。大致意思就是两个小高斯核的连续卷积可以用一个大的高斯核代替。</li>
+<li>高斯核还可以分解。<br><img src="./images/%E9%AB%98%E6%96%AF%E6%A0%B8%E5%88%86%E8%A7%A3.jpg" alt="高斯核分解"></li>
+</ul>
+<p>现在就举个例子解释高斯核分解，假设有一个高斯卷积核与一个3x3大小的图像卷积得到应该是一个点。那么此时将高斯核拆解为两个一维向量，分别与图像进行卷积操作。它的主要作用就是加速运算。<br><img src="./images/%E9%AB%98%E6%96%AF%E5%88%86%E8%A7%A3.jpg" alt="高斯分解"></p>
+<p>如果使用一个mxm的卷积核对一副nxn大小的图像进行卷积，它的算法复杂度是 $O(n^2m^2)$ 而使用分解卷积算法复杂度 $O(n^2m)$ 【其实这是x或者y一个方向上的复杂度】，也就是说如果对核进行分离，那么复杂度就能够降低一个等级，这是一件很有意义的事情。从这里也可以看出来如果使用小核进行卷积也能够加速运算。</p>
+<p>这些东西在深度神经网络中也会遇到，但是这里高斯卷积是完全等价的，在深度学习中不一定保证是等价的。</p>
+<h2 id="卷积与边缘提取"><a href="#卷积与边缘提取" class="headerlink" title="卷积与边缘提取"></a>卷积与边缘提取</h2><h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>边缘检测是图像处理和计算机视觉中，尤其是特征提取中的一个研究领域。有许多方法用于边缘检测，它们的绝大部分可以划分为两类：</p>
+<ul>
+<li>基于一阶导数<br>首先计算边缘强度， 通常用一阶导数表示， 例如梯度模，然后，用计算估计边缘的局部方向， 通常采用梯度的方向，并利用此方向找到局部梯度模的最大值。即：图像一阶导数中的最大和最小值来检测边界，通常是将边界定位在梯度最大的方向。<br>一阶:Roberts Cross算子，Prewitt算子，Sobel算子， Kirsch算子，罗盘算子；<br>基于 零穿越/零交叉 的一类：二阶导数<br>基于零穿越的方法通过寻找图像二阶导数零穿越来寻找边界，通常是Laplacian过零点或者非线性差分表示的过零点。</li>
+<li>基于二阶导数： Marr-Hildreth，在梯度方向的二阶导数过零点，Canny算子，Laplacian算子。</li>
+</ul>
+<h4 id="边缘检测"><a href="#边缘检测" class="headerlink" title="边缘检测"></a>边缘检测</h4><p>为什么要进行边缘检测呢？因为这是稳定的视觉特征，是人类经验的结果。边缘检测的目的是标识数字图像中亮度变化明显的点。图像属性中的显著变化通常反映了属性的重要事件和变化。主要包括：</p>
+<ul>
+<li>深度上的不连续（物体处在不同的物平面上）；</li>
+<li>表面方向不连续（如正方体的不同的两个面）</li>
+<li>物质属性变化（表面颜色不同，会导致光的反射系数不同）</li>
+<li>场景照明变化（阴影）</li>
+</ul>
+<p>那么，对于下面这张图像进行边缘检测时，沿着这条红色的水平线，得到其每个像素点上的强度（也就是灰度值），由此可知边缘就是在像素值发生突变的地方。那么如果从一个信号中找到突变的地方呢？<br><img src="./images/%E8%BE%B9%E7%BC%98.jpg" alt="边缘"></p>
+<p>显然，根据数学知识，对信号曲线进行求一阶导数，对于边缘来说，并不需要关注方向，只需要关注极值即可，所以可以通过求导得到边缘所在位置。由此将这根红色的水平线从上至下滑动即可得到整个图像的竖直方向上的边缘。<br><img src="./images/%E8%BE%B9%E7%BC%98%E5%AF%BC%E6%95%B0.jpg" alt="边缘导数"></p>
+<p>对于一个二元函数 $f(x,y)$ ，响应的的求导公式：<br>$$<br>\frac{\partial f(x,y)}{\partial x} = \lim_{\epsilon \rightarrow 0} \frac{f(x+\varepsilon, y) - f(x,y)}{\varepsilon} $$</p>
+<p>在图像处理过程中，对于像素值的位置的最小单位是 1 px，因此令 $\varepsilon = 1$ ，使用这种近似来作为点前位置的导数，则有：<br>$$<br>\frac{\partial f(x,y)}{\partial x} \approx \lim_{\varepsilon \rightarrow 0} \frac{f(x+1, y) - f(x,y)}{1}<br>$$<br>其实由这个公式可以看出，就是右面一个像素减去左面一个像素，作为当前位置的导数，这样简化之后其实就可以把这个过程使用卷积代替，即卷积核为：这就是检测竖直方向上边缘的卷积核。同理也可以得到水平方向上边缘的卷积核。<br><img src="./images/%E5%AF%BC%E6%95%B0.png" alt="导数"></p>
+<p>那么接下来举个例子，下面这两个边缘检测结果哪个是水平方向卷积核检测到的？哪个是竖直方向卷积核检测到的？因为只有水平卷积核检测的是左右差异较大的像素值，自然而然连成线之后就是竖直方向的线条。<br><img src="./images/%E5%9B%BE%E5%83%8F%E5%81%8F%E5%AF%BC.png" alt="图像偏导"></p>
+<p>接下来，解释一下梯度（一维叫导数，高维叫梯度），对于一副图像的一个像素点$<br>\triangledown f = [\frac{\partial f}{\partial x} , \frac{\partial f}{\partial y}]<br>$<br><img src="./images/%E5%83%8F%E7%B4%A0%E6%A2%AF%E5%BA%A6.jpg" alt="像素梯度"><br>对于夹角的计算方式 $\theta = \tan^{-1} (\frac{\partial f}{\partial y} / \frac{\partial f}{\partial x})$ ，而梯度的幅值：<br>$$<br>\parallel \triangledown \parallel = \sqrt{(\frac{\partial f}{\partial x})^2 + (\frac{\partial f}{\partial y})^2}<br>$$</p>
+<p>这个幅值越大说面这点附近像素值变化越剧烈，就越有可能是边缘。</p>
+<p>其实梯度对于一副图像来说就是图像变化剧烈的方向。而且 <em><strong>梯度方向与边缘是垂直</strong></em> 的。</p>
+<h4 id="边缘检测流程"><a href="#边缘检测流程" class="headerlink" title="边缘检测流程"></a>边缘检测流程</h4><p>由于在实际应用过程中信号的采集往往伴随着噪声的出现，假设有下面这么一个一维信号，很显然边缘就在突变的地方。但是由于真实点附近存在噪声，如果直接使用边缘滤波器（边缘卷积）得到的结果会是什么样？<br><img src="./images/%E5%99%AA%E9%9F%B3%E5%9B%BE%E5%83%8F.jpg" alt="噪音图像"><br><img src="./images/%E5%99%AA%E9%9F%B3%E6%B1%82%E5%AF%BC.jpg" alt="噪音求导"></p>
+<p>显然，通过边缘检测器之后得到导数（梯度）是无法确定极大值极小值的，因此无法判断边缘位置。所以，往往在进行边缘检测前首先要进行滤波。这是因为边缘检测算子主要是基于图像强度的一阶导数和二阶导数，但是通常情况下导数对噪声十分敏感，因此必须使用滤波器来进行平滑噪声。<br><img src="./images/%E8%BF%87%E6%BB%A4%E5%90%8E.jpg" alt="噪音过滤"></p>
+<p>因此对于一维图像 $f$ 使用高斯卷积核 $g$ 进行滤波， 通过将 $f*g$ (卷积)得到的结果可以看出，最左边和最右面为什么没了呢？ <em><strong>这就是因为卷积过程中如果不对边界补充的话，卷积结果相比原来图像会小一圈。</strong></em> 经过高斯卷积之后的图像就相对平滑很多，在这个基础上再进行边缘检测，得到结果如下。很显然求极值就十分简单了。<br><img src="./images/%E7%BB%93%E6%9E%9C.jpg" alt="噪音过滤结果"></p>
+<p>因此，我们在对图像进行边缘检测前首先用高斯卷积对图像进行平滑就是了，因为我们也无法确定图像是否包含噪声。虽然上面这个过程实现了边缘检测，但是在这个过程中使用了两次卷积，首先是滤波过程的卷积，然后是求导过程的卷积，显然卷积是十分耗时的，那么能否使用一次卷积完成这个操作呢？<br>$$<br>\frac{d}{dx} (f*g) = f * \frac{d}{dx} g $$</p>
+<p>这个公式成立是因此卷积是满足交换律，结合律和分配率的。所以使用右面的公式，先对高斯卷积核进行求导，这个模板一般比较小，求导也相对简单，然后再进行卷积。 这样就能加速运算过程了。</p>
+<p>这就是高斯卷积核求导之后的三维图像<br>虽然，使用平滑对图像进行去噪，但是它也会模糊图像，因此我们可以考虑在不同的scale下进行边缘检测。也就是选择响应的窗宽和标准差即可对图像进行平滑并边缘检测，由于窗宽一般默认经验值 $3\sigma$ ，因此只需要指定参数 $\sigma$ 即可执行这两个过程。所以可以考虑使用不用的$\sigma$在不同的scale下进行边缘检测。</p>
+<p>因此，接下来对比重新认识一下高斯卷积核与高斯一阶导数核的区别：</p>
+<p>高斯卷积核（smoothing filters）：高斯卷积实际上是滤除高频信号，是低通滤波器，滤波器模板中的数值没有负数，而且这些值相加和为1。<br><img src="./images/%E9%AB%98%E6%96%AF%E5%8D%B7%E7%A7%AF%E6%A0%B8.jpg" alt="高斯卷积核"></p>
+<ul>
+<li>高斯一阶导数核（derivative filters）：滤波器模板中的数值一定有负数，而且这些相加为0。<br><img src="./images/%E9%AB%98%E6%96%AF%E4%B8%80%E9%98%B6%E5%AF%BC%E6%95%B0%E6%A0%B8.jpg" alt="高斯一阶导数核"><br>总结一下，对于一副图像进行边缘检测的流程</li>
+<li>滤波</li>
+<li>增强，增强算法可以将图像灰度点邻阈强度值有显著变化的点凸显出来。</li>
+<li>边缘检测，经过增强的图像，往往邻域中有很多点的梯度值比较大，而在特定应用中，这些点并不是要找的边缘点，所以应该采用某些方法对这些点进行取舍。实际工程中，常用的方法是通过阈值化的方法进行检测。<br>三、Canny边缘检测<br><img src="./images/%E5%8E%9F%E5%9B%BE.jpg" alt="原图"><br>对于这样一张图像进行边缘检测时，首先第一步，对图像进行滤波处理，然后计算两个方向的梯度，先计算每个像素点的梯度，然后计算幅值，得到下面这张图像。<br>$$<br>\parallel \triangledown f \parallel = \sqrt{(\frac{\partial f}{\partial x})^2 + (\frac{\partial f}{\partial y})^2} \<br>$$<br><img src="./images/%E8%BE%B9%E7%BC%98%E6%8F%90%E5%8F%96%E5%90%8E.jpg" alt="边缘提取后"><br>在进行梯度计算时，梯度较大的地方可能是边缘也有可能是噪声，虽然已经进行过一次平滑滤波，但是仍然还会有一些高强度的噪声无法滤除，因此在这里选择使用阈值对其进行第二次过滤，去除一些梯度相对较小的点。<br><img src="./images/%E9%9D%9E%E6%9E%81%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6.png" alt="非极大值抑制"></li>
+</ul>
+<p>然而经过阈值处理后，还是会有一些小问题，就是图像中的边缘会很宽，这是由于图像中的边缘像素值都是缓慢变化的，不会是一个垂直的突变，即使原始图像中的边缘是一个垂直的突变，经过高斯平滑之后它就会变得不那么垂直了，所以这就是为什么边会那么宽。那如何解决呢？</p>
+<p>接下来就介绍了一个著名的算法： <em><strong>NMS非极大值抑制</strong></em>。它的一个主要思想就是，首先确定边上的一个点，然后沿着边的梯度方向比较跟相邻点的梯度进行比较，也即是右图中的 q 与 p，r 进行比较。如果 q 最大则保留，如果不是则舍去。<br><img src="./images/NMS%E9%9D%9E%E6%9C%80%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6.jpg" alt="NMS非极大值抑制"></p>
+<p>经过抑制以后：显然这就细化了很多，但是也会存在一定的问题，比如脖子下面的边缘消失了，出现了断断续续的情况，出现这种情况的原因是什么呢？这是因为设置的阈值太高了，导致这部分梯度被滤除掉了，但是如果阈值设置的较低又会出现很多“假边”，因此这里需要对刚刚设置阈值过滤这一步进行改进。<br><img src="./images/%E8%BE%B9%E6%B6%88%E5%A4%B1.jpg" alt="双阈值"></p>
+<p>改进的思路：就是使用双阈值法，首先使用一个较高的阈值去将那些确定度较高的边检测出来，称为“强边”，然后再使用一个较小的阈值显露更多的边，称为“弱边”，此时选择保留那些跟强边有连接关系的边。这个想法就很巧妙。<br><img src="./images/%E5%8F%8C%E9%98%88%E5%80%BC.jpg" alt="双阈值"></p>
+<p>左边是高阈值，中间是低阈值，右边是双阈值</p>
+<h5 id="Canny边缘检测器总结"><a href="#Canny边缘检测器总结" class="headerlink" title="Canny边缘检测器总结"></a>Canny边缘检测器总结</h5><ul>
+<li><ol>
+<li>用高斯一阶偏导核卷积图像</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>计算每个点的梯度幅值和方向</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>非极大值抑制：</li>
+</ol>
+<ul>
+<li>将宽的“边缘”细化至单个像素宽度</li>
+</ul>
+</li>
+<li>4.连接与阈值（滞后）：<ul>
+<li>定义两个阈值：低和高</li>
+<li>使用高阈值开始边缘曲线，使用低阈值继续边缘曲线</li>
+</ul>
+</li>
+</ul>
+<p>关于Canny边缘检测是有严格意义上的数学推导的，这个后续补充一下！</p>
+<h3 id="纹理表示"><a href="#纹理表示" class="headerlink" title="纹理表示"></a>纹理表示</h3><h6 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h6><p>什么是纹理？计算机图形学中的纹理既包括通常意义上物体表面的纹理即使物体表面呈现凹凸不平的沟纹，同时也包括在物体的光滑表面上的彩色图案，通常我们更多地称之为花纹。</p>
+<p>纹理是由于物体表面的物理属性的多样性而造成的,物理属性不同表示某个特定表面特征的灰度或者颜色信息不同,不同的物理表面会产生不同的纹理图像,因而纹理作为图像的一个极为重要的属性,在计算机视觉和图像处理中占有举足轻重的地位。纹理是图像中特征值强度的某种局部重复模式的宏观表现。然而,对于自然纹理图像而言这种重复模式往往是近似的和复杂的,难以用语言描述,而人类对纹理的感受多是与心理效果相结合的,因此,迄今都没有一个对纹理的正式的、广泛认可的和一致的定义。</p>
+<p>Hawkins曾经对纹理给出了一个比较详细的描述,他认为纹理有三个主要的标志:</p>
+<p>1)某种局部的序列性在比该序列更大的区域内不断重复</p>
+<p>2)序列是由基本元素非随机排列组成的</p>
+<p>3)各部分大致是均匀的统体,在纹理区域内的任何地方都有大致相同的结构尺</p>
+<p>除了下面这种规则的纹理，也有不规则的，然而对于纹理（texture）的关注，其意义或者用途在于：Texture-related tasks。纹理相关任务</p>
+<ul>
+<li>shape from texture。从纹理中恢复形状。</li>
+<li>segmentation/classification from texture cues。纹理分析</li>
+<li>synthesis。用于图像合成</li>
+</ul>
+<p>该怎么表示纹理呢</p>
+<h4 id="基于卷积核组的纹理表示方法"><a href="#基于卷积核组的纹理表示方法" class="headerlink" title="基于卷积核组的纹理表示方法"></a>基于卷积核组的纹理表示方法</h4><p>思路：利用 <em><strong>卷积核组</strong></em> 提取图像中的纹理基；利用基元的统计信息来表示图像中的纹理<br><img src="./images/%E5%8D%B7%E7%A7%AF%E6%A0%B8%E7%BB%84.png" alt="卷积核组"></p>
+<h5 id="表示方法及其过程"><a href="#表示方法及其过程" class="headerlink" title="表示方法及其过程"></a>表示方法及其过程</h5><ul>
+<li>法1<ul>
+<li>设计卷积核组；</li>
+<li>利用卷积核组对图像进行卷积操作获得对应的特征响应图组</li>
+<li>利用特征响应图的某种统计信息来表示图像中的纹理 。</li>
+</ul>
+</li>
+</ul>
+<p><img src="./images/%E8%A1%A8%E7%A4%BA%E6%B3%951.png" alt="表示法1"><br>其中$r_i = [r_{i1},r_{i2},…,r_{i\times n}]$表示第i个特征图展开的向量<br>$r_{i\times n}$表示第i个特征图上第n个位置的响应值</p>
+<p>将每个特征图都拉成向量使用全连接层进行分类。</p>
+<ul>
+<li>法2：忽略基元位置；关注出现了哪种基元对应的纹理以及基元出现的频率</li>
+</ul>
+<p>过程同上<br><img src="./images/%E8%A1%A8%E7%A4%BA%E6%B3%952.png" alt="表示法2"><br>其中的$\overline{r_1}$是取特征图$r_1$的均值，是一个值，这个值越大表示出现该特征的频率越高。<br>如下所示<br><img src="./images/%E5%B0%8F%E6%B8%B8%E6%88%8F.png" alt="小游戏"></p>
+<h5 id="卷积核组设计"><a href="#卷积核组设计" class="headerlink" title="卷积核组设计"></a>卷积核组设计</h5><p>设计重点：</p>
+<ul>
+<li><p>卷积核类型 (边缘、条形以及点状)</p>
+</li>
+<li><p>卷积核尺度 (36 个尺度)</p>
+</li>
+<li><p>卷积核方向 ( 6 个角度)</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/2.%20%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="prev" title="">
+                  <i class="fa fa-chevron-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/4.%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhouxy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

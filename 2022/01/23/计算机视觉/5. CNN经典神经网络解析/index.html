@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="经典网络解析 AlexNet  ZFNet  VGG  GoogleNet  ResNet   经典网络解析——AlexNetAlexNet——验证了深度卷积神经网络 的高效性  主体贡献：  1.提出了一种卷积层加全连接层的卷积神经网络结构  2.首次使用 ReLU 函数 做为 神经网络的 激活函数  3.首次提出 Dropout 正则化来控制过拟合  4.使用加入动量的小批量 梯度下降算法加速">
+<meta property="og:type" content="article">
+<meta property="og:title" content="My Blog">
+<meta property="og:url" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="经典网络解析 AlexNet  ZFNet  VGG  GoogleNet  ResNet   经典网络解析——AlexNetAlexNet——验证了深度卷积神经网络 的高效性  主体贡献：  1.提出了一种卷积层加全连接层的卷积神经网络结构  2.首次使用 ReLU 函数 做为 神经网络的 激活函数  3.首次提出 Dropout 正则化来控制过拟合  4.使用加入动量的小批量 梯度下降算法加速">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/Alex%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/Alex%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/Alex%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/VGG%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/%E5%B0%8F%E5%8D%B7%E7%A7%AF.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/%E6%80%9D%E8%80%832.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/%E6%80%9D%E8%80%833.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/GoogleNet%E7%BD%91%E7%BB%9C.jpg">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/Inception%E6%A8%A1%E5%9D%97.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/Inception%E6%A8%A1%E5%9D%97v1.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/GoogleNet%E6%B7%B1%E5%B1%82.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/%E8%BE%85%E5%8A%A9%E5%88%86%E7%B1%BB%E5%99%A8.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/1%C3%971%E5%8E%8B%E7%BC%A9.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/Res.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/%E6%AE%8B%E5%B7%AE%E6%A8%A1%E5%9D%97.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/%E7%93%B6%E9%A2%88%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/%E5%B1%95%E5%BC%80%E7%9A%84%E6%AE%8B%E5%B7%AE.png">
+<meta property="article:published_time" content="2022-01-23T11:30:18.541Z">
+<meta property="article:modified_time" content="2022-01-16T03:03:14.551Z">
+<meta property="article:author" content="zhouxy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/images/Alex%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/","path":"2022/01/23/计算机视觉/5. CNN经典神经网络解析/","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | My Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">My Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">经典网络解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90%E2%80%94%E2%80%94AlexNet"><span class="nav-number">1.0.1.</span> <span class="nav-text">经典网络解析——AlexNet</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#AlexNet-%E5%8D%B7%E7%A7%AF%E5%B1%82%E5%9C%A8%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">AlexNet 卷积层在做什么？</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90%E2%80%94%E2%80%94ZFNet"><span class="nav-number">1.1.</span> <span class="nav-text">经典网络解析——ZFNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90%E2%80%94%E2%80%94VGG"><span class="nav-number">1.2.</span> <span class="nav-text">经典网络解析——VGG</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">1.2.1.</span> <span class="nav-text">思考</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90%E2%80%94%E2%80%94GoogLeNet"><span class="nav-number">1.3.</span> <span class="nav-text">经典网络解析——GoogLeNet</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%95%E5%85%A5%E8%BE%85%E5%8A%A9%E5%88%86%E7%B1%BB%E5%99%A8%EF%BC%9F"><span class="nav-number">1.3.0.0.1.</span> <span class="nav-text">为什么引入辅助分类器？</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%80%83-1"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">思考</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90%E2%80%94%E2%80%94ResNet"><span class="nav-number">1.3.1.</span> <span class="nav-text">经典网络解析——ResNet</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%80%9D%E8%80%83-2"><span class="nav-number">1.3.1.0.1.</span> <span class="nav-text">思考</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhouxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-23 19:30:18" itemprop="dateCreated datePublished" datetime="2022-01-23T19:30:18+08:00">2022-01-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-16 11:03:14" itemprop="dateModified" datetime="2022-01-16T11:03:14+08:00">2022-01-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="经典网络解析"><a href="#经典网络解析" class="headerlink" title="经典网络解析"></a>经典网络解析</h2><ul>
+<li><p>AlexNet</p>
+</li>
+<li><p>ZFNet</p>
+</li>
+<li><p>VGG</p>
+</li>
+<li><p>GoogleNet</p>
+</li>
+<li><p>ResNet</p>
+</li>
+</ul>
+<h4 id="经典网络解析——AlexNet"><a href="#经典网络解析——AlexNet" class="headerlink" title="经典网络解析——AlexNet"></a>经典网络解析——AlexNet</h4><p>AlexNet——验证了深度卷积神经网络 的高效性</p>
+<ul>
+<li><p>主体贡献：<br>  1.提出了一种卷积层加全连接层的卷积神经网络结构<br>  2.首次使用 ReLU 函数 做为 神经网络的 激活函数<br>  3.首次提出 Dropout 正则化来控制过拟合<br>  4.使用加入动量的小批量 梯度下降算法加速了 训练过程的 收敛；<br>  5.使用数据增强策略，极大地抑制了训练过程的 过拟合；<br>  6.利用了GPU的并行计算能力，加速了网络的训练与推断。<br><img src="./images/Alex%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84.jpg" alt="Alex网络架构"><br><img src="./images/Alex%E7%BB%93%E6%9E%84.png" alt="Alex结构"><br><code>NORM 是局部响应归一化层</code></p>
+</li>
+<li><p>层数统计说明：</p>
+<ul>
+<li><p>计算网络层数时，仅统计卷积层与全连接层；</p>
+</li>
+<li><p>池化层与各种归一化层都是对它们前面卷积层输出的特征图进行后处理，不单独算作一层。</p>
+</li>
+<li><p>AlexNet共8层</p>
+<ul>
+<li><p>5 个卷积层 (CONV1 CONV5)</p>
+</li>
+<li><p>3 个全连接层 (FC6 FC8)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>在第3，4层卷积层没有进行最大池化与局部归一化</code></p>
+<ul>
+<li><p>重要说明</p>
+<ul>
+<li><p>用于提取图像特征的卷积层以及用于分类的全连接层是同时学习的</p>
+</li>
+<li><p>卷积层与全连接层在学习过程中会相互影响、相互促进</p>
+</li>
+</ul>
+</li>
+<li><p>重要技巧</p>
+<ul>
+<li><p>Dropout 策略防止过拟合</p>
+</li>
+<li><p>使用加入动量的随机梯度下降算法 ，加速收敛</p>
+</li>
+<li><p>验证集损失不下降时 手动降低 10 倍的学习率</p>
+</li>
+<li><p>采用样本增强策略增加训练样本数量， 防止过拟合；</p>
+</li>
+<li><p>集成多个模型，进一步提高精度。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="AlexNet-卷积层在做什么？"><a href="#AlexNet-卷积层在做什么？" class="headerlink" title="AlexNet 卷积层在做什么？"></a>AlexNet 卷积层在做什么？</h6><ul>
+<li><p>从数据中学习对于分类有意义的结构特征，</p>
+</li>
+<li><p>描述输入图像中的结构信息</p>
+</li>
+<li><p>描述结果存储在 256 个 6 × 6 的特征响应图里。</p>
+</li>
+</ul>
+<h3 id="经典网络解析——ZFNet"><a href="#经典网络解析——ZFNet" class="headerlink" title="经典网络解析——ZFNet"></a>经典网络解析——ZFNet</h3><p>与AlexNet网络结构基本一致</p>
+<p>主要改进：</p>
+<ul>
+<li>将第一个卷积层的卷积核大小改为了 7 × 7(可以感受更细致的东西，浅层丢掉细致的东西，后面无法学习)</li>
+<li>将第二、第三个卷积层的卷积步长都设置为 2(图像信息尺度减少速度不会太快，能多学特征信息)</li>
+<li>增加了第三、第四个卷积层的卷积核个数。(层数高了后会学到语义信息，卷积核个数太少描述不好，就学不好；如：同一张图的猫的头朝向，角度等等)<br><img src="./images/Alex%E7%BB%93%E6%9E%84.png" alt="Alex结构"></li>
+</ul>
+<h3 id="经典网络解析——VGG"><a href="#经典网络解析——VGG" class="headerlink" title="经典网络解析——VGG"></a>经典网络解析——VGG</h3><p>VGG网络贡献：</p>
+<ul>
+<li><p>使用尺寸更小的 3x3 卷积核串联来获得更大的感受野</p>
+</li>
+<li><p>放弃使用 11x11 和 5x5 这样的大尺寸卷积核</p>
+</li>
+<li><p>深度更深、非线性更强，网络的参数也更少</p>
+</li>
+<li><p>去掉了 AlexNet 中的局部响应归一化层（ LRN ）层 。</p>
+</li>
+</ul>
+<p><img src="./images/VGG%E7%BB%93%E6%9E%84.png" alt="VGG结构"></p>
+<p>VGG16</p>
+<ul>
+<li><p>13 个卷积层与 3 个全连接</p>
+</li>
+<li><p>分为 5 段 conv1,…,conv5 每一段中卷积层的卷积核个数均相同</p>
+</li>
+<li><p>卷积层均采用 3x3 的卷积核及 ReLU 激活函数；</p>
+</li>
+<li><p>所有的池化层都采用最大池化，其窗口大小为 2x2 、步长为 2</p>
+</li>
+<li><p>经过一次池化操作，其后卷积层的卷积核个数就增加一倍 ，直至到达 512</p>
+</li>
+<li><p>全连接层中也使用了Dropout策略</p>
+</li>
+</ul>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><img src="./images/%E5%B0%8F%E5%8D%B7%E7%A7%AF.png" alt="小卷积"></p>
+<p><img src="./images/%E6%80%9D%E8%80%832.png" alt="思考2"></p>
+<p><img src="./images/%E6%80%9D%E8%80%833.png" alt="思考3"></p>
+<h3 id="经典网络解析——GoogLeNet"><a href="#经典网络解析——GoogLeNet" class="headerlink" title="经典网络解析——GoogLeNet"></a>经典网络解析——GoogLeNet</h3><p>GoogleNet的创新点</p>
+<ul>
+<li><p>提出了一种 Inception 结构，它能保留输入信号中的更多特征信息；</p>
+</li>
+<li><p>去掉了 AlexNet 的前两个全连接层，并采用了平均池化，这一设计使得GoogLeNet 只有 500 万参数，比 AlexNet 少了 12 倍；</p>
+</li>
+<li><p>在网络的中部引入了辅助分类器，克服了训练过程中的梯度消失问题。</p>
+</li>
+</ul>
+<p><img src="./images/GoogleNet%E7%BD%91%E7%BB%9C.jpg" alt="GoogleNet网络"></p>
+<p><img src="./images/Inception%E6%A8%A1%E5%9D%97.png" alt="Inception模块"><br><img src="./images/Inception%E6%A8%A1%E5%9D%97v1.png" alt="Inception模块v1"></p>
+<p><code>层数更深、参数更少、计算效率更高、非线性表达能力也更强</code></p>
+<p>GoogleNet的后面几层<br><img src="./images/GoogleNet%E6%B7%B1%E5%B1%82.png" alt="GoogleNet深层"></p>
+<ul>
+<li><p>VGG 的第一个全连接层参数占了整个网络 74% 的参数 ，需dropout策略应对过拟合。</p>
+</li>
+<li><p>GoogLeNet 采用平均池化 GoogLeNet 的参数总量不到 500 万，无须使用 Dropout 策略 。</p>
+</li>
+</ul>
+<p><img src="./images/%E8%BE%85%E5%8A%A9%E5%88%86%E7%B1%BB%E5%99%A8.png" alt="辅助分类器"></p>
+<h6 id="为什么引入辅助分类器？"><a href="#为什么引入辅助分类器？" class="headerlink" title="为什么引入辅助分类器？"></a>为什么引入辅助分类器？</h6><p>原因：虽然 ReLU 单元能够一定程度解决梯度消失问题，但是并不能完全解决深层网络难以训练的问题 。 离输出远的层就不如靠近输出的层训练得好。</p>
+<p>结果：让低层的卷积层学习到的特征也有很好的区分能力，从而让网络更好地被训练，而且低层的卷积层学到了好的特征也能加速整个网络的收敛。</p>
+<p>网络推断：仅利用网络最后的输出作为预测结果，忽略辅助分类器的输出。</p>
+<h5 id="思考-1"><a href="#思考-1" class="headerlink" title="思考"></a>思考</h5><p>问题1: 平均池化向量化与直接展开向量化有什么区别？</p>
+<ul>
+<li><p>特征响应图上每个位置的值反应了图像对应位置的结构与卷积核记录的语义结构的相似程度</p>
+</li>
+<li><p>平均池化丢失了语义结构的空间位置信息</p>
+</li>
+<li><p>忽略语义结构的位置信息，有助于提升卷积层提取到的特征的平移不变性</p>
+</li>
+</ul>
+<p>问题2: 利用 1x1 卷积进行压缩会损失信息吗？<br><img src="./images/1%C3%971%E5%8E%8B%E7%BC%A9.png" alt="1×1压缩"></p>
+<ul>
+<li><p>位置A的这个 64 维向量是一个非常稀疏向量</p>
+</li>
+<li><p>利用1x1卷积进行非线性压缩通常不会损失信息。</p>
+</li>
+</ul>
+<h4 id="经典网络解析——ResNet"><a href="#经典网络解析——ResNet" class="headerlink" title="经典网络解析——ResNet"></a>经典网络解析——ResNet</h4><p>实验：持续向一个“基础”的卷积神经网络上面叠加更深的层数会发生什么？<br><img src="./images/Res.png" alt="Res"></p>
+<p>ResNet具有以下贡献：</p>
+<ul>
+<li><p>提出了一种残差模块，通过堆叠残差模块可以构建任意<br>深度的神经网络，而不会出现“退化”现象。</p>
+</li>
+<li><p>提出了批归一化方法来对抗梯度消失，该方法降低了网<br>络训练过程对于权重初始化的依赖；</p>
+</li>
+<li><p>提出了一种针对 ReLU 激活函数的初始化方法；</p>
+</li>
+</ul>
+<p><img src="./images/%E6%AE%8B%E5%B7%AE%E6%A8%A1%E5%9D%97.png" alt="残差模块"><br>研究者考虑了这样一个问题<br>浅层网络学习到了有效的分类模式后，如何向上堆积新层来建立更深的网络， 使其满足即使不能提升浅层网络的性能，深层网络也不应降低性能。</p>
+<p>解决方案：残差模块<br>假设卷积层学习的变换为$𝐹(𝑋)$ ，残差结构的输出是$𝐻(𝑋)$ ，则有：<br>$$<br>𝐻(𝑋)  =  𝐹(𝑋)  + 𝑋 \<br>F(X) = H(X) - X<br>$$<br>残差(F(x))也是由此得来</p>
+<p>关于残差结构：</p>
+<ol>
+<li><p>残差结构能够避免普通的卷积层堆叠存在信息丢失问题 保证前向信息流的顺畅 。</p>
+</li>
+<li><p>残差结构能够应对梯度反传过程中的梯度消失问题 保证反向梯度流的通顺 。</p>
+</li>
+</ol>
+<h6 id="思考-2"><a href="#思考-2" class="headerlink" title="思考"></a>思考</h6><p><img src="./images/%E7%93%B6%E9%A2%88%E7%BB%93%E6%9E%84.png" alt="瓶颈结构"><br>问题1：为什么在残差结构里是先1×1卷积再3×1再1×1，有什么好处？</p>
+<p>先通过1×1卷积，将数据压缩(不降低数据量)，减少数据参数和计算，最后再放大成原来的通道数。</p>
+<p>问题2：为什么残差网络性能这么好？<br>一种典型的解释：残差网络可以看作是一种集成模型！<br><img src="./images/%E5%B1%95%E5%BC%80%E7%9A%84%E6%AE%8B%E5%B7%AE.png" alt="瓶颈结构"><br>看成多个子网络的集成<br>结论：残差网络是一种集成模型,这是重要特点也是它高效的一个原因！</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>介绍了 5 种经典的卷积神经网络 AlexNet、 ZFNet、 VGG、 GoogLeNet 和 ResNet</p>
+<p>残差网络和 Inception V4 是 公认 的推广性能最好的两个分类模型</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/4.%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="prev" title="">
+                  <i class="fa fa-chevron-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhouxy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
