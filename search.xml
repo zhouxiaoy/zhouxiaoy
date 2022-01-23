@@ -21,7 +21,90 @@
   <entry>
     <title>我的第一篇博客</title>
     <url>/2022/01/23/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3>]]></content>
+    <content><![CDATA[<hr>
+<p>title: 图像分类<br>date: 2022-01-23 19:45:55<br>tags:<br>categories: categories</p>
+<hr>
+<h3 id="图像分类"><a href="#图像分类" class="headerlink" title="图像分类"></a>图像分类</h3><h4 id="1-什么是图像分类任务？"><a href="#1-什么是图像分类任务？" class="headerlink" title="1. 什么是图像分类任务？"></a>1. 什么是图像分类任务？</h4><p>图像分类：从一至的类别标签中为给定的输入图片选定一个标签。eg：标签：{狗，猫，卡车，飞机，…}</p>
+<h4 id="2-它有哪些应用场景？"><a href="#2-它有哪些应用场景？" class="headerlink" title="2. 它有哪些应用场景？"></a>2. 它有哪些应用场景？</h4><ul>
+<li>淘宝搜索同类宝贝</li>
+<li>识别个人不认识的动物/植物</li>
+</ul>
+<p><code>即将语言不好描述的东西，使用图像描述来识别。</code><br><code>跨越&quot;语义鸿沟&quot;建立像素到语义的映射</code></p>
+<h4 id="3-图像识别有哪些难点"><a href="#3-图像识别有哪些难点" class="headerlink" title="3. 图像识别有哪些难点"></a>3. 图像识别有哪些难点</h4><ul>
+<li>视角<br><img src="./images/%E8%A7%86%E8%A7%92.png" alt="视角"></li>
+<li>光照<br><img src="./images/%E5%85%89%E7%85%A7.png" alt="光照"></li>
+<li>尺度<br><img src="./images/%E5%B0%BA%E5%BA%A6.png" alt="尺度"><br>即不管人站的近还是远，都能识别出人脸</li>
+<li>遮挡<br><img src="./images/%E9%81%AE%E6%8C%A1.png" alt="遮挡"></li>
+<li>形变<br><img src="./images/%E5%BD%A2%E5%8F%98.png" alt="形变"></li>
+<li>背景杂波<br><img src="./images/%E8%83%8C%E6%99%AF%E6%9D%82%E6%B3%A2.png" alt="背景杂波"></li>
+<li>类内形变(多形态)<br><img src="./images/%E7%B1%BB%E5%86%85%E5%BD%A2%E5%8F%98.png" alt="类内形变"></li>
+<li>运动模糊<br><img src="./images/%E8%BF%90%E5%8A%A8%E6%A8%A1%E7%B3%8A.png" alt="运动模糊"><br>可以使用高速相机或将图像恢复成正常状态来进行识别</li>
+<li>类别繁多<br><img src="./images/%E7%B1%BB%E5%88%AB%E7%B9%81%E5%A4%9A.png" alt="类别繁多"></li>
+</ul>
+<p><code>不是每个识别都要处理所有的难点，而是根据场景的不同，处理部分的难点。</code></p>
+<h4 id="4-基于规则的方法是否可行？"><a href="#4-基于规则的方法是否可行？" class="headerlink" title="4. 基于规则的方法是否可行？"></a>4. 基于规则的方法是否可行？</h4><p>通过<code>硬编码</code>的方法识别猫或其他类，是一件<code>很困难</code>的事。</p>
+<h4 id="5-什么是数据驱动的图像分类"><a href="#5-什么是数据驱动的图像分类" class="headerlink" title="5. 什么是数据驱动的图像分类"></a>5. 什么是数据驱动的图像分类</h4><p>数据驱动的图像分类步骤：</p>
+<ol>
+<li>数据集构建</li>
+<li>分类器设计与学习</li>
+<li>分类器决策<br><img src="./images/%E8%AE%AD%E7%BB%83%E6%AD%A5%E9%AA%A4.png" alt="训练步骤"></li>
+</ol>
+<h5 id="图像表示"><a href="#图像表示" class="headerlink" title="图像表示"></a>图像表示</h5><ul>
+<li>像素表示<ul>
+<li>全局特征表示(GIST)</li>
+<li>局部特征表示(SIFT特征+词袋模型)</li>
+</ul>
+</li>
+</ul>
+<h5 id="分类器"><a href="#分类器" class="headerlink" title="分类器"></a>分类器</h5><ul>
+<li>近邻分类器</li>
+<li>贝叶斯分类器</li>
+<li><code>线性分类器</code></li>
+<li>支持向量机分类器</li>
+<li><code>神经网络分类器</code></li>
+<li>随机森林</li>
+<li>adaboost</li>
+</ul>
+<h5 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h5><ul>
+<li>0-1损失</li>
+<li>多类支撑向量机损失</li>
+<li>交叉熵损失</li>
+<li>L1损失</li>
+<li>L2损失</li>
+<li>折页损失</li>
+</ul>
+<h5 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h5><p>一阶方法</p>
+<ul>
+<li>梯度下降</li>
+<li>随机梯度</li>
+<li>小批量梯度下降</li>
+</ul>
+<p>二阶方法</p>
+<ul>
+<li>牛顿法</li>
+<li>BFGS</li>
+<li>L-BFGS</li>
+</ul>
+<h5 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h5><ul>
+<li>数据集划分</li>
+<li>数据预处理</li>
+<li>数据增强</li>
+<li>欠拟合和过拟合<ul>
+<li>减小算法复杂度</li>
+<li>使用权重正则项</li>
+<li>使用droput正则化</li>
+</ul>
+</li>
+<li>超参数调整</li>
+<li>模型集成</li>
+</ul>
+<h4 id="5-常用分类任务的评价指标"><a href="#5-常用分类任务的评价指标" class="headerlink" title="5. 常用分类任务的评价指标"></a>5. 常用分类任务的评价指标</h4><ul>
+<li><p>正确率：分对的样本数/全部样本数</p>
+</li>
+<li><p>错误率：1 - 正确率</p>
+</li>
+</ul>
+]]></content>
       <categories>
         <category>CV</category>
       </categories>
