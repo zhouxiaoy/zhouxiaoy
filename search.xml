@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>图像分类</title>
+    <title>图像分类任务介绍</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/1.%20%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h3 id="图像分类"><a href="#图像分类" class="headerlink" title="图像分类"></a>图像分类</h3><h4 id="1-什么是图像分类任务？"><a href="#1-什么是图像分类任务？" class="headerlink" title="1. 什么是图像分类任务？"></a>1. 什么是图像分类任务？</h4><p>图像分类：从一至的类别标签中为给定的输入图片选定一个标签。eg：标签：{狗，猫，卡车，飞机，…}</p>
 <h4 id="2-它有哪些应用场景？"><a href="#2-它有哪些应用场景？" class="headerlink" title="2. 它有哪些应用场景？"></a>2. 它有哪些应用场景？</h4><ul>
@@ -85,11 +85,11 @@
 </ul>
 ]]></content>
       <categories>
-        <category>categories</category>
+        <category>cv</category>
       </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>全连接神经网络</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/2.%20%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[<h1 id="全连接神经网络"><a href="#全连接神经网络" class="headerlink" title="全连接神经网络"></a>全连接神经网络</h1><h5 id="全连接神经网络组成"><a href="#全连接神经网络组成" class="headerlink" title="全连接神经网络组成"></a>全连接神经网络组成</h5><p>一个输入层、一个输出层以及多个隐层</p>
 <p>输入层与输出层的神经元个数由任务决定，而隐层数量以及每个隐层的神经元个数需要人为指定</p>
@@ -213,9 +213,12 @@
 </ul>
 <p><code>对于学习率、正则项强度这类超参数，在对数空间上进行随机采样更合适！（不敏感）即：0.0001， 0.001，0.01，0.1，1</code></p>
 ]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>卷积神经网络</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/4.%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[<h2 id="卷积神经网络CNN"><a href="#卷积神经网络CNN" class="headerlink" title="卷积神经网络CNN"></a>卷积神经网络CNN</h2><p>网络主要成分：</p>
 <ul>
@@ -316,9 +319,12 @@
 <li>裁剪<br>…</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>图像分割&amp;目标检测</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
     <content><![CDATA[<h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
 <ul>
@@ -351,9 +357,12 @@
 <p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：<br>$$<br>X = C^T Y<br>$$<br>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
 <p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
 ]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>CNN经典神经网络解析</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h2 id="经典网络解析"><a href="#经典网络解析" class="headerlink" title="经典网络解析"></a>经典网络解析</h2><ul>
 <li><p>AlexNet</p>
@@ -522,9 +531,12 @@
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>介绍了 5 种经典的卷积神经网络 AlexNet、 ZFNet、 VGG、 GoogLeNet 和 ResNet</p>
 <p>残差网络和 Inception V4 是 公认 的推广性能最好的两个分类模型</p>
 ]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
   </entry>
   <entry>
-    <title></title>
+    <title>卷积、噪音、纹理</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/3.%20%E5%8D%B7%E7%A7%AF%E3%80%81%E5%99%AA%E9%9F%B3%E3%80%81%E7%BA%B9%E7%90%86/</url>
     <content><![CDATA[<h2 id="卷积与图像去噪"><a href="#卷积与图像去噪" class="headerlink" title="卷积与图像去噪"></a>卷积与图像去噪</h2><h3 id="图像类型"><a href="#图像类型" class="headerlink" title="图像类型"></a>图像类型</h3><ul>
 <li><ol>
@@ -712,5 +724,8 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
   </entry>
 </search>
