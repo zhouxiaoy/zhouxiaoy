@@ -550,83 +550,6 @@ D_2 = K</script><code>作用：保持输入、输出尺寸的一致</code></li>
       </tags>
   </entry>
   <entry>
-    <title>图像分割&amp;目标检测</title>
-    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
-    <content><![CDATA[<h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
-<ul>
-<li>分类：不考虑空间位置</li>
-<li>语义分割：像素的类别</li>
-<li>目标检测：多目标</li>
-<li>实例分割：多目标</li>
-</ul>
-<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
-<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/滑动窗口示例.gif" alt="滑动窗口示例"></p>
-<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/滑动窗口.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
-<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN网络结构.jpg" alt="FCN网络结构"></p>
-<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
-<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <strong><em>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</em></strong> 。</p>
-<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN工作过程.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
-<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
-<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
-<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
-<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/全卷积.png" alt="全卷积"></p>
-<p><code>问题：什么是上采样呢？</code></p>
-<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
-<ul>
-<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
-</li>
-<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
-</li>
-<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：</p>
-<script type="math/tex; mode=display">
-input = \begin{bmatrix}
-x_1 & x_2 & x_3 & x_4 \\
-x_6 & x_7 & x_8 & x_9 \\
-x_{10} & x_{11} & x_{12} & x_{13} \\
-x_{14} & x_{15} & x_{16} & x_{17} \\
-\end{bmatrix} 
-\\
-kernel = \begin{bmatrix}
-w_{0,0} & w_{0,1} & w_{0,2} \\
-w_{1,0} & w_{1,1} & w_{1,2} \\
-w_{2,0} & w_{2,1} & w_{2,2} \\
-\end{bmatrix}</script><p>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output</p>
-<script type="math/tex; mode=display">
-output=\begin{bmatrix}
-y_0 & y_1 \\
-y_2 & y_3 \\
-\end{bmatrix}</script><p>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：</p>
-<script type="math/tex; mode=display">
-X = \begin{bmatrix}
-x_1 \\ x_2 \\...\\x_17
-\end{bmatrix}
-\\
-Y = \begin{bmatrix}
-y_0 \\ y_1 \\ y_2 \\y_3
-\end{bmatrix}</script><p>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：</p>
-<script type="math/tex; mode=display">
-Y = C X</script><p>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：</p>
-<script type="math/tex; mode=display">
-C = \begin{bmatrix}
-w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0 & 0\\
-0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0\\
-0 & 0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2}\\
-\end{bmatrix}</script></li>
-</ul>
-<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：</p>
-<script type="math/tex; mode=display">
-X = C^T Y</script><p>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
-<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
-]]></content>
-      <categories>
-        <category>cv</category>
-      </categories>
-      <tags>
-        <tag>图像分割</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CNN经典神经网络解析</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h2 id="经典网络解析"><a href="#经典网络解析" class="headerlink" title="经典网络解析"></a>经典网络解析</h2><ul>
@@ -803,6 +726,83 @@ F(X) = H(X) - X</script><p>残差(F(x))也是由此得来</p>
       </categories>
       <tags>
         <tag>论文</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图像分割&amp;目标检测</title>
+    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
+    <content><![CDATA[<h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
+<ul>
+<li>分类：不考虑空间位置</li>
+<li>语义分割：像素的类别</li>
+<li>目标检测：多目标</li>
+<li>实例分割：多目标</li>
+</ul>
+<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
+<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/滑动窗口示例.gif" alt="滑动窗口示例"></p>
+<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/滑动窗口.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
+<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN网络结构.jpg" alt="FCN网络结构"></p>
+<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
+<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <strong><em>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</em></strong> 。</p>
+<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN工作过程.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
+<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
+<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
+<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/全卷积.png" alt="全卷积"></p>
+<p><code>问题：什么是上采样呢？</code></p>
+<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
+<ul>
+<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
+</li>
+<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
+</li>
+<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：</p>
+<script type="math/tex; mode=display">
+input = \begin{bmatrix}
+x_1 & x_2 & x_3 & x_4 \\
+x_6 & x_7 & x_8 & x_9 \\
+x_{10} & x_{11} & x_{12} & x_{13} \\
+x_{14} & x_{15} & x_{16} & x_{17} \\
+\end{bmatrix} 
+\\
+kernel = \begin{bmatrix}
+w_{0,0} & w_{0,1} & w_{0,2} \\
+w_{1,0} & w_{1,1} & w_{1,2} \\
+w_{2,0} & w_{2,1} & w_{2,2} \\
+\end{bmatrix}</script><p>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output</p>
+<script type="math/tex; mode=display">
+output=\begin{bmatrix}
+y_0 & y_1 \\
+y_2 & y_3 \\
+\end{bmatrix}</script><p>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：</p>
+<script type="math/tex; mode=display">
+X = \begin{bmatrix}
+x_1 \\ x_2 \\...\\x_17
+\end{bmatrix}
+\\
+Y = \begin{bmatrix}
+y_0 \\ y_1 \\ y_2 \\y_3
+\end{bmatrix}</script><p>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：</p>
+<script type="math/tex; mode=display">
+Y = C X</script><p>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：</p>
+<script type="math/tex; mode=display">
+C = \begin{bmatrix}
+w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0 & 0\\
+0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0\\
+0 & 0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2}\\
+\end{bmatrix}</script></li>
+</ul>
+<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：</p>
+<script type="math/tex; mode=display">
+X = C^T Y</script><p>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
+<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
+]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
+      <tags>
+        <tag>图像分割</tag>
       </tags>
   </entry>
 </search>
