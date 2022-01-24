@@ -92,6 +92,116 @@
       </tags>
   </entry>
   <entry>
+    <title>卷积神经网络</title>
+    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/4.%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h2 id="卷积神经网络CNN"><a href="#卷积神经网络CNN" class="headerlink" title="卷积神经网络CNN"></a>卷积神经网络CNN</h2><p>网络主要成分：</p>
+<ul>
+<li>CONV————卷积层</li>
+<li>RELU————激活层</li>
+<li>POOL————池化层</li>
+<li>FC————全连接层</li>
+</ul>
+<h5 id="卷积网络中的卷积核"><a href="#卷积网络中的卷积核" class="headerlink" title="卷积网络中的卷积核"></a>卷积网络中的卷积核</h5><p>卷积核：</p>
+<ul>
+<li><p>不仅具有宽 和 高 还具有深度 ，常写成如下形式<br>  宽度 x 高度 x 深度</p>
+</li>
+<li><p>卷积核参数不仅包括核中存储的权值，还包括一个偏置值</p>
+</li>
+</ul>
+<p><img src="./images/卷积核示意图.png" alt="卷积核示意图"></p>
+<h5 id="卷积网络中的卷积操作"><a href="#卷积网络中的卷积操作" class="headerlink" title="卷积网络中的卷积操作"></a>卷积网络中的卷积操作</h5><p>卷积结果，计算过程如下：</p>
+<ul>
+<li><p>将卷积核展成一个 5x5x3 的向量，同时将其覆盖的图像区域按相同的展开方式展成 5x5x3 的向量</p>
+</li>
+<li><p>计算两者的点乘。</p>
+</li>
+<li><p>在点乘的结果上加上偏移量</p>
+</li>
+</ul>
+<p>公式如下：</p>
+<script type="math/tex; mode=display">
+𝒘𝑻x + 𝑏</script><p>$𝒘$为卷积核的权值， $𝑏$为卷积核的偏置<br><code>特征响应图中每个位置上的值反映了图像上对应位置是否存在卷积核所记录的基元结构信息</code></p>
+<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><ul>
+<li><p>特征响应图组深度等于卷积核的个数</p>
+</li>
+<li><p>不同的特征响应图反映了输入图像对不同卷积核的响应结果；</p>
+</li>
+<li><p>同一特征响应图上不同位置的值表示输入图像上不同位置对同一卷积核的响应结果。<br><code>注意：卷积层输入不局限于图像，可以是任意三维数据矩阵该层的卷积核深度要求与输入的 三维 矩阵的深度一致 。</code></p>
+<h5 id="卷积步长-stride"><a href="#卷积步长-stride" class="headerlink" title="卷积步长(stride)"></a>卷积步长(stride)</h5><p>卷积神经网络中，卷积核可以按照指定的间隔进行卷积操作这个间隔就是 <strong><em>卷积步长</em></strong> 。</p>
+</li>
+</ul>
+<h5 id="边界填充-padding"><a href="#边界填充-padding" class="headerlink" title="边界填充(padding)"></a>边界填充(padding)</h5><p>卷积神经网络中最常用的填充方式是 <strong><em>零值填充</em></strong> 。</p>
+<h5 id="常见的字母缩写及尺寸计算"><a href="#常见的字母缩写及尺寸计算" class="headerlink" title="常见的字母缩写及尺寸计算"></a>常见的字母缩写及尺寸计算</h5><ul>
+<li>F————卷积核 尺寸</li>
+<li>S————卷积步长</li>
+<li>P————零填充 数量</li>
+<li><p>K————卷积核个数</p>
+</li>
+<li><p>输入数据矩阵尺寸：$W_1 × H_1 × D_1$</p>
+</li>
+<li>输出特征图组尺寸：$W_2 × H_2 × D_2$<br>$W_2$ 与 $W_1$ 关系如下：<script type="math/tex; mode=display">
+W_2=(W_1F+2P)/S+1\\
+H_2=(H_2F +2P)/S+1\\
+D_2 = K</script><code>作用：保持输入、输出尺寸的一致</code></li>
+</ul>
+<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><ul>
+<li><p>池化的作用：对 每一个特征响应图独立进行 降低特征响应图组中每个特征响应图的宽度和高度，减少 后续卷积层的 参数的数量， 降低 计算资源耗费 ，进而 控制过拟合。</p>
+</li>
+<li><p>池化操作：对特征响应图某个区域进行池化就是在该区域上指定一个值来代表整个区域 。</p>
+</li>
+<li><p>常见的池化操作：</p>
+<ul>
+<li><p>最大池化 使用区域内的最大值来代表这个区域；</p>
+</li>
+<li><p>平均池化 采用区域内所有值的均值作为代表。</p>
+</li>
+</ul>
+</li>
+<li><p>池化层的超参数： 池化窗口和池化步长</p>
+</li>
+</ul>
+<h5 id="池化操作示例"><a href="#池化操作示例" class="headerlink" title="池化操作示例"></a>池化操作示例</h5><ul>
+<li><p>池化操作对每一个特征响应图独立进行</p>
+</li>
+<li><p>对特征响应图某个区域进行池化就是在该区域上指定一个值来代表整个区域 。</p>
+</li>
+</ul>
+<p><img src="./images/池化操作.png" alt="池化操作"></p>
+<h4 id="损失函数-amp-优化算法"><a href="#损失函数-amp-优化算法" class="headerlink" title="损失函数 &amp; 优化算法"></a>损失函数 &amp; 优化算法</h4><ul>
+<li><p>损失函数 ：交叉熵损失</p>
+</li>
+<li><p>优化算法 SGD 、带动量的 SGD 以及 ADAM</p>
+</li>
+</ul>
+<h5 id="图像增强"><a href="#图像增强" class="headerlink" title="图像增强"></a>图像增强</h5><ul>
+<li><p>存在的问题 ：过拟合的原因是学习样本太少，导致无法训练出能够泛化到新数据的模型。</p>
+</li>
+<li><p>数据增强 ：是从现有的训练样本中生成更多的训练数据，其方法是利用多种能够生成可信图像的随机变换来增加样本。</p>
+</li>
+<li><p>数据增强的目标 ：模型在训练时不会两次查看完全相同的图像。这让模型能够观察到数据的更多内容，从而具有更好的泛化能力</p>
+</li>
+</ul>
+<h6 id="样本增强——翻转"><a href="#样本增强——翻转" class="headerlink" title="样本增强——翻转"></a>样本增强——翻转</h6><p><img src="./images/图像增强-翻转.png" alt="图像增强-翻转"></p>
+<h6 id="样本增强——随机缩放-amp-抠图"><a href="#样本增强——随机缩放-amp-抠图" class="headerlink" title="样本增强——随机缩放 &amp; 抠图"></a>样本增强——随机缩放 &amp; 抠图</h6><p><img src="./images/随机缩放&amp;抠图.png" alt="图像增强-随机缩放&amp;抠图"></p>
+<h6 id="样本增强——色彩抖动"><a href="#样本增强——色彩抖动" class="headerlink" title="样本增强——色彩抖动"></a>样本增强——色彩抖动</h6><p>操作步骤：<br>1.利用主成分分析方法提取当前图像的色彩数据([R G B])的主轴<br>2.沿着主轴方向随机采样一个偏移；<br>3.将偏移量加入当前图像的每个像素。</p>
+<p><img src="./images/色彩抖动.png" alt="图像增强-色彩抖动"></p>
+<h6 id="样本增强——其他方案"><a href="#样本增强——其他方案" class="headerlink" title="样本增强——其他方案"></a>样本增强——其他方案</h6><p>随机联合下述操作</p>
+<ul>
+<li>平移</li>
+<li>旋转</li>
+<li>拉伸</li>
+<li>径向畸变（相关描述见摄像机几何章节）</li>
+<li>裁剪<br>…</li>
+</ul>
+]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
+      <tags>
+        <tag>CNN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>全连接神经网络</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/2.%20%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[<h1 id="全连接神经网络"><a href="#全连接神经网络" class="headerlink" title="全连接神经网络"></a>全连接神经网络</h1><h5 id="全连接神经网络组成"><a href="#全连接神经网络组成" class="headerlink" title="全连接神经网络组成"></a>全连接神经网络组成</h5><p>一个输入层、一个输出层以及多个隐层</p>
@@ -231,372 +341,6 @@ y = f(w_1 * z_1 + w_2 * z_2 + ... + w_N * z_N)</script><p><img src="./images/Xav
       </categories>
       <tags>
         <tag>DNN</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CNN经典神经网络解析</title>
-    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="经典网络解析"><a href="#经典网络解析" class="headerlink" title="经典网络解析"></a>经典网络解析</h2><ul>
-<li><p>AlexNet</p>
-</li>
-<li><p>ZFNet</p>
-</li>
-<li><p>VGG</p>
-</li>
-<li><p>GoogleNet</p>
-</li>
-<li><p>ResNet</p>
-</li>
-</ul>
-<h4 id="经典网络解析——AlexNet"><a href="#经典网络解析——AlexNet" class="headerlink" title="经典网络解析——AlexNet"></a>经典网络解析——AlexNet</h4><p>AlexNet——验证了深度卷积神经网络 的高效性</p>
-<ul>
-<li><p>主体贡献：<br>  1.提出了一种卷积层加全连接层的卷积神经网络结构<br>  2.首次使用 ReLU 函数 做为 神经网络的 激活函数<br>  3.首次提出 Dropout 正则化来控制过拟合<br>  4.使用加入动量的小批量 梯度下降算法加速了 训练过程的 收敛；<br>  5.使用数据增强策略，极大地抑制了训练过程的 过拟合；<br>  6.利用了GPU的并行计算能力，加速了网络的训练与推断。<br><img src="./images/Alex网络架构.jpg" alt="Alex网络架构"><br><img src="./images/Alex结构.png" alt="Alex结构"><br><code>NORM 是局部响应归一化层</code></p>
-</li>
-<li><p>层数统计说明：</p>
-<ul>
-<li><p>计算网络层数时，仅统计卷积层与全连接层；</p>
-</li>
-<li><p>池化层与各种归一化层都是对它们前面卷积层输出的特征图进行后处理，不单独算作一层。</p>
-</li>
-<li><p>AlexNet共8层</p>
-<ul>
-<li><p>5 个卷积层 (CONV1 CONV5)</p>
-</li>
-<li><p>3 个全连接层 (FC6 FC8)</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><code>在第3，4层卷积层没有进行最大池化与局部归一化</code></p>
-<ul>
-<li><p>重要说明</p>
-<ul>
-<li><p>用于提取图像特征的卷积层以及用于分类的全连接层是同时学习的</p>
-</li>
-<li><p>卷积层与全连接层在学习过程中会相互影响、相互促进</p>
-</li>
-</ul>
-</li>
-<li><p>重要技巧</p>
-<ul>
-<li>Dropout 策略防止过拟合</li>
-<li><p>使用加入动量的随机梯度下降算法 ，加速收敛</p>
-</li>
-<li><p>验证集损失不下降时 手动降低 10 倍的学习率</p>
-</li>
-<li><p>采用样本增强策略增加训练样本数量， 防止过拟合；</p>
-</li>
-<li><p>集成多个模型，进一步提高精度。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h6 id="AlexNet-卷积层在做什么？"><a href="#AlexNet-卷积层在做什么？" class="headerlink" title="AlexNet 卷积层在做什么？"></a>AlexNet 卷积层在做什么？</h6><ul>
-<li><p>从数据中学习对于分类有意义的结构特征，</p>
-</li>
-<li><p>描述输入图像中的结构信息</p>
-</li>
-<li><p>描述结果存储在 256 个 6 × 6 的特征响应图里。</p>
-</li>
-</ul>
-<h3 id="经典网络解析——ZFNet"><a href="#经典网络解析——ZFNet" class="headerlink" title="经典网络解析——ZFNet"></a>经典网络解析——ZFNet</h3><p>与AlexNet网络结构基本一致</p>
-<p>主要改进：</p>
-<ul>
-<li>将第一个卷积层的卷积核大小改为了 7 × 7(可以感受更细致的东西，浅层丢掉细致的东西，后面无法学习)</li>
-<li>将第二、第三个卷积层的卷积步长都设置为 2(图像信息尺度减少速度不会太快，能多学特征信息)</li>
-<li>增加了第三、第四个卷积层的卷积核个数。(层数高了后会学到语义信息，卷积核个数太少描述不好，就学不好；如：同一张图的猫的头朝向，角度等等)<br><img src="./images/Alex结构.png" alt="Alex结构"></li>
-</ul>
-<h3 id="经典网络解析——VGG"><a href="#经典网络解析——VGG" class="headerlink" title="经典网络解析——VGG"></a>经典网络解析——VGG</h3><p>VGG网络贡献：</p>
-<ul>
-<li><p>使用尺寸更小的 3x3 卷积核串联来获得更大的感受野</p>
-</li>
-<li><p>放弃使用 11x11 和 5x5 这样的大尺寸卷积核</p>
-</li>
-<li><p>深度更深、非线性更强，网络的参数也更少</p>
-</li>
-<li><p>去掉了 AlexNet 中的局部响应归一化层（ LRN ）层 。</p>
-</li>
-</ul>
-<p><img src="./images/VGG结构.png" alt="VGG结构"></p>
-<p>VGG16</p>
-<ul>
-<li><p>13 个卷积层与 3 个全连接</p>
-</li>
-<li><p>分为 5 段 conv1,…,conv5 每一段中卷积层的卷积核个数均相同</p>
-</li>
-<li><p>卷积层均采用 3x3 的卷积核及 ReLU 激活函数；</p>
-</li>
-<li><p>所有的池化层都采用最大池化，其窗口大小为 2x2 、步长为 2</p>
-</li>
-<li><p>经过一次池化操作，其后卷积层的卷积核个数就增加一倍 ，直至到达 512</p>
-</li>
-<li><p>全连接层中也使用了Dropout策略</p>
-</li>
-</ul>
-<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><img src="./images/小卷积.png" alt="小卷积"></p>
-<p><img src="./images/思考2.png" alt="思考2"></p>
-<p><img src="./images/思考3.png" alt="思考3"></p>
-<h3 id="经典网络解析——GoogLeNet"><a href="#经典网络解析——GoogLeNet" class="headerlink" title="经典网络解析——GoogLeNet"></a>经典网络解析——GoogLeNet</h3><p>GoogleNet的创新点</p>
-<ul>
-<li><p>提出了一种 Inception 结构，它能保留输入信号中的更多特征信息；</p>
-</li>
-<li><p>去掉了 AlexNet 的前两个全连接层，并采用了平均池化，这一设计使得GoogLeNet 只有 500 万参数，比 AlexNet 少了 12 倍；</p>
-</li>
-<li><p>在网络的中部引入了辅助分类器，克服了训练过程中的梯度消失问题。</p>
-</li>
-</ul>
-<p><img src="./images/GoogleNet网络.jpg" alt="GoogleNet网络"></p>
-<p><img src="./images/Inception模块.png" alt="Inception模块"><br><img src="./images/Inception模块v1.png" alt="Inception模块v1"></p>
-<p><code>层数更深、参数更少、计算效率更高、非线性表达能力也更强</code></p>
-<p>GoogleNet的后面几层<br><img src="./images/GoogleNet深层.png" alt="GoogleNet深层"></p>
-<ul>
-<li><p>VGG 的第一个全连接层参数占了整个网络 74% 的参数 ，需dropout策略应对过拟合。</p>
-</li>
-<li><p>GoogLeNet 采用平均池化 GoogLeNet 的参数总量不到 500 万，无须使用 Dropout 策略 。</p>
-</li>
-</ul>
-<p><img src="./images/辅助分类器.png" alt="辅助分类器"></p>
-<h6 id="为什么引入辅助分类器？"><a href="#为什么引入辅助分类器？" class="headerlink" title="为什么引入辅助分类器？"></a>为什么引入辅助分类器？</h6><p>原因：虽然 ReLU 单元能够一定程度解决梯度消失问题，但是并不能完全解决深层网络难以训练的问题 。 离输出远的层就不如靠近输出的层训练得好。</p>
-<p>结果：让低层的卷积层学习到的特征也有很好的区分能力，从而让网络更好地被训练，而且低层的卷积层学到了好的特征也能加速整个网络的收敛。</p>
-<p>网络推断：仅利用网络最后的输出作为预测结果，忽略辅助分类器的输出。</p>
-<h5 id="思考-1"><a href="#思考-1" class="headerlink" title="思考"></a>思考</h5><p>问题1: 平均池化向量化与直接展开向量化有什么区别？</p>
-<ul>
-<li><p>特征响应图上每个位置的值反应了图像对应位置的结构与卷积核记录的语义结构的相似程度</p>
-</li>
-<li><p>平均池化丢失了语义结构的空间位置信息</p>
-</li>
-<li><p>忽略语义结构的位置信息，有助于提升卷积层提取到的特征的平移不变性</p>
-</li>
-</ul>
-<p>问题2: 利用 1x1 卷积进行压缩会损失信息吗？<br><img src="./images/1×1压缩.png" alt="1×1压缩"></p>
-<ul>
-<li><p>位置A的这个 64 维向量是一个非常稀疏向量</p>
-</li>
-<li><p>利用1x1卷积进行非线性压缩通常不会损失信息。</p>
-</li>
-</ul>
-<h4 id="经典网络解析——ResNet"><a href="#经典网络解析——ResNet" class="headerlink" title="经典网络解析——ResNet"></a>经典网络解析——ResNet</h4><p>实验：持续向一个“基础”的卷积神经网络上面叠加更深的层数会发生什么？<br><img src="./images/Res.png" alt="Res"></p>
-<p>ResNet具有以下贡献：</p>
-<ul>
-<li><p>提出了一种残差模块，通过堆叠残差模块可以构建任意<br>深度的神经网络，而不会出现“退化”现象。</p>
-</li>
-<li><p>提出了批归一化方法来对抗梯度消失，该方法降低了网<br>络训练过程对于权重初始化的依赖；</p>
-</li>
-<li><p>提出了一种针对 ReLU 激活函数的初始化方法；</p>
-</li>
-</ul>
-<p><img src="./images/残差模块.png" alt="残差模块"><br>研究者考虑了这样一个问题<br>浅层网络学习到了有效的分类模式后，如何向上堆积新层来建立更深的网络， 使其满足即使不能提升浅层网络的性能，深层网络也不应降低性能。</p>
-<p>解决方案：残差模块<br>假设卷积层学习的变换为$𝐹(𝑋)$ ，残差结构的输出是$𝐻(𝑋)$ ，则有：</p>
-<script type="math/tex; mode=display">
-𝐻(𝑋)  =  𝐹(𝑋)  + 𝑋 \\
-F(X) = H(X) - X</script><p>残差(F(x))也是由此得来</p>
-<p>关于残差结构：</p>
-<ol>
-<li><p>残差结构能够避免普通的卷积层堆叠存在信息丢失问题 保证前向信息流的顺畅 。</p>
-</li>
-<li><p>残差结构能够应对梯度反传过程中的梯度消失问题 保证反向梯度流的通顺 。</p>
-</li>
-</ol>
-<h6 id="思考-2"><a href="#思考-2" class="headerlink" title="思考"></a>思考</h6><p><img src="./images/瓶颈结构.png" alt="瓶颈结构"><br>问题1：为什么在残差结构里是先1×1卷积再3×1再1×1，有什么好处？</p>
-<p>先通过1×1卷积，将数据压缩(不降低数据量)，减少数据参数和计算，最后再放大成原来的通道数。</p>
-<p>问题2：为什么残差网络性能这么好？<br>一种典型的解释：残差网络可以看作是一种集成模型！<br><img src="./images/展开的残差.png" alt="瓶颈结构"><br>看成多个子网络的集成<br>结论：残差网络是一种集成模型,这是重要特点也是它高效的一个原因！</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>介绍了 5 种经典的卷积神经网络 AlexNet、 ZFNet、 VGG、 GoogLeNet 和 ResNet</p>
-<p>残差网络和 Inception V4 是 公认 的推广性能最好的两个分类模型</p>
-]]></content>
-      <categories>
-        <category>cv</category>
-      </categories>
-      <tags>
-        <tag>论文</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>卷积神经网络</title>
-    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/4.%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h2 id="卷积神经网络CNN"><a href="#卷积神经网络CNN" class="headerlink" title="卷积神经网络CNN"></a>卷积神经网络CNN</h2><p>网络主要成分：</p>
-<ul>
-<li>CONV————卷积层</li>
-<li>RELU————激活层</li>
-<li>POOL————池化层</li>
-<li>FC————全连接层</li>
-</ul>
-<h5 id="卷积网络中的卷积核"><a href="#卷积网络中的卷积核" class="headerlink" title="卷积网络中的卷积核"></a>卷积网络中的卷积核</h5><p>卷积核：</p>
-<ul>
-<li><p>不仅具有宽 和 高 还具有深度 ，常写成如下形式<br>  宽度 x 高度 x 深度</p>
-</li>
-<li><p>卷积核参数不仅包括核中存储的权值，还包括一个偏置值</p>
-</li>
-</ul>
-<p><img src="./images/卷积核示意图.png" alt="卷积核示意图"></p>
-<h5 id="卷积网络中的卷积操作"><a href="#卷积网络中的卷积操作" class="headerlink" title="卷积网络中的卷积操作"></a>卷积网络中的卷积操作</h5><p>卷积结果，计算过程如下：</p>
-<ul>
-<li><p>将卷积核展成一个 5x5x3 的向量，同时将其覆盖的图像区域按相同的展开方式展成 5x5x3 的向量</p>
-</li>
-<li><p>计算两者的点乘。</p>
-</li>
-<li><p>在点乘的结果上加上偏移量</p>
-</li>
-</ul>
-<p>公式如下：</p>
-<script type="math/tex; mode=display">
-𝒘𝑻x + 𝑏</script><p>$𝒘$为卷积核的权值， $𝑏$为卷积核的偏置<br><code>特征响应图中每个位置上的值反映了图像上对应位置是否存在卷积核所记录的基元结构信息</code></p>
-<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><ul>
-<li><p>特征响应图组深度等于卷积核的个数</p>
-</li>
-<li><p>不同的特征响应图反映了输入图像对不同卷积核的响应结果；</p>
-</li>
-<li><p>同一特征响应图上不同位置的值表示输入图像上不同位置对同一卷积核的响应结果。<br><code>注意：卷积层输入不局限于图像，可以是任意三维数据矩阵该层的卷积核深度要求与输入的 三维 矩阵的深度一致 。</code></p>
-<h5 id="卷积步长-stride"><a href="#卷积步长-stride" class="headerlink" title="卷积步长(stride)"></a>卷积步长(stride)</h5><p>卷积神经网络中，卷积核可以按照指定的间隔进行卷积操作这个间隔就是 <strong><em>卷积步长</em></strong> 。</p>
-</li>
-</ul>
-<h5 id="边界填充-padding"><a href="#边界填充-padding" class="headerlink" title="边界填充(padding)"></a>边界填充(padding)</h5><p>卷积神经网络中最常用的填充方式是 <strong><em>零值填充</em></strong> 。</p>
-<h5 id="常见的字母缩写及尺寸计算"><a href="#常见的字母缩写及尺寸计算" class="headerlink" title="常见的字母缩写及尺寸计算"></a>常见的字母缩写及尺寸计算</h5><ul>
-<li>F————卷积核 尺寸</li>
-<li>S————卷积步长</li>
-<li>P————零填充 数量</li>
-<li><p>K————卷积核个数</p>
-</li>
-<li><p>输入数据矩阵尺寸：$W_1 × H_1 × D_1$</p>
-</li>
-<li>输出特征图组尺寸：$W_2 × H_2 × D_2$<br>$W_2$ 与 $W_1$ 关系如下：<script type="math/tex; mode=display">
-W_2=(W_1F+2P)/S+1\\
-H_2=(H_2F +2P)/S+1\\
-D_2 = K</script><code>作用：保持输入、输出尺寸的一致</code></li>
-</ul>
-<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><ul>
-<li><p>池化的作用：对 每一个特征响应图独立进行 降低特征响应图组中每个特征响应图的宽度和高度，减少 后续卷积层的 参数的数量， 降低 计算资源耗费 ，进而 控制过拟合。</p>
-</li>
-<li><p>池化操作：对特征响应图某个区域进行池化就是在该区域上指定一个值来代表整个区域 。</p>
-</li>
-<li><p>常见的池化操作：</p>
-<ul>
-<li><p>最大池化 使用区域内的最大值来代表这个区域；</p>
-</li>
-<li><p>平均池化 采用区域内所有值的均值作为代表。</p>
-</li>
-</ul>
-</li>
-<li><p>池化层的超参数： 池化窗口和池化步长</p>
-</li>
-</ul>
-<h5 id="池化操作示例"><a href="#池化操作示例" class="headerlink" title="池化操作示例"></a>池化操作示例</h5><ul>
-<li><p>池化操作对每一个特征响应图独立进行</p>
-</li>
-<li><p>对特征响应图某个区域进行池化就是在该区域上指定一个值来代表整个区域 。</p>
-</li>
-</ul>
-<p><img src="./images/池化操作.png" alt="池化操作"></p>
-<h4 id="损失函数-amp-优化算法"><a href="#损失函数-amp-优化算法" class="headerlink" title="损失函数 &amp; 优化算法"></a>损失函数 &amp; 优化算法</h4><ul>
-<li><p>损失函数 ：交叉熵损失</p>
-</li>
-<li><p>优化算法 SGD 、带动量的 SGD 以及 ADAM</p>
-</li>
-</ul>
-<h5 id="图像增强"><a href="#图像增强" class="headerlink" title="图像增强"></a>图像增强</h5><ul>
-<li><p>存在的问题 ：过拟合的原因是学习样本太少，导致无法训练出能够泛化到新数据的模型。</p>
-</li>
-<li><p>数据增强 ：是从现有的训练样本中生成更多的训练数据，其方法是利用多种能够生成可信图像的随机变换来增加样本。</p>
-</li>
-<li><p>数据增强的目标 ：模型在训练时不会两次查看完全相同的图像。这让模型能够观察到数据的更多内容，从而具有更好的泛化能力</p>
-</li>
-</ul>
-<h6 id="样本增强——翻转"><a href="#样本增强——翻转" class="headerlink" title="样本增强——翻转"></a>样本增强——翻转</h6><p><img src="./images/图像增强-翻转.png" alt="图像增强-翻转"></p>
-<h6 id="样本增强——随机缩放-amp-抠图"><a href="#样本增强——随机缩放-amp-抠图" class="headerlink" title="样本增强——随机缩放 &amp; 抠图"></a>样本增强——随机缩放 &amp; 抠图</h6><p><img src="./images/随机缩放&amp;抠图.png" alt="图像增强-随机缩放&amp;抠图"></p>
-<h6 id="样本增强——色彩抖动"><a href="#样本增强——色彩抖动" class="headerlink" title="样本增强——色彩抖动"></a>样本增强——色彩抖动</h6><p>操作步骤：<br>1.利用主成分分析方法提取当前图像的色彩数据([R G B])的主轴<br>2.沿着主轴方向随机采样一个偏移；<br>3.将偏移量加入当前图像的每个像素。</p>
-<p><img src="./images/色彩抖动.png" alt="图像增强-色彩抖动"></p>
-<h6 id="样本增强——其他方案"><a href="#样本增强——其他方案" class="headerlink" title="样本增强——其他方案"></a>样本增强——其他方案</h6><p>随机联合下述操作</p>
-<ul>
-<li>平移</li>
-<li>旋转</li>
-<li>拉伸</li>
-<li>径向畸变（相关描述见摄像机几何章节）</li>
-<li>裁剪<br>…</li>
-</ul>
-]]></content>
-      <categories>
-        <category>cv</category>
-      </categories>
-      <tags>
-        <tag>CNN</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图像分割&amp;目标检测</title>
-    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
-    <content><![CDATA[<h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
-<ul>
-<li>分类：不考虑空间位置</li>
-<li>语义分割：像素的类别</li>
-<li>目标检测：多目标</li>
-<li>实例分割：多目标</li>
-</ul>
-<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
-<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/滑动窗口示例.gif" alt="滑动窗口示例"></p>
-<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/滑动窗口.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
-<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN网络结构.jpg" alt="FCN网络结构"></p>
-<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
-<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <strong><em>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</em></strong> 。</p>
-<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN工作过程.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
-<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
-<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
-<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
-<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/全卷积.png" alt="全卷积"></p>
-<p><code>问题：什么是上采样呢？</code></p>
-<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
-<ul>
-<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
-</li>
-<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
-</li>
-<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：</p>
-<script type="math/tex; mode=display">
-input = \begin{bmatrix}
-x_1 & x_2 & x_3 & x_4 \\
-x_6 & x_7 & x_8 & x_9 \\
-x_{10} & x_{11} & x_{12} & x_{13} \\
-x_{14} & x_{15} & x_{16} & x_{17} \\
-\end{bmatrix} 
-\\
-kernel = \begin{bmatrix}
-w_{0,0} & w_{0,1} & w_{0,2} \\
-w_{1,0} & w_{1,1} & w_{1,2} \\
-w_{2,0} & w_{2,1} & w_{2,2} \\
-\end{bmatrix}</script><p>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output</p>
-<script type="math/tex; mode=display">
-output=\begin{bmatrix}
-y_0 & y_1 \\
-y_2 & y_3 \\
-\end{bmatrix}</script><p>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：</p>
-<script type="math/tex; mode=display">
-X = \begin{bmatrix}
-x_1 \\ x_2 \\...\\x_17
-\end{bmatrix}
-\\
-Y = \begin{bmatrix}
-y_0 \\ y_1 \\ y_2 \\y_3
-\end{bmatrix}</script><p>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：</p>
-<script type="math/tex; mode=display">
-Y = C X</script><p>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：</p>
-<script type="math/tex; mode=display">
-C = \begin{bmatrix}
-w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0 & 0\\
-0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0\\
-0 & 0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2}\\
-\end{bmatrix}</script></li>
-</ul>
-<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：</p>
-<script type="math/tex; mode=display">
-X = C^T Y</script><p>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
-<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
-]]></content>
-      <categories>
-        <category>cv</category>
-      </categories>
-      <tags>
-        <tag>图像分割</tag>
       </tags>
   </entry>
   <entry>
@@ -803,6 +547,262 @@ X = C^T Y</script><p>此时，即为新的 16×4 稀疏矩阵。以下通过转�
       </categories>
       <tags>
         <tag>卷积</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CNN经典神经网络解析</title>
+    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="经典网络解析"><a href="#经典网络解析" class="headerlink" title="经典网络解析"></a>经典网络解析</h2><ul>
+<li><p>AlexNet</p>
+</li>
+<li><p>ZFNet</p>
+</li>
+<li><p>VGG</p>
+</li>
+<li><p>GoogleNet</p>
+</li>
+<li><p>ResNet</p>
+</li>
+</ul>
+<h4 id="经典网络解析——AlexNet"><a href="#经典网络解析——AlexNet" class="headerlink" title="经典网络解析——AlexNet"></a>经典网络解析——AlexNet</h4><p>AlexNet——验证了深度卷积神经网络 的高效性</p>
+<ul>
+<li><p>主体贡献：<br>  1.提出了一种卷积层加全连接层的卷积神经网络结构<br>  2.首次使用 ReLU 函数 做为 神经网络的 激活函数<br>  3.首次提出 Dropout 正则化来控制过拟合<br>  4.使用加入动量的小批量 梯度下降算法加速了 训练过程的 收敛；<br>  5.使用数据增强策略，极大地抑制了训练过程的 过拟合；<br>  6.利用了GPU的并行计算能力，加速了网络的训练与推断。<br><img src="./images/Alex网络架构.jpg" alt="Alex网络架构"><br><img src="./images/Alex结构.png" alt="Alex结构"><br><code>NORM 是局部响应归一化层</code></p>
+</li>
+<li><p>层数统计说明：</p>
+<ul>
+<li><p>计算网络层数时，仅统计卷积层与全连接层；</p>
+</li>
+<li><p>池化层与各种归一化层都是对它们前面卷积层输出的特征图进行后处理，不单独算作一层。</p>
+</li>
+<li><p>AlexNet共8层</p>
+<ul>
+<li><p>5 个卷积层 (CONV1 CONV5)</p>
+</li>
+<li><p>3 个全连接层 (FC6 FC8)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>在第3，4层卷积层没有进行最大池化与局部归一化</code></p>
+<ul>
+<li><p>重要说明</p>
+<ul>
+<li><p>用于提取图像特征的卷积层以及用于分类的全连接层是同时学习的</p>
+</li>
+<li><p>卷积层与全连接层在学习过程中会相互影响、相互促进</p>
+</li>
+</ul>
+</li>
+<li><p>重要技巧</p>
+<ul>
+<li>Dropout 策略防止过拟合</li>
+<li><p>使用加入动量的随机梯度下降算法 ，加速收敛</p>
+</li>
+<li><p>验证集损失不下降时 手动降低 10 倍的学习率</p>
+</li>
+<li><p>采用样本增强策略增加训练样本数量， 防止过拟合；</p>
+</li>
+<li><p>集成多个模型，进一步提高精度。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="AlexNet-卷积层在做什么？"><a href="#AlexNet-卷积层在做什么？" class="headerlink" title="AlexNet 卷积层在做什么？"></a>AlexNet 卷积层在做什么？</h6><ul>
+<li><p>从数据中学习对于分类有意义的结构特征，</p>
+</li>
+<li><p>描述输入图像中的结构信息</p>
+</li>
+<li><p>描述结果存储在 256 个 6 × 6 的特征响应图里。</p>
+</li>
+</ul>
+<h3 id="经典网络解析——ZFNet"><a href="#经典网络解析——ZFNet" class="headerlink" title="经典网络解析——ZFNet"></a>经典网络解析——ZFNet</h3><p>与AlexNet网络结构基本一致</p>
+<p>主要改进：</p>
+<ul>
+<li>将第一个卷积层的卷积核大小改为了 7 × 7(可以感受更细致的东西，浅层丢掉细致的东西，后面无法学习)</li>
+<li>将第二、第三个卷积层的卷积步长都设置为 2(图像信息尺度减少速度不会太快，能多学特征信息)</li>
+<li>增加了第三、第四个卷积层的卷积核个数。(层数高了后会学到语义信息，卷积核个数太少描述不好，就学不好；如：同一张图的猫的头朝向，角度等等)<br><img src="./images/Alex结构.png" alt="Alex结构"></li>
+</ul>
+<h3 id="经典网络解析——VGG"><a href="#经典网络解析——VGG" class="headerlink" title="经典网络解析——VGG"></a>经典网络解析——VGG</h3><p>VGG网络贡献：</p>
+<ul>
+<li><p>使用尺寸更小的 3x3 卷积核串联来获得更大的感受野</p>
+</li>
+<li><p>放弃使用 11x11 和 5x5 这样的大尺寸卷积核</p>
+</li>
+<li><p>深度更深、非线性更强，网络的参数也更少</p>
+</li>
+<li><p>去掉了 AlexNet 中的局部响应归一化层（ LRN ）层 。</p>
+</li>
+</ul>
+<p><img src="./images/VGG结构.png" alt="VGG结构"></p>
+<p>VGG16</p>
+<ul>
+<li><p>13 个卷积层与 3 个全连接</p>
+</li>
+<li><p>分为 5 段 conv1,…,conv5 每一段中卷积层的卷积核个数均相同</p>
+</li>
+<li><p>卷积层均采用 3x3 的卷积核及 ReLU 激活函数；</p>
+</li>
+<li><p>所有的池化层都采用最大池化，其窗口大小为 2x2 、步长为 2</p>
+</li>
+<li><p>经过一次池化操作，其后卷积层的卷积核个数就增加一倍 ，直至到达 512</p>
+</li>
+<li><p>全连接层中也使用了Dropout策略</p>
+</li>
+</ul>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><img src="./images/小卷积.png" alt="小卷积"></p>
+<p><img src="./images/思考2.png" alt="思考2"></p>
+<p><img src="./images/思考3.png" alt="思考3"></p>
+<h3 id="经典网络解析——GoogLeNet"><a href="#经典网络解析——GoogLeNet" class="headerlink" title="经典网络解析——GoogLeNet"></a>经典网络解析——GoogLeNet</h3><p>GoogleNet的创新点</p>
+<ul>
+<li><p>提出了一种 Inception 结构，它能保留输入信号中的更多特征信息；</p>
+</li>
+<li><p>去掉了 AlexNet 的前两个全连接层，并采用了平均池化，这一设计使得GoogLeNet 只有 500 万参数，比 AlexNet 少了 12 倍；</p>
+</li>
+<li><p>在网络的中部引入了辅助分类器，克服了训练过程中的梯度消失问题。</p>
+</li>
+</ul>
+<p><img src="./images/GoogleNet网络.jpg" alt="GoogleNet网络"></p>
+<p><img src="./images/Inception模块.png" alt="Inception模块"><br><img src="./images/Inception模块v1.png" alt="Inception模块v1"></p>
+<p><code>层数更深、参数更少、计算效率更高、非线性表达能力也更强</code></p>
+<p>GoogleNet的后面几层<br><img src="./images/GoogleNet深层.png" alt="GoogleNet深层"></p>
+<ul>
+<li><p>VGG 的第一个全连接层参数占了整个网络 74% 的参数 ，需dropout策略应对过拟合。</p>
+</li>
+<li><p>GoogLeNet 采用平均池化 GoogLeNet 的参数总量不到 500 万，无须使用 Dropout 策略 。</p>
+</li>
+</ul>
+<p><img src="./images/辅助分类器.png" alt="辅助分类器"></p>
+<h6 id="为什么引入辅助分类器？"><a href="#为什么引入辅助分类器？" class="headerlink" title="为什么引入辅助分类器？"></a>为什么引入辅助分类器？</h6><p>原因：虽然 ReLU 单元能够一定程度解决梯度消失问题，但是并不能完全解决深层网络难以训练的问题 。 离输出远的层就不如靠近输出的层训练得好。</p>
+<p>结果：让低层的卷积层学习到的特征也有很好的区分能力，从而让网络更好地被训练，而且低层的卷积层学到了好的特征也能加速整个网络的收敛。</p>
+<p>网络推断：仅利用网络最后的输出作为预测结果，忽略辅助分类器的输出。</p>
+<h5 id="思考-1"><a href="#思考-1" class="headerlink" title="思考"></a>思考</h5><p>问题1: 平均池化向量化与直接展开向量化有什么区别？</p>
+<ul>
+<li><p>特征响应图上每个位置的值反应了图像对应位置的结构与卷积核记录的语义结构的相似程度</p>
+</li>
+<li><p>平均池化丢失了语义结构的空间位置信息</p>
+</li>
+<li><p>忽略语义结构的位置信息，有助于提升卷积层提取到的特征的平移不变性</p>
+</li>
+</ul>
+<p>问题2: 利用 1x1 卷积进行压缩会损失信息吗？<br><img src="./images/1×1压缩.png" alt="1×1压缩"></p>
+<ul>
+<li><p>位置A的这个 64 维向量是一个非常稀疏向量</p>
+</li>
+<li><p>利用1x1卷积进行非线性压缩通常不会损失信息。</p>
+</li>
+</ul>
+<h4 id="经典网络解析——ResNet"><a href="#经典网络解析——ResNet" class="headerlink" title="经典网络解析——ResNet"></a>经典网络解析——ResNet</h4><p>实验：持续向一个“基础”的卷积神经网络上面叠加更深的层数会发生什么？<br><img src="./images/Res.png" alt="Res"></p>
+<p>ResNet具有以下贡献：</p>
+<ul>
+<li><p>提出了一种残差模块，通过堆叠残差模块可以构建任意<br>深度的神经网络，而不会出现“退化”现象。</p>
+</li>
+<li><p>提出了批归一化方法来对抗梯度消失，该方法降低了网<br>络训练过程对于权重初始化的依赖；</p>
+</li>
+<li><p>提出了一种针对 ReLU 激活函数的初始化方法；</p>
+</li>
+</ul>
+<p><img src="./images/残差模块.png" alt="残差模块"><br>研究者考虑了这样一个问题<br>浅层网络学习到了有效的分类模式后，如何向上堆积新层来建立更深的网络， 使其满足即使不能提升浅层网络的性能，深层网络也不应降低性能。</p>
+<p>解决方案：残差模块<br>假设卷积层学习的变换为$𝐹(𝑋)$ ，残差结构的输出是$𝐻(𝑋)$ ，则有：</p>
+<script type="math/tex; mode=display">
+𝐻(𝑋)  =  𝐹(𝑋)  + 𝑋 \\
+F(X) = H(X) - X</script><p>残差(F(x))也是由此得来</p>
+<p>关于残差结构：</p>
+<ol>
+<li><p>残差结构能够避免普通的卷积层堆叠存在信息丢失问题 保证前向信息流的顺畅 。</p>
+</li>
+<li><p>残差结构能够应对梯度反传过程中的梯度消失问题 保证反向梯度流的通顺 。</p>
+</li>
+</ol>
+<h6 id="思考-2"><a href="#思考-2" class="headerlink" title="思考"></a>思考</h6><p><img src="./images/瓶颈结构.png" alt="瓶颈结构"><br>问题1：为什么在残差结构里是先1×1卷积再3×1再1×1，有什么好处？</p>
+<p>先通过1×1卷积，将数据压缩(不降低数据量)，减少数据参数和计算，最后再放大成原来的通道数。</p>
+<p>问题2：为什么残差网络性能这么好？<br>一种典型的解释：残差网络可以看作是一种集成模型！<br><img src="./images/展开的残差.png" alt="瓶颈结构"><br>看成多个子网络的集成<br>结论：残差网络是一种集成模型,这是重要特点也是它高效的一个原因！</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>介绍了 5 种经典的卷积神经网络 AlexNet、 ZFNet、 VGG、 GoogLeNet 和 ResNet</p>
+<p>残差网络和 Inception V4 是 公认 的推广性能最好的两个分类模型</p>
+]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
+      <tags>
+        <tag>论文</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图像分割&amp;目标检测</title>
+    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
+    <content><![CDATA[<h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
+<ul>
+<li>分类：不考虑空间位置</li>
+<li>语义分割：像素的类别</li>
+<li>目标检测：多目标</li>
+<li>实例分割：多目标</li>
+</ul>
+<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
+<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/滑动窗口示例.gif" alt="滑动窗口示例"></p>
+<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/滑动窗口.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
+<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN网络结构.jpg" alt="FCN网络结构"></p>
+<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
+<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <strong><em>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</em></strong> 。</p>
+<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN工作过程.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
+<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
+<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
+<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/全卷积.png" alt="全卷积"></p>
+<p><code>问题：什么是上采样呢？</code></p>
+<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
+<ul>
+<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
+</li>
+<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
+</li>
+<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：</p>
+<script type="math/tex; mode=display">
+input = \begin{bmatrix}
+x_1 & x_2 & x_3 & x_4 \\
+x_6 & x_7 & x_8 & x_9 \\
+x_{10} & x_{11} & x_{12} & x_{13} \\
+x_{14} & x_{15} & x_{16} & x_{17} \\
+\end{bmatrix} 
+\\
+kernel = \begin{bmatrix}
+w_{0,0} & w_{0,1} & w_{0,2} \\
+w_{1,0} & w_{1,1} & w_{1,2} \\
+w_{2,0} & w_{2,1} & w_{2,2} \\
+\end{bmatrix}</script><p>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output</p>
+<script type="math/tex; mode=display">
+output=\begin{bmatrix}
+y_0 & y_1 \\
+y_2 & y_3 \\
+\end{bmatrix}</script><p>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：</p>
+<script type="math/tex; mode=display">
+X = \begin{bmatrix}
+x_1 \\ x_2 \\...\\x_17
+\end{bmatrix}
+\\
+Y = \begin{bmatrix}
+y_0 \\ y_1 \\ y_2 \\y_3
+\end{bmatrix}</script><p>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：</p>
+<script type="math/tex; mode=display">
+Y = C X</script><p>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：</p>
+<script type="math/tex; mode=display">
+C = \begin{bmatrix}
+w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0 & 0\\
+0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0\\
+0 & 0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2}\\
+\end{bmatrix}</script></li>
+</ul>
+<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：</p>
+<script type="math/tex; mode=display">
+X = C^T Y</script><p>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
+<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
+]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
+      <tags>
+        <tag>图像分割</tag>
       </tags>
   </entry>
 </search>
