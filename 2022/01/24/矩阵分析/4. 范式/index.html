@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Schur分解及Hermite矩阵Schur定理任意矩阵 A \in C ^{n \times n} ，一定存在酉矩阵 U ，使得 U^{-1}AU 为上三角矩阵 证明： 之前学习过任意矩阵可相似于Jordan标准型，因此存在非奇异矩阵 P 成立 AP&#x3D;PJ根据上一节的QR分解，任意非奇异矩阵都可以分解为QR的形式，其中Q为标准正交矩阵，因此 P 可以分解为 P&#x3D;UR其中 $U$ 是酉矩阵， $R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="范式">
+<meta property="og:url" content="http://example.com/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/4.%20%E8%8C%83%E5%BC%8F/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Schur分解及Hermite矩阵Schur定理任意矩阵 A \in C ^{n \times n} ，一定存在酉矩阵 U ，使得 U^{-1}AU 为上三角矩阵 证明： 之前学习过任意矩阵可相似于Jordan标准型，因此存在非奇异矩阵 P 成立 AP&#x3D;PJ根据上一节的QR分解，任意非奇异矩阵都可以分解为QR的形式，其中Q为标准正交矩阵，因此 P 可以分解为 P&#x3D;UR其中 $U$ 是酉矩阵， $R">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-24T11:45:57.000Z">
+<meta property="article:modified_time" content="2022-01-24T07:13:09.169Z">
+<meta property="article:author" content="zhouxy">
+<meta property="article:tag" content="范式">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/4.%20%E8%8C%83%E5%BC%8F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/4.%20%E8%8C%83%E5%BC%8F/","path":"2022/01/24/矩阵分析/4. 范式/","title":"范式"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>范式 | My Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">My Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Schur%E5%88%86%E8%A7%A3%E5%8F%8AHermite%E7%9F%A9%E9%98%B5"><span class="nav-number">1.</span> <span class="nav-text">Schur分解及Hermite矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Schur%E5%AE%9A%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">Schur定理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%89%E7%9B%B8%E4%BC%BC%E5%AF%B9%E8%A7%92%E7%9F%A9%E9%98%B5%E5%AE%9A%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">酉相似对角矩阵定理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hermite%E7%9F%A9%E9%98%B5"><span class="nav-number">1.3.</span> <span class="nav-text">Hermite矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Hermite%E7%9F%A9%E9%98%B5%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.3.1.</span> <span class="nav-text">Hermite矩阵的定义</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Hermite%E7%9F%A9%E9%98%B5%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">1.3.2.</span> <span class="nav-text">Hermite矩阵的性质</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A3%E5%AE%9A%E3%80%81%E9%9D%9E%E8%B4%9F%E5%AE%9AHermite%E7%9F%A9%E9%98%B5"><span class="nav-number">1.4.</span> <span class="nav-text">正定、非负定Hermite矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A3%E5%AE%9A%E3%80%81%E9%9D%9E%E8%B4%9F%E5%AE%9AHermite%E7%9F%A9%E9%98%B5%E5%AE%9A%E4%B9%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">正定、非负定Hermite矩阵定义</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%9D%9E%E8%B4%9F%E5%AE%9AHermite%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%A4%A7%E7%89%B9%E5%BE%81%E5%80%BC%E7%9A%84%E6%9E%81%E5%80%BC%E5%88%BB%E7%94%BB"><span class="nav-number">1.4.2.</span> <span class="nav-text">非负定Hermite矩阵的最大特征值的极值刻画</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%A5%87%E5%BC%82%E5%80%BC%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-number">1.5.</span> <span class="nav-text">最大奇异值的意义</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8C%83%E5%BC%8F"><span class="nav-number"></span> <span class="nav-text">范式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0%E4%B8%8E%E7%9F%A9%E9%98%B5%E8%8C%83%E6%95%B0%EF%BC%88%E4%B8%80%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">向量范数与矩阵范数（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">向量范数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%8C%83%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">矩阵范数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E8%8C%83%E6%95%B0%E7%9A%84%E7%AD%89%E4%BB%B7%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">矩阵范数的等价性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#E-A%E7%9A%84%E5%8F%AF%E9%80%86%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">E+A的可逆性</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhouxy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/4.%20%E8%8C%83%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhouxy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          范式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-01-24 19:45:57 / 修改时间：15:13:09" itemprop="dateCreated datePublished" datetime="2022-01-24T19:45:57+08:00">2022-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">矩阵分析</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Schur分解及Hermite矩阵"><a href="#Schur分解及Hermite矩阵" class="headerlink" title="Schur分解及Hermite矩阵"></a>Schur分解及Hermite矩阵</h4><h5 id="Schur定理"><a href="#Schur定理" class="headerlink" title="Schur定理"></a>Schur定理</h5><p>任意矩阵 A \in C ^{n \times n} ，一定存在酉矩阵 U ，使得 U^{-1}AU 为上三角矩阵</p>
+<p>证明：</p>
+<p>之前学习过任意矩阵可相似于Jordan标准型，因此存在非奇异矩阵 P 成立</p>
+<script type="math/tex; mode=display">AP=PJ</script><p>根据上一节的QR分解，任意非奇异矩阵都可以分解为QR的形式，其中Q为标准正交矩阵，因此 P 可以分解为</p>
+<script type="math/tex; mode=display">P=UR</script><p>其中 $U$ 是酉矩阵， $R $是主对角线上元素都大于0的上三角矩阵，因此</p>
+<script type="math/tex; mode=display">
+AUR=URJ</script><p>对等式做进一步变形，则</p>
+<script type="math/tex; mode=display">U^{-1}AU=RJR^{-1}</script><p>因为 $R,J$ 为上三角矩阵，所以 </p>
+<script type="math/tex; mode=display">
+R^{-1},RJR^{-1}</script><p>也为上三角矩阵，因此矩阵 A 可相似于对角矩阵</p>
+<h5 id="酉相似对角矩阵定理"><a href="#酉相似对角矩阵定理" class="headerlink" title="酉相似对角矩阵定理"></a>酉相似对角矩阵定理</h5><p>前面的Schurd定理给出了酉矩阵一定可相似于上三角矩阵，那什么情况下酉矩阵会相似于对角矩阵呢</p>
+<p>给定矩阵 $A \in C^{n \times n} $，存在酉矩阵$ U $，使得 $U^{-1}AU $为对角矩阵的充要条件是</p>
+<script type="math/tex; mode=display">
+\overline A^TA = A\overline A^T \quad\quad(*)</script><p>其中满足 (*) 条件的矩阵 $A $称为正规矩阵，因此酉矩阵 $A$ 可相似对角化的充要条件是 $A$ 为正规矩阵</p>
+<p>证明</p>
+<ul>
+<li>必要性：<br>已知：<script type="math/tex; mode=display">
+U^{-1}AU = \begin{bmatrix}   \lambda_1\\  &\ddots\\ && \lambda_n \end{bmatrix}\\ 记\begin{bmatrix}   \lambda_1\\  &\ddots\\ && \lambda_n \end{bmatrix} = \Lambda</script>则<script type="math/tex; mode=display">
+A=U \Lambda U^{-1}=U \Lambda \overline U^T</script>因此<script type="math/tex; mode=display">
+\overline A^T A \overline {(U \Lambda \overline U^T)}^T U \Lambda \overline U^T=U\Lambda U^{-1}U \overline \Lambda ^T \overline U^T = A \overline A^T</script></li>
+<li>充分性：<br>已知：<script type="math/tex; mode=display">
+\overline A^TA = A\overline A^T</script></li>
+</ul>
+<p>由Schur定理，存在 $U$ 矩阵，使 $U^{-1}AU$ 为上三角矩阵，即</p>
+<script type="math/tex; mode=display">
+U^{-1}AU = \begin{bmatrix}   \lambda_1 & \cdots & * & \\  &\ddots & \vdots\\  &&\lambda_n \end{bmatrix}=\widetilde \Lambda</script><p>因此</p>
+<script type="math/tex; mode=display">
+A = U\widetilde \Lambda U^{-1}= U\widetilde \Lambda \overline U^T,A^T=U \overline {\widetilde \Lambda}^T \overline U^T</script><p>由已知条件</p>
+<script type="math/tex; mode=display">
+U \overline {\widetilde \Lambda}^T \overline U^TU\widetilde \Lambda \overline U^T = U\widetilde \Lambda \overline U^TU \overline {\widetilde \Lambda}^T \overline U^T\\可以得出\overline {\widetilde \Lambda}^T  \widetilde  \Lambda  = \widetilde \Lambda \overline {\widetilde \Lambda}^T</script><p>因此</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}   \overline \lambda_1 \\  \vdots & \ddots\\  \overline *&\cdots& \overline \lambda_n \end{bmatrix} \begin{bmatrix}   \lambda_1 & \cdots & * & \\  &\ddots & \vdots\\  &&\lambda_n \end{bmatrix} = \begin{bmatrix}   \lambda_1 & \cdots & * & \\  &\ddots & \vdots\\  &&\lambda_n \end{bmatrix} \begin{bmatrix}   \overline \lambda_1 \\  \vdots & \ddots\\  \overline *&\cdots& \overline \lambda_n \end{bmatrix}\\</script><p>通过比较元素可得，  $\widetilde  \Lambda $为对角矩阵，即</p>
+<script type="math/tex; mode=display">
+\widetilde  \Lambda  = \begin{bmatrix}   \lambda_1\\  &\ddots\\  &&\lambda_n \end{bmatrix} \\</script><h5 id="Hermite矩阵"><a href="#Hermite矩阵" class="headerlink" title="Hermite矩阵"></a>Hermite矩阵</h5><h6 id="Hermite矩阵的定义"><a href="#Hermite矩阵的定义" class="headerlink" title="Hermite矩阵的定义"></a>Hermite矩阵的定义</h6><p>矩阵 $A \in C^{n \times n}$ ，若满足 $\overline A^T = A $，则矩阵 $A$ 为Hermite矩阵</p>
+<h6 id="Hermite矩阵的性质"><a href="#Hermite矩阵的性质" class="headerlink" title="Hermite矩阵的性质"></a>Hermite矩阵的性质</h6><ul>
+<li><p>Hermite矩阵为正规矩阵<br>证明：<br>显然</p>
+</li>
+<li><p>Hermite矩阵可对角化<br>证明：Hermite矩阵为正规矩阵，由定理正规矩阵可对角化</p>
+</li>
+<li><p>Hermite矩阵的特征值为实数<br>证明：</p>
+<script type="math/tex; mode=display">
+A \alpha = \lambda \alpha</script><p>等式两边取共轭转置，则</p>
+<script type="math/tex; mode=display">
+\overline \alpha^T\overline  A^T   = \overline \alpha^T A  = \overline \lambda \overline\alpha ^T</script><p>等式两边右乘 $\alpha$, 则 </p>
+<script type="math/tex; mode=display">
+\overline \alpha^T A \alpha  =\overline \alpha^T \lambda \alpha  = \lambda  \overline \alpha^T\alpha  = \overline \lambda \overline\alpha^T \alpha</script><p>因此</p>
+<script type="math/tex; mode=display">
+\overline \lambda = \lambda</script><p>所以$\lambda$为实数</p>
+</li>
+</ul>
+<h5 id="正定、非负定Hermite矩阵"><a href="#正定、非负定Hermite矩阵" class="headerlink" title="正定、非负定Hermite矩阵"></a>正定、非负定Hermite矩阵</h5><h6 id="正定、非负定Hermite矩阵定义"><a href="#正定、非负定Hermite矩阵定义" class="headerlink" title="正定、非负定Hermite矩阵定义"></a>正定、非负定Hermite矩阵定义</h6><p>已知Hermite矩阵 A</p>
+<ul>
+<li>正定： $\overline x^TAx &gt; 0$</li>
+<li>非负定：$\overline x^TAx \geq 0$<h6 id="非负定Hermite矩阵的最大特征值的极值刻画"><a href="#非负定Hermite矩阵的最大特征值的极值刻画" class="headerlink" title="非负定Hermite矩阵的最大特征值的极值刻画"></a>非负定Hermite矩阵的最大特征值的极值刻画</h6>特征值的最大值<script type="math/tex; mode=display">
+\lambda_{\max} =\max  \limits_{x \ne 0}\{ \frac{\overline x^TAx}{\overline x^Tx} \} =\max  \limits_{\|x\| = 1}\{\overline x^TAx \}</script>首先说明一下第二个等式如何过去的，因为<script type="math/tex; mode=display">
+\overline x^Tx= \langle x,x\rangle = \|x\|^2</script>因此<script type="math/tex; mode=display">
+\frac{\overline x^TAx}{\overline x^Tx} = \frac{\overline x^TAx}{\|x\|^2} = \frac{ \overline x^T}{\|x\|}A\frac{x}{\|x\|} = \overline x^TAx</script>其中新的 $x=\frac{x}{|x|} $，满足<script type="math/tex; mode=display">\|x\|=\|\frac{x}{\|x\|}\|=\frac{1}{\|x\|}\|x\|=1</script>即 x 在单位球上</li>
+</ul>
+<p>证明：</p>
+<p>因为 $A$ 为Hermite矩阵，因此矩阵$ A$ 可相似于对角矩阵，即</p>
+<script type="math/tex; mode=display">
+U^{-1}AU  = \overline U^TAU = \begin{bmatrix}   \lambda_1\\  &\ddots\\ && \lambda_n \end{bmatrix}=\Lambda</script><p>因此可以得到</p>
+<script type="math/tex; mode=display">
+A=(\overline U^T)^{-1}\Lambda U^{-1}=U\Lambda U^{-1}</script><p>因此</p>
+<script type="math/tex; mode=display">
+\overline x^TAx = \overline x^T(U \Lambda \overline U^T)x = \overline {(\overline U^Tx)}^T \Lambda (\overline U^Tx)</script><p>令$y=\overline U^Tx$,因此</p>
+<script type="math/tex; mode=display">
+\overline x^TAx  = \overline y^T\Lambda y  = \lambda_1\|y_1\|^2+\lambda_2\|y_2\|^2+...+\lambda_n\|y_n\|^2</script><p>其中</p>
+<script type="math/tex; mode=display">
+\langle y,y \rangle  = \overline y^Ty = \overline{ \overline U^Tx}^T \overline U^Tx = \overline {x^T \overline U} \overline U^Tx = \overline x^T  U\overline U^Tx =\overline  x^Tx =\langle x,x \rangle =1</script><p>因此</p>
+<script type="math/tex; mode=display">
+\|y_1\|^2+\|y_2\|^2+...+\|y_n\|^2 =1</script><p>所以</p>
+<script type="math/tex; mode=display">
+\lambda_{\min}\leq\overline x^TAx  \leq  \lambda_{\max}
+$$ 注：对正交矩阵也成立
+
+其中 $\frac{\overline x^TAx}{\overline x^Tx}$ 被称为Rayleigh商，用商来刻画特征值极值的问题
+
+
+### 矩阵的SVD分解
+##### SVD分解定理
+设 $A \in C^{m \times n}$，则存在 m 阶酉矩阵 $U $和 n 阶酉矩阵 $V$ ，使得</script><p>U^{-1}AV =\overline U^TAV =\begin{bmatrix}    \Sigma_r &amp; 0_{r \times (n-r)}\\   0_{(m-r) \times r}&amp;0_{(m-r)\times(n-r)}\\  \end{bmatrix}</p>
+<script type="math/tex; mode=display">
+其中</script><p>\Sigma_r =  \begin{bmatrix}    \sigma_1\\ &amp;\ddots\\ &amp;&amp; \sigma_r \end{bmatrix}, r = rank(A)</p>
+<script type="math/tex; mode=display">
+并且</script><p>\sigma_i = \sqrt{\lambda_i(\overline A^TA)}&gt; 0,i=1,2,…,r </p>
+<script type="math/tex; mode=display">称为矩阵 $A$ 的奇异值
+
+证明：
+
+记 $H=\overline A^TA $，容易得到矩阵 H 为Hermite矩阵，因此一定存在酉矩阵 V 使其相似于对角矩阵，即</script><p>\overline V^T(\overline A^TA)V = \overline{(AV)}^T(AV) = \left [\begin{array}{c:c}     \begin{bmatrix}        \lambda_1\\&amp;\ddots\\     &amp;&amp; \lambda_r\\     \end{bmatrix} &amp; 0\\   \hdashline\\     0 &amp; 0\\   \end{array}\right]\\</p>
+<script type="math/tex; mode=display">
+其中</script><p>r=rank(\overline A^TA),\lambda_i=\lambda_i(\overline A^TA)&gt;0</p>
+<script type="math/tex; mode=display">
+记 $AV=B \in C ^{m \times n}$对矩阵$ B $做分割</script><p>B= \left [\begin{array}{cccc:ccc}         b_1&amp;b_2&amp;…&amp;b_r&amp;b_{r+1}&amp;…&amp;b_n \end{array}\right] =\left [\begin{array}{c:c}         B_1&amp;B_2 \end{array}\right]</p>
+<script type="math/tex; mode=display">
+因此等式变为
+$$\overline B^TB = \begin{bmatrix}    \overline B_1^T\\ \overline B_2^T \end{bmatrix} \begin{bmatrix}    B_1 & B_2 \end{bmatrix} =  \begin{bmatrix}    \overline B_1^TB_1 & \overline B_1^TB_2\\ \overline B_2^TB_1 & \overline B_2^TB_2 \end{bmatrix} = \left [\begin{array}{c:c}     \begin{bmatrix}        \lambda_1\\&\ddots\\     && \lambda_r\\     \end{bmatrix} & 0\\   \hdashline\\     0 & 0\\   \end{array}\right]</script><p>因此可以得到</p>
+<script type="math/tex; mode=display">
+B_2=0, \overline B_1^TB_1  = \begin{bmatrix}    \lambda_1\\&\ddots\\ && \lambda_r\\ \end{bmatrix}</script><p>即</p>
+<script type="math/tex; mode=display">
+\overline B_1^TB_1  = \begin{bmatrix}    \overline b_1^T\\ \overline b_2^T\\ \vdots\\ \overline b_r^T \end{bmatrix} \begin{bmatrix}    b_1 &b_2 &\cdots &b_r \end{bmatrix} = \begin{bmatrix}    \langle b_1,b_1 \rangle & \langle b_1,b_2 \rangle & \cdots & \langle b_1,b_r \rangle\\ \langle b_2,b_1 \rangle & \langle b_2,b_2 \rangle & \cdots & \langle b_2,b_r \rangle\\ \vdots& \vdots&\ddots&\vdots\\ \langle b_r,b_1 \rangle & \langle b_r,b_2 \rangle & \cdots & \langle b_r,b_r \rangle \end{bmatrix} = \begin{bmatrix}    \lambda_1\\&\ddots\\ && \lambda_r\\ \end{bmatrix}</script><p>因此 $b_1,b_2,…,b_r$ 是 $C^m $中的正交向量组，而不是标准正交向量组</p>
+<p>将 $b_1,b_2,…,b_r$ 单位化，即</p>
+<script type="math/tex; mode=display">
+\widetilde b_i=\frac{b_i}{\|b_i\|} = \frac{b_i}{\sqrt{\lambda_i}} \Rightarrow b_i= \widetilde b_i \sqrt{\lambda_i}</script><p>将 $\widetilde b_1,…,\widetilde b_r $扩充为 $C^m $的一组标准正交基</p>
+<script type="math/tex; mode=display">
+\widetilde b_1,...,\widetilde b_r,\beta_{r+1},...,\beta_m</script><p>记为$ U$</p>
+<p>则</p>
+<script type="math/tex; mode=display">
+AV = B = \begin{bmatrix}    b_1  & \cdots &b_r & 0 & \cdots & 0 \end{bmatrix} = \begin{bmatrix}    \widetilde  b_1  & \cdots & \widetilde b_r & \beta_{r+1} & \cdots & \beta_m \end{bmatrix} \left [\begin{array}{c:c}     \begin{bmatrix}        \sqrt{\lambda_1}\\&\ddots\\     && \sqrt{\lambda_r}\\     \end{bmatrix} & 0\\   \hdashline\\     0 & 0\\   \end{array}\right]</script><h5 id="最大奇异值的意义"><a href="#最大奇异值的意义" class="headerlink" title="最大奇异值的意义"></a>最大奇异值的意义</h5><script type="math/tex; mode=display">
+\delta_{\max}=\sqrt{\lambda_{\max}(\overline A^TA)}\\ = \sqrt{\max  \limits_{x \ne0}\frac{\overline x^T(\overline A^TA)x}{\overline x^Tx}}\\ = \max \limits_{x \ne0}\sqrt{\frac{\overline (Ax)^T(Ax)}{\overline x^Tx}}\\ = \max \limits_{x \ne0}\sqrt{\frac{\|Ax\|^2}{\|x\|^2}}\\ = \max \limits_{x \ne0}\frac{\|Ax\|^2}{\|x\|^2}</script><p>因此最大奇异值可以理解为长度的最大放大率</p>
+<h3 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h3><h4 id="向量范数与矩阵范数（一）"><a href="#向量范数与矩阵范数（一）" class="headerlink" title="向量范数与矩阵范数（一）"></a>向量范数与矩阵范数（一）</h4><h5 id="向量范数"><a href="#向量范数" class="headerlink" title="向量范数"></a>向量范数</h5><p>之前我们在学欧几里得空间或者酉空间时利用内积定义了两个向量之间的距离。对于 $\mathbb C^n$ ,它作为酉空间已经定义好了向量的长度以及两个向量之间的距离。事实上，对于 $\mathbb C^n$ 我们还可以定义新的长度以及新的距离。由此我们定义向量范数</p>
+<p>定义1：设 $\mathbb C^n\rightarrow \mathbb R $的函数 $\Vert\bullet\Vert$ 满足</p>
+<p>(1)正定性： $\forall x\in \mathbb C^n,\Vert x\Vert\ge0 $,其中$ \Vert x\Vert=0 $当且仅当 $x=0$</p>
+<p>(2)齐次性： $\forall x\in\mathbb C^n,\forall\alpha\in\mathbb C $,有 $\Vert \alpha x\Vert=\vert\alpha\vert\cdot\Vert x\Vert$</p>
+<p>(3)三角不等式： $\forall x,y\in\mathbb C^n $,有$ \Vert x+y\Vert\le\Vert x\Vert+\Vert y\Vert$</p>
+<p>则称函数$ \Vert\bullet\Vert$为$ \mathbb C^n $上的向量范数</p>
+<p>下面我们看一看常见的四个向量范数</p>
+<p>常见的 $\mathbb C^n $上的向量范数:对于 $x=(x_1,x_2,…,x_n)^T$</p>
+<ul>
+<li><p>(1) 1 -范数: $\Vert x||_1=\sum_{j=1}^{n}\vert x_j\vert$</p>
+</li>
+<li><p>(2) $\infty$ -范数: $\Vert x\Vert_\infty =\max_{1\le j\le n}\vert x_j\vert$</p>
+</li>
+<li><p>(3) 2-范数: $\Vert x\Vert_2=\sqrt{x^Hx}=(x,x)=\sqrt{\sum_{j=1}^n\vert x_j\vert^2} $，我们也称2-范数为 <strong><em>欧几里得范数</em></strong></p>
+</li>
+<li><p>(4) $p$-范数$（ p\ge1 ）: \Vert x\Vert_p=(\sum_{j=1}^n\vert x_j|^p)^{\frac{1}{p}}$</p>
+</li>
+</ul>
+<p>情形(1)(2)容易验证，情形(4)证明过程比较繁琐，涉及到Young不等式，Hölder不等式，Minkovski不等式，自行了解，在此仅针对(3)中三角不等式做说明</p>
+<p>此时</p>
+<script type="math/tex; mode=display">
+\begin{align*} \Vert x+y\Vert^2_2&=(x+y,x+y)\\ &=(x,x)+(x,y)+(y,x)+(y,y)\\&=\Vert x\Vert^2+\Vert y\Vert^2+(x,y)+(y,x)\\ &\le\Vert x\Vert^2_2+\Vert y\Vert^2_2+2\Vert x\Vert_2\,\,\Vert y\Vert_2\\&=(\Vert x\Vert_2+\Vert y\Vert_2)^2 \end{align*}</script><p>在实际问题中我们经常要估计计算出来的向量值与真实的向量值之间的误差，下面定理告诉我们无论用哪个向量范数衡量误差，效果是一样的</p>
+<p>定理1(向量范数的等价性)：设<br>$\Vert\bullet\Vert_s,\Vert\bullet\Vert_t$ 均为$ \mathbb C^n$ 上的向量范数，则一定存在常数 $C_1,C_2 $,使得对 $\forall x\in\mathbb C^n$ 有$ C_1\Vert x\Vert_s\le\Vert x\Vert_t\le C_2 \Vert x\Vert_s$</p>
+<p>下面我们仅说明任意一个向量范数与 $\infty$ -范数等价</p>
+<p>考虑函数 $f(x)=\Vert x\Vert_t$ 以及集合<br>$<br>S=\{x\in\mathbb C^n\bigg|\,||x||_\infty=1\} $,则 S 是 $\mathbb C^n$ 上的有界闭集，而 f(x) 是实函数，在 S 上一定有最小值与最大值，分别设为 $C_1,C_2$</p>
+<p>则对任意的 $0\ne x\in \mathbb C^n$ ,有 $\frac{x}{\Vert x|_\infty}\in S $,从而 $C_1\le f(\frac{x}{\Vert x|_\infty})\le C_2$</p>
+<p>从而 $C_1\le \frac{|x|_t}{\Vert x|_\infty}\le C_2 $,从而 $C_1| x|_\infty\le| x|_t\le C_2|x|_\infty$</p>
+<h4 id="矩阵范数"><a href="#矩阵范数" class="headerlink" title="矩阵范数"></a>矩阵范数</h4><p>对于 $n\times n$ 复矩阵空间 $\mathbb C^{n\times n}$ ,我们也希望定义一个长度衡量矩阵的大小，定义距离比较两个矩阵之间的接近程度，由此我们引进了矩阵范数</p>
+<p>定义：设 $\mathbb C^{n\times n}\rightarrow \mathbb R $的函数 $\Vert\bullet\Vert $满足</p>
+<ul>
+<li><p>(1)正定性： $\forall A\in \mathbb C^{n\times n},\Vert A\Vert\ge0 $,其中 $\Vert A\Vert=0$ 当且仅当 A=0</p>
+</li>
+<li><p>(2)齐次性： $\forall A\in\mathbb C^{n\times n},\forall\alpha\in\mathbb C ,$有 $\Vert \alpha A\Vert=\vert\alpha\vert\cdot\Vert A\Vert$</p>
+</li>
+<li><p>(3)三角不等式： $\forall A,B\in\mathbb C^{n\times n}$ ,有 $\Vert A+B\Vert\le\Vert A\Vert+\Vert B\Vert$</p>
+</li>
+</ul>
+<p>(4)乘法相容性：$\forall A,B\in\mathbb C^{n\times n}$ ,有 $\Vert AB\Vert\le\Vert A\Vert\,\Vert B\Vert$</p>
+<p>则称函数 $\Vert\bullet\Vert为 \mathbb C^{n\times n} $上的矩阵范数</p>
+<p>有的资料上直接用条件(1)(2)(3)定义矩阵范数（因为条件(1)(2)(3)也适用于一般的范数，具有某种普适性），然而很多情况下我们要用条件(4)分析矩阵，探究矩阵级数等问题。所以这里我们统一用条件(1)(2)(3)(4)定义矩阵范数。以后谈到矩阵范数，默认矩阵范数满足对乘法的相容性。</p>
+<p>很多时候我们要将矩阵级数与向量级数放到一起进行研究，希望能保持对矩阵乘以向量的运算的相容性，即 $|Ax|_t\le |A|_s|x|_t $。由此我们得到如下定理</p>
+<p>定理：设$\Vert\bullet\Vert_s$为 $\mathbb C^{n\times n}$ 上的矩阵范数，则一定存在 $\mathbb C^n$ 上的向量范数 $|\bullet|_t$ 满足对 $\forall A\in \mathbb C^{n\times n},\forall x\in\mathbb C^n $,有 $|Ax|_t\le|A|_s|x|_t$</p>
+<p>证：任意给定非零向量 $\eta_0$ ,定义向量范数 $|x|_t=|x\eta_0^T|_s$</p>
+<p>此时该向量范数满足正定性，齐次性，三角不等式，且</p>
+<script type="math/tex; mode=display">
+\|Ax\|_t=\|Ax\eta_0^T\|_s\le\|A\|_s\|x\eta_0^T\|_s=\|A\|_s\|x\|_t</script><p>由定理可知这样定义的向量范数 <strong><em>不一定唯一</em></strong></p>
+<p>给定一个向量范数，我们总是可以构造出矩阵范数，并且满足与矩阵范数对矩阵与向量乘法的相容性。由此我们定义矩阵的算子范数</p>
+<p>定义：设 $|\bullet|_t$ 是 $\mathbb C^n $上的向量范数，我们定义矩阵范数 $|\bullet|_t$ 如下（容易验证满足条件(1)(2)(3)(4)）:</p>
+<script type="math/tex; mode=display">
+\|A\|_t=\max_{x\ne0}\frac{\|Ax\|_t}{\|x\|_t}</script><p>则称该矩阵范数是由向量范数 $|\bullet|_t$ 诱导出来的算子范数。此时 $|Ax|_t\le|A|_t|x|_t$</p>
+<p>事实上， </p>
+<script type="math/tex; mode=display">
+\|ABx\|_t\le\|A\|_t\|B\|_t\|x\|_t</script><p>从而 </p>
+<script type="math/tex; mode=display">
+\|AB\|_t=\max_{x\ne0}\frac{\|ABx\|_t}{\|x\|_t}\le\|A\|_t\|B\|_t</script><p>下面我们来看一看常见的算子范数</p>
+<p>定理：设 $A\in\mathbb C^{n\times n} , x\in\mathbb C^{n\times n}$ ,则</p>
+<ul>
+<li><p>(1) $|A|_\infty=\max_{1\le i\le n}\sum_{j=1}^{n}|x_{ij}|$ （行范数）</p>
+</li>
+<li><p>(2) $|A|_1=\max_{1\le j\le n}\sum_{i=1}^{n}|x_{ij}|$ （列范数）</p>
+</li>
+<li><p>(3) $|A|_2=\sqrt{\lambda_{\max}(A^HA)}$（2-范数），其中 $\lambda_{\max}(A^HA)$ 表示 $A^HA$ 的最大特征值</p>
+</li>
+</ul>
+<p>证：<br>(1)设 $x=(x_1,x_2,…,x_n)^T\ne 0$ ,<br>记 </p>
+<script type="math/tex; mode=display">
+\begin{align*}
+t &=\|x\|_\infty=\max_{1\le i\le n}|x_i|,\mu=\max_{1\le i\le n}\sum_{j=1}^{n}|a_{ij}| \\
+\|Ax\|_\infty &=\max_{1\le i\le n}|\sum_{j=1}^na_{ij}x_j|\le \max_{1\le i\le n}\sum_{j=1}^n|a_{ij}||x_j|\le t\max_{1\le i\le n}\sum_{j=1}^n|a_{ij}|=\|x\|_\infty \mu
+\end{align*}</script><p>则</p>
+<script type="math/tex; mode=display">
+\|A\|_\infty=\max_{x\ne0}\frac{\|Ax\|_\infty}{\|x\|_\infty}\le\mu</script><p>设 $\mu=\sum_{j=1}^n|a_{i_0j}| $,令 $x_0=(sgn{(a_{i_{0}1})},sgn{(a_{i_{0}2})},…,sgn{(a_{i_{0}n})})^T $,则 $Ax_0$ 的第 $i_0$ 个分量为 $\sum_{j=1}^na_{i_0j}sgn{(a_{i_0j})}=\sum_{j=1}^n|a_{i_0j}|=\mu ,且 |x_0|_\infty=1 ,从而 \frac{|Ax_0|_\infty}{|x_0|_\infty}=\mu$</p>
+<p>从而 $|A|_\infty=\mu=\max_{1\le i\le n}\sum_{j=1}^{n}|a_{ij}|$</p>
+<p>(2)设 $x=(x_1,x_2,…,x_n)^T\ne 0 $,记 $t=|x|_1=\sum_{j=1}^n|x_j|,\mu=\max_{1\le j\le n}\sum_{i=1}^{n}|a_{ij}|$，则</p>
+<script type="math/tex; mode=display">
+\begin{align*} \|Ax\|_1&=\sum_{i=1}^n|\sum_{j=1}^na_{ij}x_j|\\ &\le\sum_{i=1}^n\sum_{j=1}^n|a_{ij}||x_j|\\ &\le\sum_{j=1}^n\sum_{i=1}^n|a_{ij}||x_j|\\ &=\sum_{j=1}^n(\sum_{i=1}^n|a_{ij}|)|x_j|\\ &\le\sum_{j=1}^n \mu|x_j|=\mu t=\mu\|x\|_1 \end{align*}</script><p>则 $|A|_1=\max_{x\ne0}\frac{|Ax|_1}{|x|_1}\le\mu$</p>
+<p>令 $\mu=\sum_{i=1}^n|a_{ij_0}| , e_{j_0} $为第 $j_0$ 个分量为1，其余分量为0的列向量</p>
+<p>则 $|Ae_{j_0}|_1=\sum_{i=1}^n|a_{ij_0}|=\mu , |e_{j_0}|_1=1$</p>
+<p>故$|A|_1=\mu =\max_{1\le j\le n}\sum_{i=1}^{n}|a_{ij}|$</p>
+<p>(3)注意到 $A^HA$ 是Hermite矩阵，且$ x^HA^HAx=(Ax)^H(Ax)\ge 0 $,故$ A^HA$ 是半正定Hermite矩阵，从而 $A^HA $的特征值全为非负数，不妨设为</p>
+<script type="math/tex; mode=display">
+\lambda_1\ge\lambda_2\ge...\ge\lambda_n\ge0</script><p>则一定存在酉矩阵 $U$ 使得</p>
+<script type="math/tex; mode=display">
+U^HA^HAU=\begin{pmatrix} \lambda_1\\&\lambda_2\\&&\ddots\\&&&\lambda_n \end{pmatrix}</script><p>设 $x=Uy$ ,则 $|Ax|_2^2=(Ax)^H(Ax)=x^HA^HAx=y^HU^HA^HAUy=\sum_{j=1}^n\lambda_j|y_j|^2$</p>
+<p>|x|_2^2=x^Hx=y^HU^HUy=y^Hy=\sum_{j=1}^n|y_j|^2</p>
+<p>从而 </p>
+<script type="math/tex; mode=display">
+\|Ax\|^2_2\le\lambda_1\|x\|_2^2</script><p>而</p>
+<script type="math/tex; mode=display">
+\|AUe_1\|_2^2=\lambda_1\|Ue_1\|_2^2</script><p>故</p>
+<script type="math/tex; mode=display">
+\|A\|_2=\sqrt{\lambda_1}=\sqrt{\lambda_{\max}(A^HA)}</script><p>看起来矩阵的行范数以及列范数是容易计算的，编程起来比较容易实现（只需遍历矩阵中的元素，求和后弄一弄排序算法即可实现），而2-范数相对来说计算起来不太方便，通过编程实现不太好操作。但2-范数在理论上应用广泛，性质良好。</p>
+<h5 id="矩阵范数的等价性"><a href="#矩阵范数的等价性" class="headerlink" title="矩阵范数的等价性"></a>矩阵范数的等价性</h5><p>首先，与向量范数类似，矩阵范数同样也有等价性</p>
+<p>定理1：设 $|\bullet|_s,|\bullet|_t 均为 \mathbb C^{n\times n}$ 上的矩阵范数，则一定存在常数 $C_1,C_2$ 使得对任意的$ A\in \mathbb C^{n\times n}$ 有 $C_1|A|_s\le|A|_t\le C_2|A|_s$</p>
+<p>2.矩阵范数与特征值的模的比较<br>给定一个n阶矩阵，它的矩阵范数与特征值的模到底有什么联系？我们先看如下定义</p>
+<p>定义：设$ A\in \mathbb C^{n\times n} 的特征值为 \lambda_1,\lambda_2,…,\lambda_n $,称 $\rho(A)=\max_{1\le i\le n}|\lambda_i|$ 为矩阵 $A $的谱半径</p>
+<p>对于矩阵范数与矩阵的谱半径，我们有</p>
+<p>定理：设$\Vert\bullet\Vert为\mathbb C^{n\times n}$上的矩阵范数，则 $\forall{A}\in \mathbb C^{n\times n}$ ,有 $\rho(A)\le|A|$</p>
+<p>证：设 $\lambda$ 是 $A$ 的任意特征值，对应非零特征向量为 $\eta$ ,则 $O\ne \eta\eta^H\in\mathbb C^{n\times n}<br>$<br>则 </p>
+<script type="math/tex; mode=display">
+\|A\eta\eta^H\|=\|\lambda \eta\eta^H\|=|\lambda|\|\eta\eta^H\|
+\|A\eta\eta^H\|\le\|A\|\|\eta\eta^H\|</script><p>从而</p>
+<script type="math/tex; mode=display">
+|\lambda|\le\|A\| ,从而 \rho(A)\le\|A\|</script><p>特别的，我们有<br>定理：设 $A$ 是正规矩阵，则$ A$ 的2-范数 $|A|_2=\rho(A)$</p>
+<p>证：此时存在酉矩阵 $U$ 使得 $A=U^HDU$ ,其中 $D=diag(\lambda_1,\lambda_2,…,\lambda_n) $是对角矩阵</p>
+<p>不妨设 $|\lambda_1|\ge|\lambda_2|\ge…\ge|\lambda_n|$ ,则 $\rho(A)=|\lambda_1|$</p>
+<p>此时 $A^HA=U^HD^HDU$</p>
+<script type="math/tex; mode=display">
+D^HD=diag(|\lambda_1|^2,|\lambda_2|^2,...,|\lambda_n|^2)
+\|A\|_2=|\lambda_1|=\rho(A)</script><p>前面我们讨论的是一般的矩阵范数，以下我们要讨论矩阵的算子范数</p>
+<h5 id="E-A的可逆性"><a href="#E-A的可逆性" class="headerlink" title="E+A的可逆性"></a>E+A的可逆性</h5><p>我们先看一个引理，尽管这个引理非常简单</p>
+<p>引理：设$\Vert\bullet\Vert为\mathbb C^{n\times n}$上的算子范数，$E$ 为 n 阶单位阵，则 $|E|= 1$</p>
+<p>证：此时 $\frac{|Ex|}{|x|}=\frac{|x|}{|x|}=1$ ,故 $|E|=1$</p>
+<p>定理4：设$\Vert\bullet\Vert为\mathbb C^{n\times n}$上的算子范数， $A\in\mathbb C^{n\times n} $满足 $|A|&lt; 1 , E$ 为 n 阶单位阵，则$ E+A $可逆，且$ |(E+A)^{-1}|\le\frac{1}{1-|A|}$</p>
+<p>证：反设 $E+A $不可逆，则一定存在$ 0\ne x_0\in\mathbb C^n 满足 (E+A)x_0=0 $,即 $$<br>x_0=-Ax_0</p>
+<script type="math/tex; mode=display">
+此时</script><p>|x_0|=|-Ax_0|=|Ax_0|\le|A||x_0|&lt;|x_0|</p>
+<script type="math/tex; mode=display">
+矛盾，故 $E+A$ 可逆
+
+此时 $(E+A)(E+A)^{-1}=E$ ,即$ (E+A)^{-1}=E-A(E+A)^{-1}$
+
+则</script><p>|(E+A)^{-1}|\le|E|+|A(E+A)^{-1}|\le1+|A||(E+A)^{-1}|</p>
+<script type="math/tex; mode=display">
+即</script><p>(1-|A|)|(E+A)^{-1}|\le1</p>
+<script type="math/tex; mode=display">
+即</script><p>|(E+A)^{-1}|\le\frac{1}{1-|A|}</p>
+<script type="math/tex; mode=display">
+然而并不是所有的矩阵范数都是算子范数，下面我们就来介绍一个常用的非算子范数的矩阵范数。
+
+##### 非算子范数的矩阵范数示例——F范数
+定义：设 $A=(a_{ij})_{n \times n}\in \mathbb C^{n \times n} $,定义 $\|A\|_F=({\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2})^\frac{1}{2}$
+称 $\|\bullet\|_F 为\mathbb C^{n\times n}$ 上的Frobenius范数，简称F-范数
+
+容易验证F-范数满足正定性，齐次性，三角不等式。下面验证F-范数满足对乘法的相容性
+
+设 $A=(a_{ij})_{n\times n},B=(b_{ij})_{n\times n}$ ,则</script><p>\begin{align<em>} |AB|_F^2&amp;=\sum_{i=1}^{n}\sum_{j=1}^n(\sum_{k=1}^na_{ik}b_{kj})^2\\ &amp;\le\sum_{i=1}^{n}\sum_{j=1}^n(\sum_{k=1}^n|a_{ik}b_{kj}|)^2\\ &amp;\le \sum_{i=1}^{n}\sum_{j=1}^n\bigg((\sum_{k=1}^n|a_{ik}|^2)(\sum_{k=1}^n |b_{kj}|^2)\bigg)\\ &amp;=(\sum_{i=1}^n\sum_{k=1}^n|a_{ik}|^2)(\sum_{k=1}^n\sum_{j=1}^n|b_{kj}|^2)\\&amp;=|A|_F^2|B|_F^2 \end{align</em>}</p>
+<script type="math/tex; mode=display">
+从而F-范数是矩阵范数
+
+事实上，我们还可以验证</script><p>|A|_F=(tr(A^HA))^{\frac{1}{2}}=(tr(AA^H))^\frac{1}{2}</p>
+<script type="math/tex; mode=display">
+
+事实上，在 $n\ge2$ 时，由于 $\|E\|_F=n^\frac{1}{2} $,故 由前面的引理1可知F-范数不是 $\mathbb C^{n\times n} $上的算子范数。但我们有
+
+定理：对 $\forall{A}\in\mathbb C^{n\times n},x\in\mathbb C^n $，有 $\|Ax\|_2\le\|A\|_F\|x\|_2$
+
+证:</script><p>\begin{align<em>} |Ax|_2^2&amp;=\sum_{i=1}^n(\sum_{j=1}^na_{ij}x_j)^2\\ &amp;\le\sum_{i=1}^n(\sum_{j=1}^n|a_{ij}||x_j|)^2\\ &amp;\le(\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2)(\sum_{j=1}^n|x_j|^2)\\&amp; =|A|_F^2|x|_2^2 \end{align</em>}</p>
+<script type="math/tex; mode=display">
+故得证
+
+事实上，我们还可以得到F-范数的相关性质
+
+定理：设 $A\in\mathbb C^{n\times n} , U,V $均为 n 阶酉矩阵，则 $\|A\|_F=\|UA\|_F=\|AV\|_F$
+
+证：此时</script><p>|UA|_F=(tr((UA)^H(UA)))^\frac{1}{2}=(tr(A^HU^HUA))^\frac{1}{2}=(tr(A^HA))^\frac{1}{2}=|A|_F</p>
+<script type="math/tex; mode=display">
+</script><p>|AV|_F=(tr((AV)(AV)^H))^\frac{1}{2}=(tr(AVV^HA^H))^\frac{1}{2}=(tr(AA^H))^\frac{1}{2}=|A|_F<br>$$</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%8C%83%E5%BC%8F/" rel="tag"># 范式</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/3.%E5%86%85%E7%A7%AF/" rel="prev" title="内积">
+                  <i class="fa fa-chevron-left"></i> 内积
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhouxy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

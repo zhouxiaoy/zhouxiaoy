@@ -1,6 +1,936 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>多项式矩阵与Jordan标准型</title>
+    <url>/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/2.%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%9F%A9%E9%98%B5%E4%B8%8EJordan%E6%A0%87%E5%87%86%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="lambda-矩阵及其Smith型"><a href="#lambda-矩阵及其Smith型" class="headerlink" title="$\lambda$ 矩阵及其Smith型"></a>$\lambda$ 矩阵及其Smith型</h2><h5 id="lambda-矩阵"><a href="#lambda-矩阵" class="headerlink" title="$\lambda$ 矩阵"></a>$\lambda$ 矩阵</h5><p>以多项式为元素的矩阵</p>
+<ul>
+<li><p>$\mathbb{F}[\lambda]$ ：表示以数域 $\mathbb{F}$ 中的元素为系数的多项式集合</p>
+</li>
+<li><p>$(\mathbb{F}[\lambda])^{m\times n}=\{[a_{ij}(\lambda)]_{m\times n}|a_{ij}(\lambda)\in \mathbb{F}[\lambda]\}$ （类比 $\mathbb{F}^{m\times n}$）</p>
+</li>
+<li><p>$\lambda$ 矩阵： $\boldsymbol{A}(\lambda)=[a_{ij}(\lambda)]_{m\times n},\ a_{ij}(\lambda)\in\mathbb{F}[\lambda],\ \boldsymbol{A}(\lambda)\in(\mathbb{F}[\lambda])^{m\times n}$</p>
+</li>
+<li><p>从映射观点看 $\lambda$ 矩阵：$\mathbb{F}\rightarrow\mathbb{F}^{m\times n},\ \lambda\mapsto\boldsymbol{A}(\lambda)$</p>
+</li>
+<li><p>从矩阵多项式观点看 $\lambda$ 矩阵：$\boldsymbol{A}(\lambda) = A_0+A_1\lambda+A_2\lambda^2+\cdots+$ ，即以矩阵为系数的多项式</p>
+<h5 id="lambda-矩阵的秩"><a href="#lambda-矩阵的秩" class="headerlink" title="$\lambda$ 矩阵的秩"></a>$\lambda$ 矩阵的秩</h5><p>不为零多项式的子式的最大阶数 （以多项式为元素算行列式）</p>
+</li>
+</ul>
+<h5 id="单位模阵（幺模阵）"><a href="#单位模阵（幺模阵）" class="headerlink" title="单位模阵（幺模阵）"></a>单位模阵（幺模阵）</h5><ul>
+<li>对 $\boldsymbol{U}(\lambda)\in(\mathbb{F}[\lambda])^{n\times n}$ ，若 $\exists\ \boldsymbol{V}(\lambda)\in(\mathbb{F}[\lambda])^{n\times n},\ s.t.\ \boldsymbol{U}(\lambda)\boldsymbol{V}(\lambda)=\boldsymbol{V}(\lambda)\boldsymbol{U}(\lambda)=\boldsymbol{I}_n$ ，则称 $\boldsymbol{V}(\lambda)$ 为 $\boldsymbol{U}(\lambda)$ 的单位模阵。</li>
+</ul>
+<p>多项式矩阵相对于前面所谈论的数值矩阵，主要不同就在于除法运算上，即多项式相除结果不一定还是多项式。用抽象数学的概念，数值矩阵谈论是域上的矩阵，而多项式矩阵谈论的是环上的矩阵</p>
+<ul>
+<li>$\boldsymbol{U}(\lambda)\in(\mathbb{F}[\lambda])^{n\times n}$ 为单位模阵 $\Leftrightarrow |\boldsymbol{U}(\lambda)|$ 是非零常值多项式（即 $a_0\neq 0$ 的零次多项式）<br>下面给出证明：</li>
+</ul>
+<p>$\Leftarrow$ ：显然</p>
+<p>$\Rightarrow$ ：存在多项式矩阵 $\boldsymbol{V}(\lambda)$ ，使得 $\boldsymbol{U}(\lambda)\boldsymbol{V}(\lambda)=\boldsymbol{I}_n\Rightarrow|\boldsymbol{U}(\lambda)||\boldsymbol{V}(\lambda)|=1\Rightarrow f(\lambda)g(\lambda)=1$ ，两个多项式相乘等于1，这两个多项式只能是 $a_0\neq 0$ 的零次多项式，否则相乘一定有变量在</p>
+<p>$\lambda$ 矩阵的初等行（列）变换<br>以初等行变换为例 $\Leftrightarrow$ 左乘一个相应的初等矩阵：</p>
+<ul>
+<li><p>某两行互换 $\Leftrightarrow$ eg. $\begin{bmatrix} 0&amp;1&amp;0\\1&amp;0&amp;0\\0&amp;0&amp;1\end{bmatrix}$</p>
+</li>
+<li><p>某行乘以非零常数 $\Leftrightarrow$ eg. $\begin{bmatrix} c&amp;0&amp;0\\0&amp;1&amp;0\\0&amp;0&amp;1\end{bmatrix}$</p>
+</li>
+</ul>
+<p><code>注：不是乘以非零多项式！因为乘以多项式是不可逆的，即对应乘上的矩阵没有单位模阵</code></p>
+<ul>
+<li>某行乘以一个多项式再加到另一行上 $\Leftrightarrow$ eg. $\begin{bmatrix}1&amp;0&amp;0\\f(\lambda)&amp;1&amp;0\\0&amp;0&amp;1\end{bmatrix}$</li>
+</ul>
+<h6 id="lambda-矩阵经左右初等变换化简"><a href="#lambda-矩阵经左右初等变换化简" class="headerlink" title="$\lambda$ 矩阵经左右初等变换化简"></a>$\lambda$ 矩阵经左右初等变换化简</h6><ul>
+<li><p>$\lambda$ 矩阵的等价：经初等行列变换可以互相转化的两个 $\lambda$ 矩阵等价，记作 $\boldsymbol{A}(\lambda) \sim \boldsymbol{B}(\lambda) $</p>
+</li>
+<li><p>【用初等行变换为矩阵左上角降次】设 $\boldsymbol{A}(\lambda) =[a_{ij}(\lambda)]_{m\times n},\ a_{11}(\lambda)\neq0$ ， 且至少有一个元素不能被 $a_{11}(\lambda)$ 整除（$\Leftrightarrow a_{11}(\lambda)$ 不为非零常值多项式 ），则有 $\boldsymbol{A}(\lambda) \sim\boldsymbol{B}(\lambda) $ 且 $b_{11}(\lambda)\neq0,\ \partial(b_{11}(\lambda))&lt;\partial(a_{11}(\lambda))$ （$\partial(多项式)$ 表示该多项式的次数）</p>
+</li>
+</ul>
+<p>下面给出证明概要：</p>
+<ul>
+<li><p>同行中有一个元素 $a_{1j}(\lambda)$ 不能被 $a_{11}(\lambda)$ 整除，即 $a_{1j}(\lambda)=a_{11}(\lambda)q(\lambda)+r(\lambda),\ 且\ \partial(r(\lambda))&lt;\partial(a(\lambda))$ ，所以，将第一列乘以 $-q(\lambda)$ 加到第 $j$ 列后交换第一列与第 $j$ 列，此时 $a_{11}(\lambda)’=r(\lambda),\partial(a_{11}(\lambda)’)&lt;\partial(a_{11}(\lambda))$ ，从而实现降次</p>
+</li>
+<li><p>同列中有一个元素 $a_{i1}(\lambda)$ 不能被 $a_{11}(\lambda)$ 整除，同理</p>
+</li>
+<li><p>同行同列都能被整除，但有 $a_{ij}(\lambda)$ 不能被 $a_{11}(\lambda)$ 整除。</p>
+<p>  首先可以通过一系列行列变换把第一列、第一行除了 $a_{11}(\lambda)$ 外都化为0，同时保证变换后的 $a_{ij}(\lambda)’$ 仍旧不能被 $a_{11}(\lambda)$ 整除（不能被整除的数加上除数的倍数依然不能被整除），将变换后的第 $j$ 行加到第1行，就回到第一种情况了</p>
+</li>
+</ul>
+<h5 id="Smith-型-lambda-矩阵"><a href="#Smith-型-lambda-矩阵" class="headerlink" title="Smith 型 $\lambda$ 矩阵"></a>Smith 型 $\lambda$ 矩阵</h5><p>设：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}(\lambda)\sim \boldsymbol{B}(\lambda)=
+\left[
+\begin{array}{ccc|ccc}
+    d_1({\lambda}) & & & 0 & \cdots & 0\\
+    & \ddots & &\vdots &\ddots &\vdots \\
+    & & d_r(\lambda) &0 &\cdots &0 \\
+    \hline 
+    0 & \cdots & 0 &0 &\cdots &0 \\
+    \vdots &\ddots &\vdots &\vdots &\ddots &\vdots \\
+    0 & \cdots & 0 &0 &\cdots &0
+\end{array}
+\right]</script><p>其中 $r=\text{rank}(\boldsymbol{A}(\lambda))$ ，$d_i(\lambda)$ 为非零多项式，且 $d_i(\lambda)|d_{i+1}(\lambda)$ ($f(\lambda)|g(\lambda)$ 表示 $f$ 整除 $g$ )，则称 $\boldsymbol{B}(\lambda)$ 为 $\boldsymbol{A}(\lambda)$ 的 Smith标准型 。</p>
+<p>下面给出证明：</p>
+<ul>
+<li><p>存在性</p>
+<p>  若为零矩阵，则显然；若为非零矩阵，必存在非零多项式，通过行列变换将次数最低的非零多项式移到 $a_{11}(\lambda)$ ，会出现以下两种情况：</p>
+<ol>
+<li><p>矩阵中所有元素都能被 $a_{11}(\lambda)$ 整除</p>
+</li>
+<li><p>存在若干元素不能被 $a_{11}(\lambda)$ 整除</p>
+<p>对于第二种情况，【用初等行变换为左上角降次】，降次必然是有限的，不能再降次的时候，也就是矩阵中的所有元素都能被 $a_{11}(\lambda)$ 整除的时候 ，进而同行同列的元素都能化成0</p>
+<p>对右下子矩阵进行相同的操作，以此类推，最终得到 Smith标准型</p>
+</li>
+</ol>
+</li>
+<li><p>唯一性</p>
+<p>  约定 $d_i(\lambda)$ 都是首1多项式，即最高次数系数为1</p>
+<ul>
+<li><p>$\lambda$ 矩阵的 $k$ 阶行列式因子 ：$\boldsymbol{A}(\lambda)$ 的所有 $k$ 阶子式的最高公因式</p>
+</li>
+<li><p><code>初等变换不改变</code> $k$ <code>阶行列式因子(不是很理解)</code></p>
+<p>下面给出证明：</p>
+<p>设 $\mathscr{A}=\{\boldsymbol{A}\ 的\ k\ 阶子式\},\mathscr{B}=\{\boldsymbol{B}\ 的\ k\ 阶子式\}$ ，只需证 $\mathscr{A},\mathscr{B}$ 的最高公因式相同。</p>
+<p>任取 $f(\lambda)\in\mathscr{B}$ ，考察它与 $\mathscr{A}$ 中多项式的关系，由于初等变换是三种基本变换的组合，所以只需分别对三种基本变换进行讨论即可：</p>
+</li>
+</ul>
+<ol>
+<li><p>某两行互换：只影响行列式的符号，因为约定了所有多项式都是首1多项式，所以这种变换对子式集合无影响，即 $\mathscr{A}=\mathscr{B}$ ，那么必有 $f(\lambda)\in\mathscr{A}$</p>
+</li>
+<li><p>某行乘以一个非零常数：同样，因为约定了所有多项式都是首1多项式，所以也不会有影响，即 $\mathscr{A}=\mathscr{B}$ ，那么必有 $f(\lambda)\in\mathscr{A}$</p>
+</li>
+<li><p>某行乘以一个多项式再加到另一行上。假设是第 $i$ 行乘以 $h(\lambda)$ 加到第 $j$ 行。那么：</p>
+</li>
+</ol>
+<ul>
+<li><p>如果 $f(\lambda)$ 没有取到第 $j$ 行，那么该子式不发生变化，即 $f(\lambda)\in\mathscr{A}$ ；</p>
+</li>
+<li><p>如果 $f(\lambda)$ 取到了第 $j$ 行：</p>
+<ul>
+<li><p>如果同时取到了第 $i$ 行，那么该子式不发生变化，即 $f(\lambda)\in\mathscr{A}$</p>
+</li>
+<li><p>如果没有取到第 $i$ 行，显然 $f(\lambda)\notin\mathscr{A}$ ，但是可以将它对应的行列式拆分：</p>
+<script type="math/tex; mode=display">
+\left|
+\begin{array}{c}
+  \boldsymbol{a}_p \\
+  \vdots \\
+  \boldsymbol{a}_j+\boldsymbol{a_i}\cdot h(\lambda) \\
+  \vdots \\
+  \boldsymbol{a}_{p+k-1}
+\end{array}
+\right| = 
+\left|
+\begin{array}{c}
+  \boldsymbol{a}_p \\
+  \vdots \\
+  \boldsymbol{a}_j \\
+  \vdots \\
+  \boldsymbol{a}_{p+k-1}
+\end{array}
+\right|+
+\left|
+\begin{array}{c}
+  \boldsymbol{a}_p \\
+  \vdots \\
+  \boldsymbol{a_i} \\
+  \vdots \\
+  \boldsymbol{a}_{p+k-1}
+\end{array}
+\right|\cdot h(\lambda)</script><p>即：$f(\lambda)=g(\lambda)+w(\lambda)\cdot h(\lambda)$，其中 $g(\lambda),w(\lambda)\in\mathscr{A}$ ，所以 $\mathscr{A}$ 的公因式必整除 $f(\lambda)$</p>
+</li>
+</ul>
+<p>综上，$\mathscr{A}$ 的公因式必能整除 $\mathscr{B}$ 中的所有子式，由于初等变换可逆知，$\mathscr{B}$ 的公因式也必能整除 $\mathscr{A}$ 中的所有子式，从而二者的最高公因式相同</p>
+</li>
+<li><p>不变因子 $d_{i}(\lambda)$</p>
+<p>记 $k$ 阶行列式因子为 $D_k(\lambda)$ ，初等变换不改变行列式因子，所以：<br>$d_1(\lambda) = D_1(\lambda),\ d_i(\lambda)=D_i(\lambda)/D_{i-1}(\lambda)$</p>
+<p>因此，称 $d_i(\lambda)$ 为不变因子（行列式因子唯一，所以 $d_i(\lambda)$ 一定唯一）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="两种方法求Smith型"><a href="#两种方法求Smith型" class="headerlink" title="两种方法求Smith型"></a>两种方法求Smith型</h5><ul>
+<li>初等变换：找次数最低项，要么能整除，要么能降次（带余除法）</li>
+</ul>
+<p>例：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+\begin{bmatrix}\lambda(\lambda+1)&0&0\\0&\lambda&0\\0&0&(\lambda+1)^2\end{bmatrix} 
+&\xrightarrow[]{最低次放左上角}
+&\begin{bmatrix}\lambda&0&0\\0&\lambda(\lambda+1)&0\\0&0&(\lambda+1)^2\end{bmatrix} \\
+&\xrightarrow[加到第一行]{不能整除的某行}
+&\begin{bmatrix}\lambda&0&(\lambda+1)^2\\0&\lambda(\lambda+1)&0\\0&0&(\lambda+1)^2\end{bmatrix} \\
+&\xrightarrow[]{带余除法降次}
+&\begin{bmatrix}\lambda&0&1\\0&\lambda(\lambda+1)&0\\0&0&(\lambda+1)^2\end{bmatrix} \\
+&\xrightarrow[重复带余除法直到能整除]{最低次换到左上角}
+&\begin{bmatrix}1&0&\lambda\\0&\lambda(\lambda+1)&0\\(\lambda+1)^2&0&0\end{bmatrix} \\
+&\xrightarrow[]{同行同列化零}
+&\begin{bmatrix}1&0&0\\ 0&\lambda(\lambda+1)&0\\ 0&0&-\lambda(\lambda+1)^2\end{bmatrix} \\
+&\xrightarrow[]{化为首1多项式}
+&\begin{bmatrix}1&0&0\\ 0&\lambda(\lambda+1)&0\\ 0&0&\lambda(\lambda+1)^2\end{bmatrix} \\
+\end{align*}</script><ul>
+<li><p>计算所有行列式因子</p>
+<p>  同上例，有 $D_1(\lambda)=1,D_2(\lambda)=\lambda(\lambda+1),D_3=\lambda^2(\lambda+1)^3$ ，故而 $d_1(\lambda)=1, d_2(\lambda)=\lambda(\lambda+1),d_3(\lambda)=\lambda(\lambda+1)^2$</p>
+</li>
+</ul>
+<h5 id="单位模阵可写成初等矩阵乘积"><a href="#单位模阵可写成初等矩阵乘积" class="headerlink" title="单位模阵可写成初等矩阵乘积"></a>单位模阵可写成初等矩阵乘积</h5><ul>
+<li><p>单位模阵的 Smith 型为单位矩阵</p>
+<p>  下面给出证明：</p>
+<p>  $\boldsymbol{U}(\lambda)$ 是单位模阵 $\Leftrightarrow |\boldsymbol{U}(\lambda)|=c\neq0$ （为非零常数）$\Leftrightarrow\boldsymbol{U}(\lambda)$ 的 $n$ 阶行列式因子为1，且 $r=\text{rank}(\boldsymbol{U})=n$</p>
+<p>  又：$D_n(\lambda)=D_1(\lambda)\frac{D_2(\lambda)}{D_1(\lambda)}\cdots\frac{D_n(\lambda)}{D_{n-1}(\lambda)}=d_1(\lambda)d_2(\lambda)\cdots d_n(\lambda)$</p>
+<p>  所以：$d_i(\lambda)=1$ ，证毕</p>
+</li>
+<li><p>单位模阵可写成有限个初等矩阵的乘积<br>  据上条性质，单位模阵经过若干次初等变换后可以变成单位矩阵，写成矩阵的形式即为：<br>  $\boldsymbol{P}_s(\lambda)\cdots\boldsymbol{P}_1(\lambda)\boldsymbol{U}(\lambda)\boldsymbol{Q}_1(\lambda)\cdots\boldsymbol{Q}_t(\lambda)=\boldsymbol{I}$</p>
+<p>  初等矩阵的逆矩阵仍为初等矩阵，因此：<br>  $\boldsymbol{U}(\lambda)=\boldsymbol{P}_1^{-1}(\lambda)\cdots\boldsymbol{P}_s^{-1}(\lambda)\boldsymbol{Q}_t^{-1}(\lambda)\boldsymbol{Q}_1^{-1}(\lambda)$</p>
+</li>
+</ul>
+<h5 id="数域矩阵相似最简型问题"><a href="#数域矩阵相似最简型问题" class="headerlink" title="数域矩阵相似最简型问题"></a>数域矩阵相似最简型问题</h5><ul>
+<li>特征矩阵：给定 $\boldsymbol{A}\in\mathbb{F}^{n\times n}$ ，称多项式矩阵 $\lambda\boldsymbol{I}-\boldsymbol{A}$ 为矩阵 $\boldsymbol{A}$ 的特征矩阵</li>
+</ul>
+<p><strong><em>定理</em></strong>：数域矩阵相似 $\Leftrightarrow$ 特征矩阵等价</p>
+<p>把一个受约束的相似问题【 $\boldsymbol{AP}=\boldsymbol{PB}$ 行列变换必须配套】转换成了一个不受约束的等价问题【 $\boldsymbol{U}(\lambda)(\lambda\boldsymbol{I}-\boldsymbol{A})\boldsymbol{V}(\lambda)=\lambda\boldsymbol{I}-\boldsymbol{B}$ 行列变换无需配套】</p>
+<p>下面给出证明：<br><code>预备知识</code></p>
+<ul>
+<li><p>多项式矩阵的<code>次数</code></p>
+<p>  若 $\boldsymbol{A}(\lambda) = A_0+A_1\lambda+A_2\lambda^2+\cdots+A_r\lambda^r,\ 且\ A_r\neq0$ ，则称 $\boldsymbol{A}(\lambda)$ 的次数为 $r$ ，记作 $\partial(\boldsymbol{A}(\lambda))=r$ 。特别地，零多项式矩阵的次数无意义。</p>
+</li>
+<li><p>引理1：多项式矩阵<code>乘积的次数</code></p>
+<p>  $\boldsymbol{A}(\lambda)\boldsymbol{B}(\lambda)=\boldsymbol{C}(\lambda)$，且 $\boldsymbol{A}(\lambda) = A_0+A_1\lambda+\cdots+A_r\lambda^r$ ，其中$\boldsymbol{A}(\lambda)\in(\mathbb{F}[\lambda])^{m\times m}, \boldsymbol{B}(\lambda),\boldsymbol{C}(\lambda)\in(\mathbb{F}[\lambda])^{m\times n}$若满足：</p>
+<p>  ​ 1）三个矩阵均非零（零矩阵的次数无意义）</p>
+<p>  ​ 2）$A_r\in \mathbb{F}^{m\times m}$ 可逆（保证 $\boldsymbol{C}(\lambda)$ 的最高次矩阵系数 $C_{r+s}=A_r \cdot B_s$ 非零）</p>
+<p>  那么 $\partial(\boldsymbol{C}(\lambda))=\partial(\boldsymbol{A}(\lambda))+\partial(\boldsymbol{B}(\lambda))$</p>
+</li>
+<li><p>引理2：多项式矩阵的带余除法（以左除为例）：<br>  $\boldsymbol{A}(\lambda) = A_0+A_1\lambda+\cdots+A_r\lambda^r\in(\mathbb{F}[\lambda])^{m\times m}$ ，若满足 $A_r\in\mathbb{F}^{m\times m}$ 可逆，那么对非零矩阵 $\boldsymbol{B}(\lambda)\in(\mathbb{F}[\lambda])^{m\times n}$ ，存在唯一矩阵 $\boldsymbol{Q}(\lambda), \boldsymbol{R}(\lambda)$ ，使得：$\boldsymbol{B}(\lambda)=\boldsymbol{A}(\lambda)\boldsymbol{Q}(\lambda)+\boldsymbol{R}(\lambda)$ ，其中 $\boldsymbol{R}(\lambda)=\boldsymbol{0}$ 或 $\partial(\boldsymbol{R}(\lambda))&lt;\partial(\boldsymbol{A}(\lambda))$</p>
+</li>
+</ul>
+<p><code>证明如下：</code></p>
+<ul>
+<li><p>必要性：有$\boldsymbol{P}$找$\boldsymbol{U},\boldsymbol{V}$<br>$\Rightarrow$ ：取 $\boldsymbol{U}(\lambda)=\boldsymbol{P}^{-1},\boldsymbol{V}(\lambda)=\boldsymbol{P}$ ，因为 $\boldsymbol{P}$ 可逆，故行列式为非零常数，满足单位模阵的要求。$U(\lambda)(\lambda I-A)V(\lambda) =P^{-1}(\lambda I - A)P=\lambda P^{-1}IP- P^{-1}AP=\lambda I - B$</p>
+</li>
+<li><p>充分性：从 $\boldsymbol{U},\boldsymbol{V}$ 找 $\boldsymbol{P}$<br>$\Leftarrow$ ：根据多项式矩阵带余除法，因为 $\boldsymbol{I}$ 可逆，所以：</p>
+<script type="math/tex; mode=display">\boldsymbol{U}(\lambda)=(\lambda\boldsymbol{I}-\boldsymbol{B})\boldsymbol{Q}(\lambda)+\boldsymbol{R}(\lambda)  \qquad(*)</script><p>  其中：$\boldsymbol{R}(\lambda)=\boldsymbol{0}$ ，或 $\partial(\boldsymbol{R}(\lambda))&lt;\partial(\lambda\boldsymbol{I}-\boldsymbol{B})=1$ ，即 $\boldsymbol{R}(\lambda)=\boldsymbol{R}\in\mathbb{F}^{n\times n}$ 为常数矩阵。因此：</p>
+<script type="math/tex; mode=display">
+  \begin{align*}
+  &\boldsymbol{U}(\lambda)(\lambda\boldsymbol{I}-\boldsymbol{A})\boldsymbol{V}(\lambda)=\lambda\boldsymbol{I}-\boldsymbol{B} \\
+  \Leftrightarrow &[(\lambda\boldsymbol{I}-\boldsymbol{B})\boldsymbol{Q}(\lambda)+\boldsymbol{R}](\lambda\boldsymbol{I}-\boldsymbol{A})\boldsymbol{V}(\lambda)=\lambda\boldsymbol{I}-\boldsymbol{B} \\
+  \Leftrightarrow &\boldsymbol{R}(\lambda\boldsymbol{I}-\boldsymbol{A})=(\lambda\boldsymbol{I}-\boldsymbol{B})[\boldsymbol{V}^{-1}(\lambda)-\boldsymbol{Q}(\lambda)(\lambda\boldsymbol{I}-\boldsymbol{A})] 
+  \end{align*}</script><p>  由引理1，比较等式两端变量 $\lambda$ 的系数可知，$\boldsymbol{V}^{-1}(\lambda)-\boldsymbol{Q}(\lambda)(\lambda\boldsymbol{I}-\boldsymbol{A})$ 也是常数矩阵，记作 $\boldsymbol{S}$ ，故而：</p>
+<script type="math/tex; mode=display">
+  \boldsymbol{R}(\lambda\boldsymbol{I}-\boldsymbol{A})=(\lambda\boldsymbol{I}-\boldsymbol{B})\boldsymbol{S}</script><p>  且由 $\lambda$ 系数知：$\boldsymbol{R}=\boldsymbol{S}$ ，从而有 $\boldsymbol{RA}=\boldsymbol{BR}$ ，只需证 $\boldsymbol{R}$ 可逆即可</p>
+<p>  要证明可逆，我们期望找出一个矩阵 $\boldsymbol{P}$ ，使得 $\boldsymbol{RP}=\boldsymbol{I}$ .</p>
+<p>  考虑到 $\boldsymbol{R}$ 是由矩阵 $\boldsymbol{U}(\lambda)$ 对矩阵 $\lambda\boldsymbol{I}-\boldsymbol{B}$ 作带余除法所得，对应地，也可以有：</p>
+<script type="math/tex; mode=display">\boldsymbol{U}^{-1}(\lambda)=(\lambda\boldsymbol{I}-\boldsymbol{A})\widetilde{\boldsymbol{Q}}(\lambda)+\widetilde{\boldsymbol{R}} \qquad(**)</script><p>  将方程 (<em>) (*</em>) 代入 $\boldsymbol{U}(\lambda)\boldsymbol{U}^{-1}(\lambda)=\boldsymbol{I}$ ，整理得：</p>
+<script type="math/tex; mode=display">\boldsymbol{R}(\lambda\boldsymbol{I}-\boldsymbol{A})\widetilde{\boldsymbol{Q}}(\lambda)+\boldsymbol{R}\widetilde{\boldsymbol{R}}=\boldsymbol{I}-(\lambda\boldsymbol{I}-\boldsymbol{B})\boldsymbol{Q}(\lambda)\boldsymbol{U}^{-1}(\lambda)</script><p>  等式左边因为 $\boldsymbol{R}(\lambda\boldsymbol{I}-\boldsymbol{A})=(\lambda\boldsymbol{I}-\boldsymbol{B})\boldsymbol{R}$ ，等价为：</p>
+<script type="math/tex; mode=display">
+  (\lambda\boldsymbol{I}-\boldsymbol{B})\boldsymbol{S}\widetilde{\boldsymbol{Q}}(\lambda) +\boldsymbol{R}\widetilde{\boldsymbol{R}}=\boldsymbol{I}-(\lambda\boldsymbol{I}-\boldsymbol{B})\boldsymbol{Q}(\lambda)\boldsymbol{U}^{-1}(\lambda)</script><p>  合并同类项得：</p>
+<script type="math/tex; mode=display">
+  \boldsymbol{R}\widetilde{\boldsymbol{R}}=\boldsymbol{I}-(\lambda\boldsymbol{I}-\boldsymbol{B})[\boldsymbol{Q}(\lambda)\boldsymbol{U}^{-1}(\lambda)+\boldsymbol{S}\widetilde{\boldsymbol{Q}}(\lambda)] \qquad(***)</script><p>  比较方程$(<em>*</em>)$两边 $\lambda$ 系数知：$\boldsymbol{R}\widetilde{\boldsymbol{R}}=\boldsymbol{I}$ ，从而 $\boldsymbol{R}$ 可逆。</p>
+<p>  证毕。</p>
+</li>
+</ul>
+<h5 id="特征矩阵的-Smith-型"><a href="#特征矩阵的-Smith-型" class="headerlink" title="特征矩阵的 Smith 型"></a>特征矩阵的 Smith 型</h5><p>定理1：因为 $|\lambda\boldsymbol{I}-\boldsymbol{A}|$ 的最高次项 $\lambda^n$ 的系数必为1，因此，$\lambda\boldsymbol{I}-\boldsymbol{A}$ 作为多项式矩阵的秩为 $n$ 。从而它的Smith型矩阵为：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+d_1(\lambda)&\\
+&\ddots&\\
+&&d_n(\lambda)
+\end{bmatrix}</script><p>定理2：由定理1可得，$d_1(\lambda)\cdots d_n(\lambda)=|\lambda\boldsymbol{I}-\boldsymbol{A}|\Rightarrow\partial(d_1(\lambda))+\cdots+\partial(d_n(\lambda))=n$ 。若某个 $d_i(\lambda)$ 的次数为 $n_i\neq1$ ，那么必将多出 $n_i-1$ 个常数不变因子，根据首1多项式的约定，这些不变因子最终都会化为1。因此上述Smith型矩阵进一步表示为：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1&&&&&\\
+&\ddots&&&&\\
+&&1&&&\\
+&&&h_1(\lambda)&&\\
+&&&&\ddots&\\
+&&&&&h_p(\lambda)
+\end{bmatrix}</script><p>其中，$\partial(h_i(\lambda))=n_i$ 。假设有 $p$ 个非常数不变因子，那么等于1的不变因子共有 $n-p$ 个，且满足 $n-p=(n_1-1)+\cdots+(n_p-1)$ ，因此将对角线上的元素按一个 $h_i(\lambda)$ ，$n_i-1$ 个1配对进行重组，Smith型矩阵等价于如下矩阵：</p>
+<script type="math/tex; mode=display">
+\left[
+\begin{array}{cccc|c|cccc}
+    1 & & & & & & & & \\
+    & \ddots & & & & & & & \\
+    & & 1 & & & & & & \\
+    & & & h_1(\lambda) & & & & & \\
+    \hline
+    & & & & \ddots & & & & \\
+    \hline
+    & & & & & 1 & & & \\
+    & & & & & & \ddots & & \\
+    & & & & & & & 1 & \\
+    & & & & & & & & h_p(\lambda)
+\end{array}
+\right]</script><p>每一小块都是 $\begin{bmatrix} 1&amp;&amp;&amp;\\&amp;\ddots&amp;&amp;\\&amp;&amp;1&amp;\\&amp;&amp;&amp;h_i(\lambda)\end{bmatrix}_{n_i\times n_i}\qquad (<em>**</em>)$</p>
+<ul>
+<li>特征矩阵的初等因子组</li>
+</ul>
+<p>初等因子指的是将特征矩阵的所有非常数不变因子在 $\mathbb{F}[\lambda]$ 中作质因式分解时出现的质因式的方幂。所有初等因子组成初等因子组（显然初等因子组中的某个初等因子可能重复出现）。</p>
+<p>$h_i(\lambda)\xlongequal{质因式分解}w_1^{r_{i1}}(\lambda)\cdots w_j^{r_{ij}}(\lambda)$ ，则每个质因式的方幂 $w_j^{r_{ij}}(\lambda)$ 就是一个初等因子，所有方幂组成了特征矩阵的初等因子组。<br><code>初等因子之间互素。</code></p>
+<p>（实数域中的质因式包括 $x-c$ 和 $x^2+bx+c,且\ b^2-4c&lt;0$ 两种情况；复数域中的质因式只有 $x-c$ 一种情况）</p>
+<p>初等因子组与不变因子（行列式因子、初等因子）互相唯一决定</p>
+<p>由不变因子决定初等因子组：根据定义，显然</p>
+<p>​ 例：已知矩阵 $\boldsymbol{A}$ 的特征矩阵 $\lambda\boldsymbol{I}-\boldsymbol{A}$ 的 Smith型 为：$\begin{bmatrix}1&amp;0&amp;0\\0&amp;(\lambda+1)^2&amp;0\\0&amp;0&amp;\lambda(\lambda+1)^2\end{bmatrix}$</p>
+<p>​ 显然初等因子组为：$\{(\lambda+1)^2,\lambda, (\lambda+1)^2\}$</p>
+<p>由初等因子组决定不变因子：</p>
+<p>​ 例：设 $\boldsymbol{A}\in\mathbb{C}^{8\times8}$ ，且初等因子组为：$\{\lambda,\lambda^2,\lambda,(\lambda+1)^2,(\lambda+1)^2\}$ ，求不变因子。</p>
+<p>​ 由于不变因子满足 $d_i(\lambda)|d_{i+1}(\lambda)$ 所以最后一个不变因子的次数应该最高且所有质因式都应出现，以此类推：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+&d_8(\lambda)=\lambda^2(\lambda+1)^2 \\
+&d_7(\lambda)=\lambda(\lambda+1)^2 \\
+&d_6(\lambda)=\lambda \\
+&d_5(\lambda)=\cdots=d_1(\lambda)=1 
+\end{align*}</script><p>下面通过对非常数不变因子 $h_i(\lambda)$ 在复数域上作质因式分解，将上述$(<em>**</em>)$进一步化为一种更特殊的形式</p>
+<script type="math/tex; mode=display">
+h_i(\lambda)=(\lambda-c_1)^{r_1}(\lambda-c_2)^{r_2}\cdots(\lambda-c_k)^{r_k}</script><p>显然有 $r_1+r_2+\cdots+r_k=n_i$ ，逆用初等因子分解，因为子矩阵 $\begin{bmatrix} 1&amp;&amp;&amp;\\&amp;\ddots&amp;&amp;\\&amp;&amp;1&amp;\\&amp;&amp;&amp;h_i(\lambda)\end{bmatrix}_{n_i\times n_i}$ 有上述 $k$ 个初等因子，所以可以等价于（有相同的初等因子组）：</p>
+<script type="math/tex; mode=display">
+\left[
+\begin{array}{cccc|c|cccc}
+    1 & & & & & & & & \\
+    & \ddots & & & & & & & \\
+    & & 1 & & & & & & \\
+    & & & (\lambda-c_1)^{r_1} & & & & & \\
+    \hline
+    & & & & \ddots & & & & \\
+    \hline
+    & & & & & 1 & & & \\
+    & & & & & & \ddots & & \\
+    & & & & & & & 1 & \\
+    & & & & & & & & (\lambda-c_k)^{r_k}
+\end{array}
+\right]</script><p><strong><em>矩阵相似在多项式特征邻域中的各种刻画</em></strong><br>若 $\boldsymbol{A},\boldsymbol{B}\in\mathbb{F}^{n\times n}$ ，则下列结论等价：</p>
+<p>$\boldsymbol{A}$ 与 $\boldsymbol{B}$ 相似；<br>$\lambda\boldsymbol{I}-\boldsymbol{A}$ 与 $\lambda\boldsymbol{I}-\boldsymbol{B}$ 作为多项式矩阵等价；<br>$\lambda\boldsymbol{I}-\boldsymbol{A}$ 与 $\lambda\boldsymbol{I}-\boldsymbol{B}$ 作为多项式矩阵有相同的 Smith型；<br>$\lambda\boldsymbol{I}-\boldsymbol{A}$ 与 $\lambda\boldsymbol{I}-\boldsymbol{B}$ 作为多项式矩阵有相同的 不变因子；<br>$\lambda\boldsymbol{I}-\boldsymbol{A}$ 与 $\lambda\boldsymbol{I}-\boldsymbol{B}$ 作为多项式矩阵有相同的 行列式因子；<br>$\lambda\boldsymbol{I}-\boldsymbol{A}$ 与 $\lambda\boldsymbol{I}-\boldsymbol{B}$ 作为多项式矩阵有相同的 初等因子组；<br>例：证明 $\boldsymbol{A}$ 与 $\boldsymbol{A}^T$ 相似</p>
+<p>因为只提供了抽象矩阵，所以适用于具体形式的2/3/4/6方法都不容易处理，因此考虑行列式因子</p>
+<p>因为 $(\lambda\boldsymbol{I}-\boldsymbol{A})^T=\lambda\boldsymbol{I}-\boldsymbol{A}^T$ ，而矩阵转置行列式不变，因此显然 $\lambda\boldsymbol{I}-\boldsymbol{A}$ 与 $\lambda\boldsymbol{I}-\boldsymbol{A}^T$ 有相同的行列式因子</p>
+<p>多项式矩阵等价的证明方法<br>定义法：初等变换能否转化<br>相同的行列式因子 / Smith型 / 不变因子 / 初等因子组</p>
+<h3 id="Jordan标准型"><a href="#Jordan标准型" class="headerlink" title="Jordan标准型"></a>Jordan标准型</h3><p>以下均在复数域上考虑，因而质因式只有 $\lambda-c$ 一种类型。</p>
+<p>综合上面所说，特征矩阵可以有如下等价：</p>
+<script type="math/tex; mode=display">
+\lambda\boldsymbol{I}-\boldsymbol{A}\sim \boldsymbol{J}(\lambda)=
+\begin{bmatrix}
+\boldsymbol{J}_1(\lambda) &&\\
+&\ddots&\\
+&&\boldsymbol{J}_q(\lambda)
+\end{bmatrix},
+\boldsymbol{J}_i(\lambda)=
+\begin{bmatrix}
+1 &&& \\
+& \ddots && \\
+&& 1 & \\
+&&& (\lambda-c_i)^{r_i}
+\end{bmatrix}_{r_i\times r_i}</script><p>其中：$(\lambda-c_i)^{r_i},i=1,…,q$ 是特征矩阵的初等因子组。</p>
+<p>从而：$\boldsymbol{A}\longrightarrow\lambda\boldsymbol{I}-\boldsymbol{A}\sim\boldsymbol{J}(\lambda)\sim\lambda\boldsymbol{I}-\boldsymbol{J}\longleftarrow\boldsymbol{J}$ ，满足这个条件的矩阵都与 $\boldsymbol{A}$ 相似</p>
+<p>我们要做的，就是求出其中最简单的矩阵，也就是相似最简型</p>
+<p>进一步，这个问题又可以拆分成针对各个子块的类似的问题，即：求一个尽可能简单的矩阵 $\boldsymbol{J}_i\in\mathbb{C}^{r_i\times r_i}$ ，使得 $\lambda\boldsymbol{I}_{r_i}-\boldsymbol{J}_i\sim\boldsymbol{J}_i(\lambda)$</p>
+<h5 id="Jordan块的Simth型"><a href="#Jordan块的Simth型" class="headerlink" title="Jordan块的Simth型"></a>Jordan块的Simth型</h5><p>若当块：对角线元素全为 $c_1$ ，次对角线元素均为1的矩阵：</p>
+<p>结论：若当块所对应特征矩阵的Simth型即满足 $\lambda\boldsymbol{I}_{r_i}-\boldsymbol{J}_i\sim\boldsymbol{J}_i(\lambda)$</p>
+<p>下面给出证明（本质就是证明两个多项式矩阵等价） ：</p>
+<p>方法一：定义法</p>
+<script type="math/tex; mode=display">
+左边=\begin{bmatrix}
+\lambda-c_1 & -1 & \cdots & 0 \\
+\vdots & \ddots & \ddots & \vdots \\
+\vdots & & \ddots & -1 \\
+0 & \cdots & \cdots& \lambda-c_1
+\end{bmatrix}_{r_i\times r_i}</script><p>方法二：计算两边的行列式因子<br>由于左边的 $r_i-1$ 阶行列式中有一个是1（右上角子块），所以左边矩阵的 $r_i-1$ 阶最高公因式只能是1，即左边矩阵的 $r_i-1$ 阶行列式因子为1。</p>
+<p>从而所有比它低阶的行列式因子也只能是1，因为 $D_{i-1}(\lambda)$ 必须整除 $D_{i}(\lambda)$ 。</p>
+<p>而左侧行列式等于右侧行列式，即左侧 $r_i$ 阶行列式因子与右侧相同。</p>
+<p>故而两边矩阵的任意阶行列式因子都相同，从而矩阵等价。</p>
+<p>综上所述，有如下定理：</p>
+<p>给定矩阵 $\boldsymbol{A}\in\mathbb{C}^{n\times n}$ ，其特征矩阵 $\lambda\boldsymbol{I}-\boldsymbol{A}$ 的初等因子组为：$(\lambda-c_1)^{r_1},\cdots,(\lambda-c_q)^{r_q}$ ，取</p>
+<script type="math/tex; mode=display">
+\boldsymbol{J}_i=\begin{bmatrix}
+c_i & 1 & \cdots & 0 \\
+\vdots & \ddots & \ddots & \vdots \\
+\vdots & & \ddots & 1 \\
+0 & \cdots & \cdots& c_i
+\end{bmatrix}_{r_i\times r_i}</script><p>则 $\boldsymbol{A}$ 的相似最简型为：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{A}\sim\boldsymbol{J}=
+\begin{bmatrix}
+J_1 &  \cdots & 0 \\
+\vdots & \ddots & \vdots \\
+0 & \cdots & J_q
+\end{bmatrix}</script><p>而 $\boldsymbol{J}$ 就是矩阵 $\boldsymbol{A}$ 的 Jordan标准型</p>
+]]></content>
+      <categories>
+        <category>矩阵分析</category>
+      </categories>
+      <tags>
+        <tag>多项式矩阵</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内积</title>
+    <url>/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/3.%E5%86%85%E7%A7%AF/</url>
+    <content><![CDATA[<h3 id="内积"><a href="#内积" class="headerlink" title="内积"></a>内积</h3><h4 id="内积定义"><a href="#内积定义" class="headerlink" title="内积定义"></a>内积定义</h4><p>设 $\mathbb{V}$ 是 $\mathbb{R}$ 上的一个线性空间，定义映射 $\tau: \mathbb{V}\times\mathbb{V}\rightarrow\mathbb{R}$ 。称映射 $\tau$ 为 $\mathbb{V}$ 上的一个内积，且记 $\tau(v_1,v_2)=<v_1, v_2>$ ，该映射需满足以下三个条件：</p>
+<ul>
+<li><p>(1) 对称性: $\forall v_1,v_2 \in V,<v_1,v_2> = <v_2,v_1>$</p>
+</li>
+<li><p>(2) 固定第一个变元，对第二个变元有<code>线性性</code>: $\forall v_1,v_2,v_3 \in V,k,l \in R,<v_1,v_2k+v_3l> = <v_1,v_2>k+<v_1,v_3>l$</p>
+</li>
+<li><p>(3) 正定性: 对 $\forall v \in V,v ≠ 0 , 〈v,v〉 &gt; 0$</p>
+</li>
+</ul>
+<p>定义了内积的线性空间称为内积空间，有限维的内积空间称为欧几里得空间（有限维内积空间）</p>
+<p>内积有如下性质：</p>
+<ul>
+<li><p>(1) 任意向量与0向量做内积为0，即$\forall v \in V，&lt;\boldsymbol{0},\boldsymbol{v}&gt;=0$</p>
+<p>  证明：</p>
+<script type="math/tex; mode=display">
+  <0,v> = <v,0>=<v,0+0> = <v,0>+<v,0> \Rightarrow  <0,v> = <v,0> = 0\\</script></li>
+<li><p>(2) 双线性：固定第二个变元，对第一个变元也满足线性性,即$\forall v_1,v_2,v_3 \in V,k,l \in R,<v_1k+v_2l,v_3> = k<v_1,v_3>+l<v_2,v_3>\$<br>  证明：</p>
+<script type="math/tex; mode=display">
+  <v_1k+v_2l,v_3> = <v_3,v_1k+v_2l> \\ = <v_3,v_1>k+<v_3,v_2>l\\ =k<v_1,v_3>+l<v_2,v_3></script></li>
+</ul>
+<h5 id="mathbb-R-n-上的标准内积"><a href="#mathbb-R-n-上的标准内积" class="headerlink" title="$\mathbb{R}^n$ 上的标准内积"></a>$\mathbb{R}^n$ 上的标准内积</h5><p>定义映射 $\tau: \mathbb{R}^n\times\mathbb{R}^n\rightarrow\mathbb{R}$ ，满足 $&lt;\boldsymbol{x},\boldsymbol{y}&gt;=\boldsymbol{x}^T\boldsymbol{y}=x_1y_1+x_2y_2+…+x_ny_n$ ，称 $\tau$ 为 $\mathbb{R}^n$ 上的标准内积</p>
+<h5 id="函数空间的内积"><a href="#函数空间的内积" class="headerlink" title="函数空间的内积"></a>函数空间的内积</h5><p>设 $\mathbb{V} = \Zeta(I, R)$是一个函数空间，其中$f \in \zeta([a,b], R^n)，f(t) = \begin{bmatrix}  f_1(t) \\f_2(t) \...\\f_n(t)\end{bmatrix},\\f(t)\text{整体看为一个元素且}f_i(t)\text{为连续函数}t \in [a,b]$。<br>$<f, g> = \int_a^b {f^T(t)g(t)} \,{\rm d}t = \int_a^b {\{f_1(t)g_1(t) + f_2(t)g_2(t) + … + f_n(t)g_n(t)\}}{\rm d}t$</p>
+<p><code>注：是内积空间而非欧几里得空间。</code></p>
+<h4 id="复内积与酉空间"><a href="#复内积与酉空间" class="headerlink" title="复内积与酉空间"></a>复内积与酉空间</h4><p>设 $\mathbb{V} \text{是复数域}\mathbb{C}$上的线性空间。即$\mathbb{V} \times \mathbb{V}  = \mathbb{C}$。满足以下3个条件称之为复内积，所属空间称之为复内积空间。</p>
+<ul>
+<li><p>(1) 共轭对称性：$\forall v_1,v_2 \in V,<v_1,v_2> = \overline{<v_2,v_1>}$</p>
+</li>
+<li><p>(2) 第二变元的线性性：$\forall v_1,v_2,v_3 \in V,k,l \in R,<v_1,v_2k+v_3l> = <v_1,v_2>k+<v_1,v_3>l$</p>
+</li>
+<li><p>(3) 正定性：$\forall v \in V,v ≠ 0 , 〈v,v〉 &gt; 0$</p>
+</li>
+</ul>
+<p>有限维复内积空间也称之为酉空间。</p>
+<ul>
+<li><p>性质 ：<br>  相比于欧式空间中的双线性，在酉空间中对第一变元是<code>共轭线性</code>的，第二变元则不是。即<br>  $\forall v_1,v_2,v_3 \in V,k,l \in R,<v_1k+v_2l,v_3> = \overline k<v_1,v_3>+\overline l<v_2,v_3> $</p>
+<p>  证明：<br>  $<v_1k+v_2l,v_3> = \overline {<v_3,v_1k+v_2l>}\\ = \overline{<v_3,v_1>k+<v_3,v_2>l}\\ =\overline{<v_3,v_1>}\overline k+\overline {<v_3,v_2l>}\overline l\\ = <v_1l,v_3>\overline k+<v_2l,v_3>\overline l\\ =\overline k <v_1l,v_3>+\overline l<v_2l,v_3>\$</p>
+</li>
+</ul>
+<h5 id="标准酉空间-mathbb-C-n"><a href="#标准酉空间-mathbb-C-n" class="headerlink" title="标准酉空间$\mathbb{C}^n$"></a>标准酉空间$\mathbb{C}^n$</h5><p>$<x, y> = x^Ty = \overline{[x_1,x_2,…,x_n]}\begin{bmatrix}y_1 \\ y_2 \...\\ y_n\end{bmatrix}$</p>
+<h5 id="线性组合的内积的矩阵表示"><a href="#线性组合的内积的矩阵表示" class="headerlink" title="线性组合的内积的矩阵表示"></a>线性组合的内积的矩阵表示</h5><p>若$\mathbb{V}$是一个n维欧式空间，$\alpha_1,\alpha_2,…,\alpha_n$是它的一组基，对 $\mathbb{V}$ 中任意向量$\alpha,\beta$,其中</p>
+<script type="math/tex; mode=display">
+\alpha = x_1\alpha_1+...+x_n\alpha_n\\ \beta = y_1\alpha_1+...+y_n\alpha_n</script><p>利用内积的线性性可以得到</p>
+<script type="math/tex; mode=display">
+<\alpha,\beta>=X^TAY\\</script><p>其中</p>
+<script type="math/tex; mode=display">
+A= \begin{bmatrix}     <\alpha_1,\alpha_1> & \cdots & <\alpha_1,\alpha_n>\\     \vdots & \ddots & \vdots\\   <\alpha_n,\alpha_1> & \cdots & <\alpha_n,\alpha_n>\\   \end{bmatrix} ,X= \begin{bmatrix}     x_1 \\     \vdots \\   x_n\\   \end{bmatrix} ,Y= \begin{bmatrix}     y_1 \\     \vdots \\   y_n\\   \end{bmatrix}\\</script><p>若$\mathbb{V}$是一个酉空间，则</p>
+<script type="math/tex; mode=display">
+<\alpha,\beta>=\overline X^TAY\\</script><p>由此可以得到，<strong><em>内积与矩阵$A$是一一对应的</em></strong>。</p>
+<h4 id="向量组的Gram矩阵和度量矩阵"><a href="#向量组的Gram矩阵和度量矩阵" class="headerlink" title="向量组的Gram矩阵和度量矩阵"></a>向量组的Gram矩阵和度量矩阵</h4><p>Gram矩阵定义：n维欧式空间中任意k个向量之间两两的内积所组成的矩阵，称为这k个向量的格拉姆矩阵(Gram matrix)，很明显，这是一个对称矩阵。</p>
+<p>设 $\beta_1,\beta_2,…,\beta_s$ 是内积空间的一个向量组，矩阵</p>
+<script type="math/tex; mode=display">
+G=\begin{bmatrix}     <\beta_1,\beta_1> & \cdots & <\beta_1,\beta_n>\\     \vdots & \ddots & \vdots\\   <\beta_n,\beta_1> & \cdots & <\beta_n,\beta_n>\\   \end{bmatrix}\\</script><p>称为向量组 $\beta_1,\beta_2,…,\beta_s$ 的Gram矩阵</p>
+<p>若向量组 $\beta_1,\beta_2,…,\beta_s$是 <strong><em>一组基</em></strong>,则将Gram矩阵称为该基的度量矩阵。<br><code>内积由度量矩阵唯一决定</code></p>
+<h6 id="Gram矩阵的性质及证明"><a href="#Gram矩阵的性质及证明" class="headerlink" title="Gram矩阵的性质及证明"></a>Gram矩阵的性质及证明</h6><ul>
+<li><p>Hermite性</p>
+<ul>
+<li><p>酉空间上：$\overline G^T = G$</p>
+<p>  等式右边第 $i$ 行 $j$ 列元素为 $&lt;\beta_i,\beta_j&gt;$</p>
+<p>  等式左边第 $i$ 行 $j$ 列元素为 $\overline{&lt;\beta_j,\beta_i&gt;}$</p>
+<p>  由酉空间内积的性质可得 $&lt;\beta_i,\beta_j&gt; = \overline{&lt;\beta_j,\beta_i&gt;} $ ，因此 $\overline G^T = G$</p>
+</li>
+<li><p>欧式空间上： $G^T = G$</p>
+<p>  同理可证<br>&lt;/br&gt;</p>
+</li>
+</ul>
+</li>
+<li><p>非负性</p>
+<ul>
+<li>酉空间上：$\overline Z^TGZ\geq 0$<script type="math/tex; mode=display">
+\overline Z^TGZ = \begin{bmatrix}     \overline z_1,\overline z_2,...,\overline z_s  \end{bmatrix} \begin{bmatrix}     <\beta_1,\beta_1> & \cdots & <\beta_1,\beta_s>\\     \vdots & \ddots & \vdots\\   <\beta_s,\beta_1> & \cdots & <\beta_s,\beta_s>\\   \end{bmatrix}  \begin{bmatrix}     z_1\\ z_2\\ \vdots\\ z_s  \end{bmatrix}\\ = <\beta_1z_1+\beta_2z_2+...+\beta_sz_s,\beta_1z_1+\beta_2z_2+...+\beta_sz_s></script>由内积的正定性得 $\overline Z^TGZ\geq 0$</li>
+<li>欧式空间上：$Z^TGZ\geq 0$<br>&lt;/br&gt;</li>
+</ul>
+</li>
+<li><p>$G$ 正定 $\Leftrightarrow \{\beta_i\}$ 线性无关<br>$G$ 正定， $\forall  z \ne0,\beta_1z_1+\beta_2z_2+…+\beta_sz_s,\beta_1z_1+\beta_2z_2+…+\beta_sz_s\ne0$,则 $\beta_1,…,\beta_s$ 线性无关<br>&lt;/br&gt;</p>
+</li>
+<li><p>$rank(G)=rank(\{\beta_1,…,\beta_s\})$</p>
+</li>
+</ul>
+<p><strong><em>度量矩阵是特殊的Gram矩阵，因此Gram具有的性质Gram矩阵也具有</em></strong></p>
+<h6 id="例：几何空间张成内积空间"><a href="#例：几何空间张成内积空间" class="headerlink" title="例：几何空间张成内积空间"></a>例：几何空间张成内积空间</h6><p>$&lt;\alpha, \beta&gt; = ||\alpha||  \cdot ||\beta||cos\theta$</p>
+<p>$G(\alpha, \beta) = \begin{bmatrix}&lt;\alpha, \alpha&gt; &amp; &lt;\alpha, \beta&gt; \\ &lt;\beta, \alpha&gt; &amp; &lt;\beta,\beta&gt; \end{bmatrix}<br>$</p>
+<p>$||G|| = ||\alpha||^2||\beta||^2 - ||\alpha||^2||\beta||^2cos^2\theta = ||\alpha||^2||\beta||^2sin^2\theta$<br><img src="./images/向量图.png" alt="向量图"><br>即$G\text{的行列式的值就为由}\alpha,\beta$所张成的平行四边形面积</p>
+<p><code>同理向量组的G也就是所对应的多边体的体积</code></p>
+<h4 id="向量长度和距离的定义"><a href="#向量长度和距离的定义" class="headerlink" title="向量长度和距离的定义"></a>向量长度和距离的定义</h4><ul>
+<li>一个向量的长度：$|\alpha|=\sqrt{\langle \alpha,\alpha \rangle}$</li>
+<li>两个向量的距离：$d(\alpha,\beta)=|\alpha-\beta|$</li>
+</ul>
+<h5 id="长度的性质"><a href="#长度的性质" class="headerlink" title="长度的性质"></a>长度的性质</h5><ul>
+<li><p>正性<br>$|\alpha|\geq0$ ，当且仅当$\alpha$为0时取等号<br>证明：<br>因为 $\langle \alpha,\alpha \rangle$ 非负，因此 $|\alpha| = \sqrt{\langle \alpha,\alpha \rangle}  \quad\geq 0$</p>
+</li>
+<li><p>正齐次<br>$|\alpha k|=|k||\alpha|$<br>证明：<br>按定义$|\alpha k| = \sqrt{\langle \alpha k,\alpha k \rangle} =\sqrt{\overline{|k|}\langle \alpha,\alpha \rangle|k|}\\  =|k|\sqrt{\langle \alpha,\alpha \rangle} =|k||\alpha|\\ $<br>证明是在酉空间上，若在欧式空间上也如此，只不过对第一变元是线性的而非共轭线性</p>
+</li>
+<li><p>平行四边形公式<br>$|\alpha-\beta|^2 + |\alpha+\beta|^2=2(|\alpha|^2+|\beta|^2)$<br>证明：<br>$|\alpha - \beta|^2   = \langle \alpha - \beta,\alpha - \beta \rangle  = \langle \alpha,\alpha \rangle  + \langle \alpha,-\beta \rangle +  \langle -\beta,\alpha \rangle  + \langle -\beta,-\beta \rangle = |\alpha|^2 - \langle \beta,\alpha \rangle   - \langle \alpha,\beta \rangle +|\beta|^2\\   |\alpha+\beta|^2   = \langle \alpha + \beta,\alpha + \beta \rangle  = \langle \alpha,\alpha \rangle  + \langle \alpha,\beta \rangle +  \langle \beta,\alpha \rangle  + \langle \beta,\beta \rangle = |\alpha|^2 + \langle \beta,\alpha \rangle   + \langle \alpha,\beta \rangle +|\beta|^2\\ $<br>所以<br>$|\alpha-\beta|^2 + |\alpha+\beta|^2 = 2\langle \alpha,\alpha \rangle +2\langle \beta,\beta \rangle  = 2|\alpha|^2+2|\beta|^2=2(|\alpha|^2+|\beta|^2)\$<br>注意：这里不要手痒痒将 $\langle \alpha,\beta \rangle, \langle \beta,\alpha \rangle $ 合为 $2\langle \alpha,\beta \rangle$，这个在酉空间是不成立的</p>
+</li>
+<li><p>Cauchy-schwarz不等式<br>$|\langle \alpha,\beta \rangle| \leq |\alpha| |\beta|$<br>证明：</p>
+<ul>
+<li>当 $\alpha = 0$ 或 $\beta = 0$ ，显然成立</li>
+<li>当 $\alpha,\beta$ 都不为0时<br>在欧式空间中： $&lt;\alpha,\beta&gt;$ 为一实数<br>$|\langle \alpha,\beta \rangle| \leq |\alpha| |\beta| \Leftrightarrow (2\langle \alpha,\beta \rangle)^2 \leq 4|\alpha|^2|\beta|^2 \\<br>\text{记}2\langle \alpha,\beta \rangle = b, |\alpha|=a,|\beta|=c，\text{且}a,b,c &gt; 0\\<br>\text{则}(2\langle \alpha,\beta \rangle )^2 \leq 4|\alpha|^2|\beta|^2  \Leftrightarrow b^2 \leq 4ac\\<br>\text{构造二次函数：}f(t)=at^2+bt+c\\<br>\text{则等价于}f(t)=at^2+bt+c \geq 0，<br>$对$\forall t \in R$成立<br>则<br>$f(t)=at^2+bt+c  = |\alpha|^2t^2+2 \langle \alpha,\beta \rangle t+|\beta|^2\\ = \langle \alpha,\alpha \rangle t^2+2 \langle \alpha,\beta \rangle t+ \langle \beta,\beta \rangle\\ = t \langle \alpha,\alpha \rangle t+ \langle \alpha t,\beta \rangle + \langle \beta,\alpha t \rangle + \langle \beta,\beta \rangle\\ = \langle \alpha t,\alpha t \rangle  + \langle \alpha t,\beta \rangle + \langle \beta,\alpha t \rangle + \langle \beta,\beta \rangle \\ = &lt;\alpha t+ \beta,\alpha t+ \beta&gt;\\ = |\alpha t+ \beta| \geq 0$<br>在酉空间中： $\langle  \alpha,\beta \rangle$ 不一定为实数，但是根据复数的三角表示，$\langle \alpha,\beta \rangle =| \langle \alpha,\beta \rangle|e^{i\theta}  $ ，可以得到 $\langle \alpha ,\beta \rangle e^{-i\theta} = | \langle \alpha,\beta \rangle|  $<br>将 $e^{-i\theta}$ 放到内积中得$\langle \alpha e^{i\theta},\beta \rangle = |\langle \alpha ,\beta \rangle| $ 为一实数<br>因此$|\langle \alpha e^{i\theta},\beta \rangle|  \leq |\langle \alpha e^{i\theta}\rangle| |\beta| $<br>不等式左边： $|\langle \alpha e^{i\theta},\beta \rangle|   = |\langle \alpha ,\beta \rangle e^{-i\theta}|  = | \langle \alpha,\beta \rangle|   $<br>不等式右边：$|\langle \alpha e^{i\theta}\rangle| |\beta|  = \sqrt{\langle \alpha e^{i\theta},\alpha e^{i\theta}\rangle} =  \sqrt{e^{-i\theta} \langle \alpha ,\alpha \rangle e^{i\theta}}|\beta|  =  \sqrt{ \langle \alpha ,\alpha \rangle }|\beta| =  |\alpha| |\beta|\$<br>因此得到：$|\langle \alpha,\beta \rangle| \leq |\alpha| |\beta|$</li>
+</ul>
+</li>
+<li><p>三角不等式<br>$|\alpha \pm \beta| \leq |\alpha| +|\beta|$<br>证明加号的情况，减号的情况下只需要将 $\alpha -\beta$ 看成是 $\alpha + (-\beta)$ 即可<br>证明：<br>$|\alpha +\beta| \leq |\alpha| +|\beta|  \Leftrightarrow |\alpha + \beta|^2 \leq (|\alpha| +|\beta|)^2\\ \Leftrightarrow \langle  \alpha,\alpha \rangle + \langle  \alpha,\beta \rangle + \langle  \beta,\alpha \rangle + \langle  \beta,\beta \rangle \leq |\alpha|^2+|\beta|^2+2|\alpha||\beta|\\ \Leftrightarrow |\alpha|^2 + \langle  \alpha,\beta \rangle + \langle  \beta,\alpha \rangle + |\beta|^2  \leq |\alpha|^2+|\beta|^2+2|\alpha||\beta|\\ \Leftrightarrow \langle  \alpha,\beta \rangle + \langle  \beta,\alpha \rangle  \leq 2|\alpha||\beta|$<br>又因为$\langle  \alpha,\beta \rangle + \langle  \beta,\alpha \rangle  = \langle  \alpha,\beta \rangle +  \overline{\langle  \alpha,\beta \rangle} = 2Re\langle  \alpha,\beta \rangle$为一个实数。<br>实数一定满足小于等于它的绝对值的性质，即<br>$\langle  \alpha,\beta \rangle + \langle  \beta,\alpha \rangle \leq |\langle  \alpha,\beta \rangle + \langle  \beta,\alpha \rangle|  \leq |\langle  \alpha,\beta \rangle | + |\langle  \beta,\alpha \rangle|$<br>在利用Cauchy-schwarz不等式<br>$|\langle  \alpha,\beta \rangle | + |\langle  \beta,\alpha \rangle|   \leq |\alpha||\beta|+|\beta||\alpha| = 2|\alpha||\beta|\$<br>所以三角不等式成立</p>
+<h5 id="距离的性质"><a href="#距离的性质" class="headerlink" title="距离的性质"></a>距离的性质</h5></li>
+<li>距离的三角不等式<br>两边距离之和大于第三边。<br>$d(\alpha,\beta) \leq d(\alpha,\gamma) +d(\gamma,\beta)$<br>证明：<br>由三角不等式很容易得到<br>$|\alpha-\beta|=|\alpha -\gamma + \gamma - \beta| \leq  |\alpha -\gamma |+ |\gamma - \beta|$<br>按照距离的定义可以得到<br>$d(\alpha,\beta) \leq d(\alpha,\gamma) +d(\gamma,\beta)$</li>
+</ul>
+<h4 id="夹角的定义"><a href="#夹角的定义" class="headerlink" title="夹角的定义"></a>夹角的定义</h4><p>假设 $\theta$ 是向量 $\alpha$ 和 $\beta$ 的夹角，则 $\theta = arc cos \frac{\langle  \alpha,\beta \rangle}{|\alpha||\beta|}$<br>注意：<strong><em>夹角的定义在欧式空间中才有</em></strong>，因为在酉空间中 $\langle  \alpha,\beta \rangle$ 可能是负数。由Cauchy-schwarz不等式可得： $|\langle  \alpha,\beta \rangle| \leq|\alpha||\beta|$ ，因此可以保证 $\frac{|\langle  \alpha,\beta \rangle|}{|\alpha||\beta|} \leq 1$ ，所以可以保证 $\theta$ 是一定存在的</p>
+<p>并且通过夹角公式可以反过来计算内积： $\langle  \alpha,\beta \rangle = |\alpha||\beta|cos\theta $</p>
+<h5 id="正交【垂直】的定义"><a href="#正交【垂直】的定义" class="headerlink" title="正交【垂直】的定义"></a>正交【垂直】的定义</h5><p>任意空间【可以是欧式空间，也可以是酉空间】中的向量$\alpha,\beta$，如果垂直即 $\alpha\bot\beta$ ，则满足</p>
+<script type="math/tex; mode=display">\langle  \alpha,\beta \rangle = 0</script><p>如果是实空间中且$\alpha,\beta$都不为0，垂直可以得到 $\alpha,\beta$ 之间的夹角 $\theta = \frac{\pi}{2}$</p>
+<h5 id="勾股定理"><a href="#勾股定理" class="headerlink" title="勾股定理"></a>勾股定理</h5><p><strong><em>欧式空间中</em></strong>，下列等价</p>
+<ul>
+<li>(1)$\alpha \perp  \beta$</li>
+<li>(2)$\theta = \frac{\pi}{2}$</li>
+<li>(3)$\langle  \alpha,\beta \rangle = 0$</li>
+<li>(4)$|\alpha+\beta|^2=|\alpha|^2+|\beta|^2$</li>
+<li>(5)$|\alpha-\beta|^2=|\alpha|^2+|\beta|^2$</li>
+</ul>
+<p>酉空间中，<br>(1) $\Leftrightarrow$ (3)<br>(4) $\Leftrightarrow$ (5)<br>(1) $\Rightarrow$ (4)</p>
+<h4 id="投影定理"><a href="#投影定理" class="headerlink" title="投影定理"></a>投影定理</h4><h5 id="投影定理的背景"><a href="#投影定理的背景" class="headerlink" title="投影定理的背景"></a>投影定理的背景</h5><p>问题： $V$ 是 $\mathbb{C}$ 上的内积空间， $\beta \in V, W$  是 $V$ 的有限维子空间，在 $W$ 中求一个向量 $\alpha$离$\beta$ 的距离最近，即求</p>
+<script type="math/tex; mode=display">min \{d(\beta,\alpha)|\alpha \in W\}</script><p>设 $W$ 的一组基， $\beta_1,\beta_2,…,\beta_s$ ，则 $\alpha$ 可以表示为 $\alpha = \beta_1 k_1 + …+\beta_sk_s$</p>
+<p>根据距离公式</p>
+<script type="math/tex; mode=display">
+d(\beta,\alpha) = d(\beta,\sum_{j=1}^{s}{\beta_jk_j})=\|\beta-\sum_{j=1}^{s}{\beta_jk_j}\|\\ d(\beta,\sum_{j=1}^{s}{\beta_jk_j})^2 =\langle \beta-\sum_{j=1}^{s}{\beta_jk_j},\beta-\sum_{j=1}^{s}{\beta_jk_j} \rangle\\</script><p>可以将 $\langle \beta-\sum_{j=1}^{s}{\beta_jk_j},\beta-\sum_{j=1}^{s}{\beta_jk_j} \rangle$ <strong><em>看成 $s$个变元的多元函数</em></strong>，按照数学分析中多元函数求极值的问题去解<br>假设考虑在实数域上，则</p>
+<script type="math/tex; mode=display">
+\langle \beta-\sum_{j=1}^{s}{\beta_jk_j},\beta-\sum_{j=1}^{s}{\beta_jk_j} \rangle = \|\beta\|^2-2\langle \beta,\sum_{j=1}^{s}{\beta_jk_j} \rangle+ \langle \sum_{j=1}^{s}{\beta_jk_j},\sum_{j=1}^{s}{\beta_jk_j} \rangle\\ = \|\beta\|^2-2\sum_{j=1}^{s}\langle \beta,\beta_j \rangle k_j+ \begin{bmatrix} k_1\cdots  k_s   \end{bmatrix}G(\{\beta_i\})\begin{bmatrix} k_1\\ \vdots\\ k_s   \end{bmatrix}</script><p>其中</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} k_1\cdots  k_s   \end{bmatrix}G(\{\beta_i\})\begin{bmatrix} k_1\\ \vdots\\ k_s   \end{bmatrix}\\</script><p>为二次型，因此可以将 $\langle \beta-\sum_{j=1}^{s}{\beta_jk_j},\beta-\sum_{j=1}^{s}{\beta_jk_j} \rangle$ 看成是$s$ 元二次多项式</p>
+<p>利用多元函数求极值的方法，令各个变量的偏导为0。当然在这里我们会考虑使用代数的方式去解决这个问题，但是这个处理的思想还是很重要的，将其看成$s$ 元二次多项式求最小值的问题就转化为了原本熟悉的问题了</p>
+<h5 id="投影定理及证明"><a href="#投影定理及证明" class="headerlink" title="投影定理及证明"></a>投影定理及证明</h5><p>设 $V$ 是 $\mathbb{C}$ 上的内积空间【如果是 $\mathbb{R}$ 上的也成立】， $\beta \in V ， W$ 是 $V$ 的有限维子空间，则 <strong><em>存在唯一</em></strong> 的 $\alpha \in W$ ，使得</p>
+<script type="math/tex; mode=display">d(\beta,\alpha)\leq d(\beta,w),\forall w \in W</script><p>其中$\alpha$ 可以被记为</p>
+<script type="math/tex; mode=display">\alpha = arg\ min\ d(\beta,w),w \in W</script><p>其中$arg$ 表示的含义为使 $d(\beta,w)$ 最小时自变量的取值<br>设 $\beta_1,…,\beta_s$ 是 $W$ 中的一个基，则</p>
+<script type="math/tex; mode=display">\alpha = \beta_1 k_1 + ...+\beta_sk_s=\left[ \beta_1,...,\beta_s \right]k</script><p>其中</p>
+<script type="math/tex; mode=display">
+k=\begin{bmatrix} k_1\\ \vdots\\ k_s   \end{bmatrix}</script><p>则</p>
+<script type="math/tex; mode=display">
+k = G({\beta_i})^{-1}G({\beta_i},\beta)</script><p>$\alpha =\left[ \beta_1,…,\beta_s \right]k$,使得$\alpha$到$\beta$的距离最近<br>证明：</p>
+<ul>
+<li><p>投影距离最近的证明<br>  <img src="./images/投影证明.jpg" alt="投影证明"><br>  设 $\vec{AB}=\beta,\vec{AC}=\alpha$ ，则</p>
+<script type="math/tex; mode=display">d(\alpha,\beta)=\|\vec{BC}\|\\</script><p>  其中 $\alpha$ 是$\beta$ 在平面的投影， $BC$ 是平面的法线，则 $BC$ 垂直该平面中的所有向量</p>
+<p>  任意在平面中找一向量 $\vec{AD}$ ，则</p>
+<script type="math/tex; mode=display">d(\vec{AD},\beta)=\|\vec{BD}\|</script><p>  由勾股定理</p>
+<script type="math/tex; mode=display">\|\vec{CD}\|^2+\|\vec{BC}\|^2= \|\vec{BD}\|^2</script><p>  所以投影距离最短</p>
+</li>
+<li><p>存在性的证明<br>即正面平面法线的存在，设平面的一组基 $\beta_1,\beta_2,…,\beta_s$ ， $\vec{BC} = \beta - \alpha$ 垂直平面的充要条件是</p>
+<script type="math/tex; mode=display">(\beta-\alpha)\bot \beta_j,j=1,2,...,s</script><p>即</p>
+<script type="math/tex; mode=display">
+\langle \beta_j,(\beta-\alpha) \rangle ,j=1,2,...,s\\ \Leftrightarrow \langle \beta_j,\beta \rangle - \langle \beta_j,\alpha \rangle  = 0</script></li>
+</ul>
+<p>$\alpha$可由基向量线性表出，即 $\alpha=\sum_{i=1}^{s}{\beta_ik_i}$ ，则</p>
+<script type="math/tex; mode=display">
+\langle \beta_j,\beta \rangle    =  \langle \beta_j,\sum_{i=1}^{s}{\beta_ik_i} \rangle =\sum_{i=1}^{s} \langle \beta_j,{\beta_i} \rangle k_i ,\quad j=1,2,...,s</script><p>将其写成矩阵的表达形式</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}   \langle \beta_1,\beta_1 \rangle & \cdots &  \langle \beta_1,\beta_s \rangle \\       \vdots & &\vdots \\      \langle \beta_s,\beta_1 \rangle & \cdots &  \langle \beta_s,\beta_s \rangle    \end{bmatrix}  \begin{bmatrix} k_1\\ \vdots\\ k_s   \end{bmatrix}  = \begin{bmatrix}   \langle \beta_1,\beta \rangle\\       \vdots\\      \langle \beta_s,\beta\rangle    \end{bmatrix}</script><p>可以得到</p>
+<script type="math/tex; mode=display">
+k = G({\beta_i})^{-1}G({\beta_i},\beta)</script><ul>
+<li>唯一性的证明<br>假设存在 $AD=\widetilde\alpha$ 到 $\beta$ 的距离最短，则<script type="math/tex; mode=display">
+\|\vec{BC}\|= \|\vec{BD}\|</script>与勾股定理<script type="math/tex; mode=display">\|\vec{CD}\|^2+\|\vec{BC}\|^2= \|\vec{BD}\|^2, \quad \|\vec{CD}\|>0</script>矛盾</li>
+</ul>
+<p>所以 $\alpha$ 唯一</p>
+<h4 id="投影定理的应用"><a href="#投影定理的应用" class="headerlink" title="投影定理的应用"></a>投影定理的应用</h4><h5 id="最小二乘拟合问题"><a href="#最小二乘拟合问题" class="headerlink" title="最小二乘拟合问题"></a>最小二乘拟合问题</h5><p>有一组观测数据<br><img src="./images/观测数据.jpg" alt="观测数据"><br>在已有库中找一个 $k$ 次函数</p>
+<p>$y = f(x)=a_0+a_1x+…+a_kx^k$ 使得$f(a_0,a_1,…,a_k)=\sum_{i=1}^{n}{\left| f(x_i)-y_i \right|}^2$ 取值最小 <strong><em>最小二乘拟合准则</em></strong></p>
+<p>求最小的问题因为 $f$ 是$k+1$元函数，可以令 $\frac{\partial f}{\partial a_i} = 0$ 求解 $a_i$ 的值</p>
+<p>但是这里将其转换为投影定理的应用来解，就需要对问题进行抽象化</p>
+<p>令 </p>
+<script type="math/tex; mode=display">\beta=\begin{bmatrix}      y_1 \\     \vdots \\    y_n\end{bmatrix}, \beta_i = \begin{bmatrix}      x_1^i \\      \vdots \\    x_n^i\\   \end{bmatrix} ,i =0,1,...,k</script><p>则求 $f$ 的最小值等价于求 $|\beta-\sum_{i=0}^{n}{\beta_ia_i}|^2 $的最小值，而 <strong><em>求 $|\beta-\sum_{i=0}^{n}{\beta_ia_i}|^2$ 的最小值问题可以理解为在 $R^n$ 中将 $\beta$ 向 $W=span\{\beta_0,\beta_1,…,\beta_k\}$ 子空间的投影</em></strong></p>
+<p>证明：<br>因为 </p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^{n}{\left| f(x_i)-y_i \right|}^2  =  \sum_{i=1}^{n}{\left| \sum_{j=1}^{k}{x_i^ja_j}-y_i \right|}^2\\ = \|  \begin{bmatrix}      \sum_{j=0}^{k}{x_1^ja_j}-y_1 \\      \vdots \\    \sum_{j=0}^{k}{x_n^ja_j}-y_n    \end{bmatrix} \|^2\\ =  \|  \begin{bmatrix}      x_1^0 \\      \vdots \\    x_n^0    \end{bmatrix}a_0 + ... +  \begin{bmatrix}      x_1^k \\      \vdots \\    x_n^k    \end{bmatrix}a_k -   \begin{bmatrix}      y_1\\      \vdots \\    y_n   \end{bmatrix} \|^2\\ = \|\beta-\sum_{i=0}^{n}{\beta_ia_i}\|^2</script><p>说明第二个等式可以过去的原因：</p>
+<script type="math/tex; mode=display">
+c_1^2+c_2^2+...+c_{100}^2= \left[ c_1,...,c_{100} \right] \begin{bmatrix}      c_1 \\      \vdots \\    c_{100}    \end{bmatrix} = \|c\|^2</script><p>其中</p>
+<script type="math/tex; mode=display">
+c=\begin{bmatrix}      c_1 \\      \vdots \\    c_{100}    \end{bmatrix}</script><p>即等于列向量所有元素长度的平方</p>
+<p>因此最小二乘拟合问题的几何实质是：将因变量的观测值拼成的一个 n 维列向量向自变量的观测值构成的 k+1 个向量作为一组基的子空间的投影，该组基为</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}       1 \\       \vdots \\     x_1  \end{bmatrix}, \begin{bmatrix}       x_1 \\       \vdots \\     x_n  \end{bmatrix},..., \begin{bmatrix}       x_1^k \\       \vdots \\     x_n^k  \end{bmatrix}</script><h5 id="投影矩阵"><a href="#投影矩阵" class="headerlink" title="投影矩阵"></a>投影矩阵</h5><p>这里通过一道例子引用投影矩阵的概念</p>
+<p>空间$C^n$上的向量 $\beta ， A \in C^{n \times s} $并且列满秩， 求$\beta$ 往子空间$ imA $的投影 $\alpha$</p>
+<p>设子空间 $imA$ 的一组基为 $\beta_1,\beta_2,…,\beta_s$ ，套用投影定理的公式</p>
+<script type="math/tex; mode=display">
+\alpha=\left[ \beta_1,\beta_2,...,\beta_s \right]k\\其中k = G({\beta_i})^{-1}G({\beta_i},\beta)</script><p>因此</p>
+<script type="math/tex; mode=display">
+P_A(\beta)=Ak=AG(A)^{-1}G(A,\beta) = A(\overline A^TA)^{-1}\overline A^T\beta = \left[  A(\overline A^TA)^{-1}\overline A^T \right]\beta\\ 记P_A=A(\overline A^TA)^{-1}\overline A^T</script><p>则$P_A$ 即为投影矩阵</p>
+<p>$P_A(\beta) $符号表示的含义为 $\beta $在 $A$上的投影</p>
+<p>注：考虑的标准内积空间，即</p>
+<script type="math/tex; mode=display">
+ \langle \beta_i,\beta_j \rangle=  \overline \beta_i^T \beta_j</script><h6 id="投影矩阵的性质"><a href="#投影矩阵的性质" class="headerlink" title="投影矩阵的性质"></a>投影矩阵的性质</h6><ul>
+<li>$\overline {P_A}^T= P_A$</li>
+<li>$P_A ^2 = P_A$</li>
+<li>$rank(P_A)=rank(A)$</li>
+</ul>
+<p>若为实数域上的投影矩阵，则第一条性质中投影矩阵不需要取共轭</p>
+<h3 id="标准正交基、Gram-Schmidt-正交化及正交矩阵和酉矩阵"><a href="#标准正交基、Gram-Schmidt-正交化及正交矩阵和酉矩阵" class="headerlink" title="标准正交基、Gram-Schmidt 正交化及正交矩阵和酉矩阵"></a>标准正交基、Gram-Schmidt 正交化及正交矩阵和酉矩阵</h3><h4 id="正交组、标准正交组、标准正交基的定义"><a href="#正交组、标准正交组、标准正交基的定义" class="headerlink" title="正交组、标准正交组、标准正交基的定义"></a>正交组、标准正交组、标准正交基的定义</h4><p>设 V 是 C 上的内积空间</p>
+<ul>
+<li>正交向量组【正交组】：$V$ 中若干个非零向量 $\{\alpha_i\}$ 构成的向量组称为正交向量组, 若组中任意两个向量正交，即  $\langle \alpha_i,\alpha_j\rangle=0,i=1,2,…,s$</li>
+<li>标准正交组：正交向量组称为标准正交组, 若其中每个向量的长度为 1，即 $|\alpha_i|=1,i=1,2,…,s$</li>
+<li>标准正交基：标准正交组若还是$V$ 的一个基, 则称为标准正交基<h6 id="标准正交组构成的gram矩阵的性质"><a href="#标准正交组构成的gram矩阵的性质" class="headerlink" title="标准正交组构成的gram矩阵的性质"></a>标准正交组构成的gram矩阵的性质</h6>因为<script type="math/tex; mode=display">
+\langle \alpha_i,\alpha_j \rangle = \delta_{ij} =\begin{cases} 1 ,i = j\\ 0  ,i \ne j \end{cases}</script>所以<script type="math/tex; mode=display">
+G(\{\alpha_i\}) = \begin{bmatrix}    \langle \alpha_1,\alpha_1 \rangle & \cdots &  \langle \alpha_1,\alpha_s \rangle \\        \vdots & &\vdots \\       \langle \alpha_s,\alpha_1 \rangle & \cdots &  \langle \alpha_s,\alpha_s \rangle    \end{bmatrix}  =E</script><h6 id="标准正交组的性质"><a href="#标准正交组的性质" class="headerlink" title="标准正交组的性质"></a>标准正交组的性质</h6>标准正交组一定是线性无关的<br>证明：<script type="math/tex; mode=display">
+\alpha_1k_1+\alpha_2k_2+...+\alpha_sk_s=0,k_i=0,i=1,2,...,s</script>$\alpha_i$ 分别于等式两边做内积<script type="math/tex; mode=display">
+\langle \alpha_i,\alpha_1k_1+\alpha_2k_2+...+\alpha_sk_s\rangle  =  \langle \alpha_i,0\rangle</script>利用内积的性质<script type="math/tex; mode=display">
+\langle \alpha_i,\alpha_1\rangle k_1+...+ \langle \alpha_i,\alpha_i\rangle k_i+  ...+\langle \alpha_i,\alpha_s\rangle k_s = 0</script>可以得到<script type="math/tex; mode=display">
+\langle \alpha_i,\alpha_i\rangle k_i = 0\\ 又因为 \langle \alpha_i,\alpha_i\rangle = 1 ，</script>因此得到<script type="math/tex; mode=display">
+k_i=0,i=1,2,...,s</script>由证明过程可以看出，标准正交组具有 <strong><em>解耦性</em></strong>，两边用 $\alpha_i$做内积，可以得到系数 $k_i$ 的值</li>
+</ul>
+<h6 id="标准正交组的好处"><a href="#标准正交组的好处" class="headerlink" title="标准正交组的好处"></a>标准正交组的好处</h6><p><strong><em>标准正交组具有解耦性！</em></strong>用一道例子强调它解耦性的作用</p>
+<p>实数域上的内积空间 $V=\mathscr L^2{(\left[ 0,2\pi \right])}$ ，即所有定义域在 $\left[ 0,2\pi \right]$ 上的平方可积函数的全体， $f,g\in V $，其内积满足</p>
+<script type="math/tex; mode=display">
+\langle f,g \rangle = \int_{0}^{2\pi}f(t)g(t)dt</script><p>$V$上的一组标准正交组</p>
+<script type="math/tex; mode=display">
+\{\frac{1}{2\pi}, \frac{1}{\sqrt{\pi}}\sin nx, \frac{1}{\sqrt{\pi}}\cos nx\},\quad n=1,2,...,N</script><p>很容易验证这组向量满足正交性和标准性即 <strong><em>模长为1</em></strong></p>
+<p>将任意函数 f(x) 展开成傅里叶级数的形式，即</p>
+<script type="math/tex; mode=display">
+f(x) \sim c_0\frac{1}{\sqrt{2 \pi}}+\sum_{k=1}^{N}{a_k\frac{1}{\sqrt{\pi}}\sin kx} + \sum_{k=1}^{N}{b_k\frac{1}{\sqrt{\pi}}\cos kx}</script><p>分别用标准正交组中的向量与 $f(x)$ 做内积，可以得到</p>
+<script type="math/tex; mode=display">
+c_0=\frac{1}{\sqrt{2 \pi}}\int_{0}^{2\pi}f(x)dx\\ a_n=\frac{1}{\sqrt{\pi}}\int_{0}^{2\pi}f(x)\sin nxdx \\ b_n=\frac{1}{\sqrt{\pi}}\int_{0}^{2\pi}f(x)\cos nxdx</script><p>其中 $n=1,2,…,N$</p>
+<p>因此利用标准正交组的解耦性很容易求出系数</p>
+<h5 id="Gram-Schmidt-正交化"><a href="#Gram-Schmidt-正交化" class="headerlink" title="Gram-Schmidt 正交化"></a>Gram-Schmidt 正交化</h5><p>设一组基 $\alpha_1,\alpha_2,…,\alpha_s$，构造正交基$ \beta_1,\beta_2,…,\beta_s$</p>
+<ul>
+<li>正交化<br>令 $\begin{cases} \beta_1=\alpha_1\\ \beta_2= \alpha_2-k_{21}\beta_1\\ \vdots\\ \beta_s= \alpha_s- k_{s1}\beta_1…-k_{s,s-1}\beta_{s-1} \end{cases}$<br>满足<br>$\langle \beta_i,\beta_j \rangle = \delta_{ij}=\begin{cases} 1 ,i = j\\ 0  ,i \ne j \end{cases}$<br>因此可以得到<script type="math/tex; mode=display">
+k_{21}=\frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle},..., k_{s1}=\frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle},..., k_{ss}=\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}</script>即<script type="math/tex; mode=display">
+\begin{cases} \beta_1=\alpha_1\\ \beta_2= \alpha_2-\frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\beta_1\\ \vdots\\ \beta_s= \alpha_s- \frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\beta_1-...-\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}\beta_{s-1} \end{cases}</script></li>
+<li>单位化<br>$\widetilde \beta_1=\frac{\beta_1}{\ | \beta_1|},…,\widetilde \beta_s=\frac{\beta_s}{\ | \beta_s|}$</li>
+</ul>
+<p>由这个正交化过程可以得出：<strong><em>标准正交基是一定存在的</em></strong></p>
+<h5 id="正交矩阵、酉矩阵"><a href="#正交矩阵、酉矩阵" class="headerlink" title="正交矩阵、酉矩阵"></a>正交矩阵、酉矩阵</h5><p>正交矩阵： $A \in R^{n \times n}$ 称为正交矩阵，若满足 $A^TA=E$<br>酉矩阵： $A \in C^{n \times n}$ 称为酉矩阵，若满足 $\overline A^TA=E$</p>
+<h6 id="正交矩阵、酉矩阵列向量具有的性质"><a href="#正交矩阵、酉矩阵列向量具有的性质" class="headerlink" title="正交矩阵、酉矩阵列向量具有的性质"></a>正交矩阵、酉矩阵列向量具有的性质</h6><p>设$A=\left[ a_1,a_2,…,a_n \right]$ 在标准欧式空间中，即内积满足$ \langle x,y \rangle =x^T y$ ，正交矩阵的列向量组是一组标准正交基</p>
+<script type="math/tex; mode=display">
+(A^TA)_{ij}=a_i^Ta_j=\langle \alpha_i,\alpha_j \rangle =\delta_{ij}=\begin{cases} 1 ,i = j\\ 0  ,i \ne j \end{cases}</script><p>因此 <strong><em>正交矩阵的列向量组是一组标准正交基</em></strong></p>
+<p>在标准酉空间中，即内积满足$ \langle x,y \rangle =\overline x^T y $，酉矩阵的列向量组是一组标准正交基</p>
+<script type="math/tex; mode=display">
+(\overline A^TA)_{ij}=\overline a_i^Ta_j=\langle \alpha_i,\alpha_j \rangle =\delta_{ij}=\begin{cases} 1 ,i = j\\ 0  ,i \ne j \end{cases}</script><p>因此 <strong><em>酉矩阵的列向量组也是一组标准正交基</em></strong></p>
+<p>正交矩阵作为线性变换，以下等价</p>
+<ul>
+<li>$U$ 是正交矩阵</li>
+<li>$U$ 作为线性变换保内积，即 $\langle Ux,Uy\rangle = \langle x,y\rangle$</li>
+<li>U 作为线性变换保长度，即 $|Ux|=|x|$</li>
+</ul>
+<p>$1 \Rightarrow  2$</p>
+<p>已知 $U^TU=E$</p>
+<p>因此</p>
+<script type="math/tex; mode=display">\langle Ux,Uy\rangle  =\overline{ (Ux)} ^T(Uy)= x^TU^TUy=x^Ty=<x,y></script><p>$2\Rightarrow1$</p>
+<p>已知</p>
+<script type="math/tex; mode=display">
+\langle Ux,Uy\rangle  =\overline{ (Ux)} ^T(Uy)= x^TU^TUy=x^Ty=<x,y></script><p>因此<script type="math/tex">U^TU=E</script><br>即$U$是正交矩阵</p>
+<p>$2 \Rightarrow 3$ 令 $y=x$</p>
+<script type="math/tex; mode=display">
+\|Ux\|^2=\langle Ux,Ux\rangle = \langle x,x\rangle=\|x\|^2 \Rightarrow \|Ux\|=\|x\||</script><p>$3 \Rightarrow 2$<br>已知 $|Ux|=|x|$ ，等价 $\langle Ux,Ux\rangle = \langle x,x\rangle$</p>
+<p>则</p>
+<script type="math/tex; mode=display">
+\langle U(x+y),U(x+y)\rangle = \langle x+y,x+y\rangle</script><p>等式两边展开</p>
+<script type="math/tex; mode=display">
+\langle Ux,Ux\rangle +\langle Uy,Uy\rangle +\langle Ux,Uy\rangle +\langle Uy,Ux\rangle\\  \langle Ux,Ux\rangle +\langle Uy,Uy\rangle +2\langle Ux,Uy\rangle\\ = \langle x,x\rangle +\langle y,y\rangle +\langle x,y\rangle +\langle y,x\rangle\\ = \langle x,x\rangle +\langle y,y\rangle +2\langle x,y\rangle</script><p>因此</p>
+<script type="math/tex; mode=display">
+\langle Ux,Uy\rangle = \langle x,y\rangle</script><p>酉矩阵 U 作为线性变换，以下等价</p>
+<ul>
+<li>U 是酉矩阵</li>
+<li>U 作为线性变换保内积，即 $\langle Ux,Uy\rangle = \langle x,y\rangle$</li>
+<li>U 作为线性变换保长度，即 $|Ux|=|x|$<br>证明 $3 \Rightarrow 2 $，其他证明思路同上</li>
+</ul>
+<h3 id="基于Gram-Schmidt-正交化及QR分解"><a href="#基于Gram-Schmidt-正交化及QR分解" class="headerlink" title="基于Gram-Schmidt 正交化及QR分解"></a>基于Gram-Schmidt 正交化及QR分解</h3><h4 id="Gram-Schmidt-正交化变形"><a href="#Gram-Schmidt-正交化变形" class="headerlink" title="Gram-Schmidt 正交化变形"></a>Gram-Schmidt 正交化变形</h4><p>上一节已经得到任意一组基 $\alpha_1,\alpha_2,…,\alpha_s $，可以构造正交基 $\beta_1,\beta_2,…,\beta_s$</p>
+<script type="math/tex; mode=display">
+\begin{cases} \beta_1=\alpha_1\\ \beta_2= \alpha_2-\frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\beta_1\\ \vdots\\ \beta_s= \alpha_s- \frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\beta_1...-\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}\beta_{s-1} \end{cases}</script><p>将 $\alpha_i$ 移到左边得到</p>
+<script type="math/tex; mode=display">
+\begin{cases}  \alpha_1 = \beta_1\\  \alpha_2 = \beta_2 + \frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\beta_1\\  \vdots\\  \alpha_s = \beta_s + \frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\beta_1+...+\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}\beta_{s-1} \end{cases}</script><p>可以得到矩阵乘积的形式</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} \alpha_1 & \alpha_2 & \cdots & \alpha_s  \end{bmatrix} = \begin{bmatrix} \beta_1 & \beta_2 & \cdots & \beta_s  \end{bmatrix} \begin{bmatrix}  1 &  \frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle} & \cdots & \frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\\ &1&&\vdots\\ &&\ddots&\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}\\ &&&1 \end{bmatrix}</script><p>对  $\beta_, \beta_2,  \cdots  ,\beta_s $  进行单位化</p>
+<script type="math/tex; mode=display">
+\widetilde \beta_1=\frac{\beta_1}{\ \| \beta_1\|},...,\widetilde \beta_s=\frac{\beta_s}{\ \| \beta_s\|}</script><p>则 </p>
+<script type="math/tex; mode=display">\begin{bmatrix} \beta_1 & \beta_2 & \cdots & \beta_s  \end{bmatrix} =  \begin{bmatrix} \widetilde \beta_1 & \widetilde \beta_2 & \cdots & \widetilde \beta_s  \end{bmatrix} \begin{bmatrix}  \|\beta_1\|\\ &\ddots\\ &&\|\beta_s\| \end{bmatrix}</script><p>所以</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix} \alpha_1 & \alpha_2 & \cdots & \alpha_s  \end{bmatrix} =  \begin{bmatrix} \widetilde \beta_1 & \widetilde \beta_2 & \cdots & \widetilde \beta_s  \end{bmatrix} \begin{bmatrix}  \|\beta_1\|\\ &\ddots\\ &&\|\beta_s\| \end{bmatrix} \begin{bmatrix}  1 &  \frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle} & \cdots & \frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\\ &1&&\vdots\\ &&\ddots&\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}\\ &&&1 \end{bmatrix}\\</script><p>即</p>
+<script type="math/tex; mode=display">\begin{bmatrix} \alpha_1 & \alpha_2 & \cdots & \alpha_s  \end{bmatrix} =  \begin{bmatrix} \widetilde \beta_1 & \widetilde \beta_2 & \cdots & \widetilde \beta_s  \end{bmatrix} \begin{bmatrix}  \|\beta_1\| &  \|\beta_1\|\frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle} & \cdots & \|\beta_1\| \frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\\ &\|\beta_2\|&&\vdots\\ &&\ddots&\|\beta_{s-1}\|\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}\\ &&&\|\beta_s\| \end{bmatrix}</script><p>记 </p>
+<script type="math/tex; mode=display">
+A=\begin{bmatrix} \alpha_1 & \alpha_2 & \cdots & \alpha_s  \end{bmatrix}, Q=\begin{bmatrix} \widetilde \beta_1 & \widetilde \beta_2 & \cdots & \widetilde \beta_s  \end{bmatrix}, R=\begin{bmatrix}  \|\beta_1\| &  \|\beta_1\|\frac{\langle \alpha_2,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle} & \cdots & \|\beta_1\| \frac{\langle \alpha_s,\beta_1 \rangle}{\langle \beta_1,\beta_1 \rangle}\\ &\|\beta_2\|&&\vdots\\ &&\ddots&\|\beta_{s-1}\|\frac{\langle \alpha_s,\beta_{s-1} \rangle}{\langle \beta_{s-1},\beta_{s-1} \rangle}\\ &&&\|\beta_s\| \end{bmatrix}</script><p>即</p>
+<script type="math/tex; mode=display">A=QR</script><p>其中 $A$ 为列满秩矩阵，$Q$ 为标准正交矩阵， $R$ 为主对角线元素都大于0的上三角矩阵</p>
+<h4 id="QR分解定理"><a href="#QR分解定理" class="headerlink" title="QR分解定理"></a>QR分解定理</h4><p>任意一个非奇异矩阵 $A$ 都可以分解为一个正交矩阵 $Q$ 和一个主对角元素都为正数的上三角矩阵 $R$ 的乘积，并且分解是唯一的</p>
+<p>下面证明矩阵分解的唯一性：</p>
+<p>假设分解方式不唯一，即存在 $Q_1,Q_2$ 和 $R_1,R_2$ 成立</p>
+<script type="math/tex; mode=display">A=Q_1R_1=Q_2R_2</script><p>则</p>
+<script type="math/tex; mode=display">
+Q_2^{-1}Q_1=R_1R_2^{-1}</script><p>因为$ Q_1,Q_2$ 为标准正交矩阵，因此</p>
+<script type="math/tex; mode=display">
+Q_2^{-1}Q_1=R_1R_2^{-1}=E</script><p>所以</p>
+<script type="math/tex; mode=display">
+Q_1=Q_2,R_1=R_2</script><p> 所以分解是唯一的</p>
+]]></content>
+      <categories>
+        <category>矩阵分析</category>
+      </categories>
+      <tags>
+        <tag>内积</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>范式</title>
+    <url>/2022/01/24/%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/4.%20%E8%8C%83%E5%BC%8F/</url>
+    <content><![CDATA[<h4 id="Schur分解及Hermite矩阵"><a href="#Schur分解及Hermite矩阵" class="headerlink" title="Schur分解及Hermite矩阵"></a>Schur分解及Hermite矩阵</h4><h5 id="Schur定理"><a href="#Schur定理" class="headerlink" title="Schur定理"></a>Schur定理</h5><p>任意矩阵 A \in C ^{n \times n} ，一定存在酉矩阵 U ，使得 U^{-1}AU 为上三角矩阵</p>
+<p>证明：</p>
+<p>之前学习过任意矩阵可相似于Jordan标准型，因此存在非奇异矩阵 P 成立</p>
+<script type="math/tex; mode=display">AP=PJ</script><p>根据上一节的QR分解，任意非奇异矩阵都可以分解为QR的形式，其中Q为标准正交矩阵，因此 P 可以分解为</p>
+<script type="math/tex; mode=display">P=UR</script><p>其中 $U$ 是酉矩阵， $R $是主对角线上元素都大于0的上三角矩阵，因此</p>
+<script type="math/tex; mode=display">
+AUR=URJ</script><p>对等式做进一步变形，则</p>
+<script type="math/tex; mode=display">U^{-1}AU=RJR^{-1}</script><p>因为 $R,J$ 为上三角矩阵，所以 </p>
+<script type="math/tex; mode=display">
+R^{-1},RJR^{-1}</script><p>也为上三角矩阵，因此矩阵 A 可相似于对角矩阵</p>
+<h5 id="酉相似对角矩阵定理"><a href="#酉相似对角矩阵定理" class="headerlink" title="酉相似对角矩阵定理"></a>酉相似对角矩阵定理</h5><p>前面的Schurd定理给出了酉矩阵一定可相似于上三角矩阵，那什么情况下酉矩阵会相似于对角矩阵呢</p>
+<p>给定矩阵 $A \in C^{n \times n} $，存在酉矩阵$ U $，使得 $U^{-1}AU $为对角矩阵的充要条件是</p>
+<script type="math/tex; mode=display">
+\overline A^TA = A\overline A^T \quad\quad(*)</script><p>其中满足 (*) 条件的矩阵 $A $称为正规矩阵，因此酉矩阵 $A$ 可相似对角化的充要条件是 $A$ 为正规矩阵</p>
+<p>证明</p>
+<ul>
+<li>必要性：<br>已知：<script type="math/tex; mode=display">
+U^{-1}AU = \begin{bmatrix}   \lambda_1\\  &\ddots\\ && \lambda_n \end{bmatrix}\\ 记\begin{bmatrix}   \lambda_1\\  &\ddots\\ && \lambda_n \end{bmatrix} = \Lambda</script>则<script type="math/tex; mode=display">
+A=U \Lambda U^{-1}=U \Lambda \overline U^T</script>因此<script type="math/tex; mode=display">
+\overline A^T A \overline {(U \Lambda \overline U^T)}^T U \Lambda \overline U^T=U\Lambda U^{-1}U \overline \Lambda ^T \overline U^T = A \overline A^T</script></li>
+<li>充分性：<br>已知：<script type="math/tex; mode=display">
+\overline A^TA = A\overline A^T</script></li>
+</ul>
+<p>由Schur定理，存在 $U$ 矩阵，使 $U^{-1}AU$ 为上三角矩阵，即</p>
+<script type="math/tex; mode=display">
+U^{-1}AU = \begin{bmatrix}   \lambda_1 & \cdots & * & \\  &\ddots & \vdots\\  &&\lambda_n \end{bmatrix}=\widetilde \Lambda</script><p>因此</p>
+<script type="math/tex; mode=display">
+A = U\widetilde \Lambda U^{-1}= U\widetilde \Lambda \overline U^T,A^T=U \overline {\widetilde \Lambda}^T \overline U^T</script><p>由已知条件</p>
+<script type="math/tex; mode=display">
+U \overline {\widetilde \Lambda}^T \overline U^TU\widetilde \Lambda \overline U^T = U\widetilde \Lambda \overline U^TU \overline {\widetilde \Lambda}^T \overline U^T\\可以得出\overline {\widetilde \Lambda}^T  \widetilde  \Lambda  = \widetilde \Lambda \overline {\widetilde \Lambda}^T</script><p>因此</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}   \overline \lambda_1 \\  \vdots & \ddots\\  \overline *&\cdots& \overline \lambda_n \end{bmatrix} \begin{bmatrix}   \lambda_1 & \cdots & * & \\  &\ddots & \vdots\\  &&\lambda_n \end{bmatrix} = \begin{bmatrix}   \lambda_1 & \cdots & * & \\  &\ddots & \vdots\\  &&\lambda_n \end{bmatrix} \begin{bmatrix}   \overline \lambda_1 \\  \vdots & \ddots\\  \overline *&\cdots& \overline \lambda_n \end{bmatrix}\\</script><p>通过比较元素可得，  $\widetilde  \Lambda $为对角矩阵，即</p>
+<script type="math/tex; mode=display">
+\widetilde  \Lambda  = \begin{bmatrix}   \lambda_1\\  &\ddots\\  &&\lambda_n \end{bmatrix} \\</script><h5 id="Hermite矩阵"><a href="#Hermite矩阵" class="headerlink" title="Hermite矩阵"></a>Hermite矩阵</h5><h6 id="Hermite矩阵的定义"><a href="#Hermite矩阵的定义" class="headerlink" title="Hermite矩阵的定义"></a>Hermite矩阵的定义</h6><p>矩阵 $A \in C^{n \times n}$ ，若满足 $\overline A^T = A $，则矩阵 $A$ 为Hermite矩阵</p>
+<h6 id="Hermite矩阵的性质"><a href="#Hermite矩阵的性质" class="headerlink" title="Hermite矩阵的性质"></a>Hermite矩阵的性质</h6><ul>
+<li><p>Hermite矩阵为正规矩阵<br>证明：<br>显然</p>
+</li>
+<li><p>Hermite矩阵可对角化<br>证明：Hermite矩阵为正规矩阵，由定理正规矩阵可对角化</p>
+</li>
+<li><p>Hermite矩阵的特征值为实数<br>证明：</p>
+<script type="math/tex; mode=display">
+A \alpha = \lambda \alpha</script><p>等式两边取共轭转置，则</p>
+<script type="math/tex; mode=display">
+\overline \alpha^T\overline  A^T   = \overline \alpha^T A  = \overline \lambda \overline\alpha ^T</script><p>等式两边右乘 $\alpha$, 则 </p>
+<script type="math/tex; mode=display">
+\overline \alpha^T A \alpha  =\overline \alpha^T \lambda \alpha  = \lambda  \overline \alpha^T\alpha  = \overline \lambda \overline\alpha^T \alpha</script><p>因此</p>
+<script type="math/tex; mode=display">
+\overline \lambda = \lambda</script><p>所以$\lambda$为实数</p>
+</li>
+</ul>
+<h5 id="正定、非负定Hermite矩阵"><a href="#正定、非负定Hermite矩阵" class="headerlink" title="正定、非负定Hermite矩阵"></a>正定、非负定Hermite矩阵</h5><h6 id="正定、非负定Hermite矩阵定义"><a href="#正定、非负定Hermite矩阵定义" class="headerlink" title="正定、非负定Hermite矩阵定义"></a>正定、非负定Hermite矩阵定义</h6><p>已知Hermite矩阵 A</p>
+<ul>
+<li>正定： $\overline x^TAx &gt; 0$</li>
+<li>非负定：$\overline x^TAx \geq 0$<h6 id="非负定Hermite矩阵的最大特征值的极值刻画"><a href="#非负定Hermite矩阵的最大特征值的极值刻画" class="headerlink" title="非负定Hermite矩阵的最大特征值的极值刻画"></a>非负定Hermite矩阵的最大特征值的极值刻画</h6>特征值的最大值<script type="math/tex; mode=display">
+\lambda_{\max} =\max  \limits_{x \ne 0}\{ \frac{\overline x^TAx}{\overline x^Tx} \} =\max  \limits_{\|x\| = 1}\{\overline x^TAx \}</script>首先说明一下第二个等式如何过去的，因为<script type="math/tex; mode=display">
+\overline x^Tx= \langle x,x\rangle = \|x\|^2</script>因此<script type="math/tex; mode=display">
+\frac{\overline x^TAx}{\overline x^Tx} = \frac{\overline x^TAx}{\|x\|^2} = \frac{ \overline x^T}{\|x\|}A\frac{x}{\|x\|} = \overline x^TAx</script>其中新的 $x=\frac{x}{|x|} $，满足<script type="math/tex; mode=display">\|x\|=\|\frac{x}{\|x\|}\|=\frac{1}{\|x\|}\|x\|=1</script>即 x 在单位球上</li>
+</ul>
+<p>证明：</p>
+<p>因为 $A$ 为Hermite矩阵，因此矩阵$ A$ 可相似于对角矩阵，即</p>
+<script type="math/tex; mode=display">
+U^{-1}AU  = \overline U^TAU = \begin{bmatrix}   \lambda_1\\  &\ddots\\ && \lambda_n \end{bmatrix}=\Lambda</script><p>因此可以得到</p>
+<script type="math/tex; mode=display">
+A=(\overline U^T)^{-1}\Lambda U^{-1}=U\Lambda U^{-1}</script><p>因此</p>
+<script type="math/tex; mode=display">
+\overline x^TAx = \overline x^T(U \Lambda \overline U^T)x = \overline {(\overline U^Tx)}^T \Lambda (\overline U^Tx)</script><p>令$y=\overline U^Tx$,因此</p>
+<script type="math/tex; mode=display">
+\overline x^TAx  = \overline y^T\Lambda y  = \lambda_1\|y_1\|^2+\lambda_2\|y_2\|^2+...+\lambda_n\|y_n\|^2</script><p>其中</p>
+<script type="math/tex; mode=display">
+\langle y,y \rangle  = \overline y^Ty = \overline{ \overline U^Tx}^T \overline U^Tx = \overline {x^T \overline U} \overline U^Tx = \overline x^T  U\overline U^Tx =\overline  x^Tx =\langle x,x \rangle =1</script><p>因此</p>
+<script type="math/tex; mode=display">
+\|y_1\|^2+\|y_2\|^2+...+\|y_n\|^2 =1</script><p>所以</p>
+<script type="math/tex; mode=display">
+\lambda_{\min}\leq\overline x^TAx  \leq  \lambda_{\max}
+$$ 注：对正交矩阵也成立
+
+其中 $\frac{\overline x^TAx}{\overline x^Tx}$ 被称为Rayleigh商，用商来刻画特征值极值的问题
+
+
+### 矩阵的SVD分解
+##### SVD分解定理
+设 $A \in C^{m \times n}$，则存在 m 阶酉矩阵 $U $和 n 阶酉矩阵 $V$ ，使得</script><p>U^{-1}AV =\overline U^TAV =\begin{bmatrix}    \Sigma_r &amp; 0_{r \times (n-r)}\\   0_{(m-r) \times r}&amp;0_{(m-r)\times(n-r)}\\  \end{bmatrix}</p>
+<script type="math/tex; mode=display">
+其中</script><p>\Sigma_r =  \begin{bmatrix}    \sigma_1\\ &amp;\ddots\\ &amp;&amp; \sigma_r \end{bmatrix}, r = rank(A)</p>
+<script type="math/tex; mode=display">
+并且</script><p>\sigma_i = \sqrt{\lambda_i(\overline A^TA)}&gt; 0,i=1,2,…,r </p>
+<script type="math/tex; mode=display">称为矩阵 $A$ 的奇异值
+
+证明：
+
+记 $H=\overline A^TA $，容易得到矩阵 H 为Hermite矩阵，因此一定存在酉矩阵 V 使其相似于对角矩阵，即</script><p>\overline V^T(\overline A^TA)V = \overline{(AV)}^T(AV) = \left [\begin{array}{c:c}     \begin{bmatrix}        \lambda_1\\&amp;\ddots\\     &amp;&amp; \lambda_r\\     \end{bmatrix} &amp; 0\\   \hdashline\\     0 &amp; 0\\   \end{array}\right]\\</p>
+<script type="math/tex; mode=display">
+其中</script><p>r=rank(\overline A^TA),\lambda_i=\lambda_i(\overline A^TA)&gt;0</p>
+<script type="math/tex; mode=display">
+记 $AV=B \in C ^{m \times n}$对矩阵$ B $做分割</script><p>B= \left [\begin{array}{cccc:ccc}         b_1&amp;b_2&amp;…&amp;b_r&amp;b_{r+1}&amp;…&amp;b_n \end{array}\right] =\left [\begin{array}{c:c}         B_1&amp;B_2 \end{array}\right]</p>
+<script type="math/tex; mode=display">
+因此等式变为
+$$\overline B^TB = \begin{bmatrix}    \overline B_1^T\\ \overline B_2^T \end{bmatrix} \begin{bmatrix}    B_1 & B_2 \end{bmatrix} =  \begin{bmatrix}    \overline B_1^TB_1 & \overline B_1^TB_2\\ \overline B_2^TB_1 & \overline B_2^TB_2 \end{bmatrix} = \left [\begin{array}{c:c}     \begin{bmatrix}        \lambda_1\\&\ddots\\     && \lambda_r\\     \end{bmatrix} & 0\\   \hdashline\\     0 & 0\\   \end{array}\right]</script><p>因此可以得到</p>
+<script type="math/tex; mode=display">
+B_2=0, \overline B_1^TB_1  = \begin{bmatrix}    \lambda_1\\&\ddots\\ && \lambda_r\\ \end{bmatrix}</script><p>即</p>
+<script type="math/tex; mode=display">
+\overline B_1^TB_1  = \begin{bmatrix}    \overline b_1^T\\ \overline b_2^T\\ \vdots\\ \overline b_r^T \end{bmatrix} \begin{bmatrix}    b_1 &b_2 &\cdots &b_r \end{bmatrix} = \begin{bmatrix}    \langle b_1,b_1 \rangle & \langle b_1,b_2 \rangle & \cdots & \langle b_1,b_r \rangle\\ \langle b_2,b_1 \rangle & \langle b_2,b_2 \rangle & \cdots & \langle b_2,b_r \rangle\\ \vdots& \vdots&\ddots&\vdots\\ \langle b_r,b_1 \rangle & \langle b_r,b_2 \rangle & \cdots & \langle b_r,b_r \rangle \end{bmatrix} = \begin{bmatrix}    \lambda_1\\&\ddots\\ && \lambda_r\\ \end{bmatrix}</script><p>因此 $b_1,b_2,…,b_r$ 是 $C^m $中的正交向量组，而不是标准正交向量组</p>
+<p>将 $b_1,b_2,…,b_r$ 单位化，即</p>
+<script type="math/tex; mode=display">
+\widetilde b_i=\frac{b_i}{\|b_i\|} = \frac{b_i}{\sqrt{\lambda_i}} \Rightarrow b_i= \widetilde b_i \sqrt{\lambda_i}</script><p>将 $\widetilde b_1,…,\widetilde b_r $扩充为 $C^m $的一组标准正交基</p>
+<script type="math/tex; mode=display">
+\widetilde b_1,...,\widetilde b_r,\beta_{r+1},...,\beta_m</script><p>记为$ U$</p>
+<p>则</p>
+<script type="math/tex; mode=display">
+AV = B = \begin{bmatrix}    b_1  & \cdots &b_r & 0 & \cdots & 0 \end{bmatrix} = \begin{bmatrix}    \widetilde  b_1  & \cdots & \widetilde b_r & \beta_{r+1} & \cdots & \beta_m \end{bmatrix} \left [\begin{array}{c:c}     \begin{bmatrix}        \sqrt{\lambda_1}\\&\ddots\\     && \sqrt{\lambda_r}\\     \end{bmatrix} & 0\\   \hdashline\\     0 & 0\\   \end{array}\right]</script><h5 id="最大奇异值的意义"><a href="#最大奇异值的意义" class="headerlink" title="最大奇异值的意义"></a>最大奇异值的意义</h5><script type="math/tex; mode=display">
+\delta_{\max}=\sqrt{\lambda_{\max}(\overline A^TA)}\\ = \sqrt{\max  \limits_{x \ne0}\frac{\overline x^T(\overline A^TA)x}{\overline x^Tx}}\\ = \max \limits_{x \ne0}\sqrt{\frac{\overline (Ax)^T(Ax)}{\overline x^Tx}}\\ = \max \limits_{x \ne0}\sqrt{\frac{\|Ax\|^2}{\|x\|^2}}\\ = \max \limits_{x \ne0}\frac{\|Ax\|^2}{\|x\|^2}</script><p>因此最大奇异值可以理解为长度的最大放大率</p>
+<h3 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h3><h4 id="向量范数与矩阵范数（一）"><a href="#向量范数与矩阵范数（一）" class="headerlink" title="向量范数与矩阵范数（一）"></a>向量范数与矩阵范数（一）</h4><h5 id="向量范数"><a href="#向量范数" class="headerlink" title="向量范数"></a>向量范数</h5><p>之前我们在学欧几里得空间或者酉空间时利用内积定义了两个向量之间的距离。对于 $\mathbb C^n$ ,它作为酉空间已经定义好了向量的长度以及两个向量之间的距离。事实上，对于 $\mathbb C^n$ 我们还可以定义新的长度以及新的距离。由此我们定义向量范数</p>
+<p>定义1：设 $\mathbb C^n\rightarrow \mathbb R $的函数 $\Vert\bullet\Vert$ 满足</p>
+<p>(1)正定性： $\forall x\in \mathbb C^n,\Vert x\Vert\ge0 $,其中$ \Vert x\Vert=0 $当且仅当 $x=0$</p>
+<p>(2)齐次性： $\forall x\in\mathbb C^n,\forall\alpha\in\mathbb C $,有 $\Vert \alpha x\Vert=\vert\alpha\vert\cdot\Vert x\Vert$</p>
+<p>(3)三角不等式： $\forall x,y\in\mathbb C^n $,有$ \Vert x+y\Vert\le\Vert x\Vert+\Vert y\Vert$</p>
+<p>则称函数$ \Vert\bullet\Vert$为$ \mathbb C^n $上的向量范数</p>
+<p>下面我们看一看常见的四个向量范数</p>
+<p>常见的 $\mathbb C^n $上的向量范数:对于 $x=(x_1,x_2,…,x_n)^T$</p>
+<ul>
+<li><p>(1) 1 -范数: $\Vert x||_1=\sum_{j=1}^{n}\vert x_j\vert$</p>
+</li>
+<li><p>(2) $\infty$ -范数: $\Vert x\Vert_\infty =\max_{1\le j\le n}\vert x_j\vert$</p>
+</li>
+<li><p>(3) 2-范数: $\Vert x\Vert_2=\sqrt{x^Hx}=(x,x)=\sqrt{\sum_{j=1}^n\vert x_j\vert^2} $，我们也称2-范数为 <strong><em>欧几里得范数</em></strong></p>
+</li>
+<li><p>(4) $p$-范数$（ p\ge1 ）: \Vert x\Vert_p=(\sum_{j=1}^n\vert x_j|^p)^{\frac{1}{p}}$</p>
+</li>
+</ul>
+<p>情形(1)(2)容易验证，情形(4)证明过程比较繁琐，涉及到Young不等式，Hölder不等式，Minkovski不等式，自行了解，在此仅针对(3)中三角不等式做说明</p>
+<p>此时</p>
+<script type="math/tex; mode=display">
+\begin{align*} \Vert x+y\Vert^2_2&=(x+y,x+y)\\ &=(x,x)+(x,y)+(y,x)+(y,y)\\&=\Vert x\Vert^2+\Vert y\Vert^2+(x,y)+(y,x)\\ &\le\Vert x\Vert^2_2+\Vert y\Vert^2_2+2\Vert x\Vert_2\,\,\Vert y\Vert_2\\&=(\Vert x\Vert_2+\Vert y\Vert_2)^2 \end{align*}</script><p>在实际问题中我们经常要估计计算出来的向量值与真实的向量值之间的误差，下面定理告诉我们无论用哪个向量范数衡量误差，效果是一样的</p>
+<p>定理1(向量范数的等价性)：设<br>$\Vert\bullet\Vert_s,\Vert\bullet\Vert_t$ 均为$ \mathbb C^n$ 上的向量范数，则一定存在常数 $C_1,C_2 $,使得对 $\forall x\in\mathbb C^n$ 有$ C_1\Vert x\Vert_s\le\Vert x\Vert_t\le C_2 \Vert x\Vert_s$</p>
+<p>下面我们仅说明任意一个向量范数与 $\infty$ -范数等价</p>
+<p>考虑函数 $f(x)=\Vert x\Vert_t$ 以及集合<br>$<br>S=\{x\in\mathbb C^n\bigg|\,||x||_\infty=1\} $,则 S 是 $\mathbb C^n$ 上的有界闭集，而 f(x) 是实函数，在 S 上一定有最小值与最大值，分别设为 $C_1,C_2$</p>
+<p>则对任意的 $0\ne x\in \mathbb C^n$ ,有 $\frac{x}{\Vert x|_\infty}\in S $,从而 $C_1\le f(\frac{x}{\Vert x|_\infty})\le C_2$</p>
+<p>从而 $C_1\le \frac{|x|_t}{\Vert x|_\infty}\le C_2 $,从而 $C_1| x|_\infty\le| x|_t\le C_2|x|_\infty$</p>
+<h4 id="矩阵范数"><a href="#矩阵范数" class="headerlink" title="矩阵范数"></a>矩阵范数</h4><p>对于 $n\times n$ 复矩阵空间 $\mathbb C^{n\times n}$ ,我们也希望定义一个长度衡量矩阵的大小，定义距离比较两个矩阵之间的接近程度，由此我们引进了矩阵范数</p>
+<p>定义：设 $\mathbb C^{n\times n}\rightarrow \mathbb R $的函数 $\Vert\bullet\Vert $满足</p>
+<ul>
+<li><p>(1)正定性： $\forall A\in \mathbb C^{n\times n},\Vert A\Vert\ge0 $,其中 $\Vert A\Vert=0$ 当且仅当 A=0</p>
+</li>
+<li><p>(2)齐次性： $\forall A\in\mathbb C^{n\times n},\forall\alpha\in\mathbb C ,$有 $\Vert \alpha A\Vert=\vert\alpha\vert\cdot\Vert A\Vert$</p>
+</li>
+<li><p>(3)三角不等式： $\forall A,B\in\mathbb C^{n\times n}$ ,有 $\Vert A+B\Vert\le\Vert A\Vert+\Vert B\Vert$</p>
+</li>
+</ul>
+<p>(4)乘法相容性：$\forall A,B\in\mathbb C^{n\times n}$ ,有 $\Vert AB\Vert\le\Vert A\Vert\,\Vert B\Vert$</p>
+<p>则称函数 $\Vert\bullet\Vert为 \mathbb C^{n\times n} $上的矩阵范数</p>
+<p>有的资料上直接用条件(1)(2)(3)定义矩阵范数（因为条件(1)(2)(3)也适用于一般的范数，具有某种普适性），然而很多情况下我们要用条件(4)分析矩阵，探究矩阵级数等问题。所以这里我们统一用条件(1)(2)(3)(4)定义矩阵范数。以后谈到矩阵范数，默认矩阵范数满足对乘法的相容性。</p>
+<p>很多时候我们要将矩阵级数与向量级数放到一起进行研究，希望能保持对矩阵乘以向量的运算的相容性，即 $|Ax|_t\le |A|_s|x|_t $。由此我们得到如下定理</p>
+<p>定理：设$\Vert\bullet\Vert_s$为 $\mathbb C^{n\times n}$ 上的矩阵范数，则一定存在 $\mathbb C^n$ 上的向量范数 $|\bullet|_t$ 满足对 $\forall A\in \mathbb C^{n\times n},\forall x\in\mathbb C^n $,有 $|Ax|_t\le|A|_s|x|_t$</p>
+<p>证：任意给定非零向量 $\eta_0$ ,定义向量范数 $|x|_t=|x\eta_0^T|_s$</p>
+<p>此时该向量范数满足正定性，齐次性，三角不等式，且</p>
+<script type="math/tex; mode=display">
+\|Ax\|_t=\|Ax\eta_0^T\|_s\le\|A\|_s\|x\eta_0^T\|_s=\|A\|_s\|x\|_t</script><p>由定理可知这样定义的向量范数 <strong><em>不一定唯一</em></strong></p>
+<p>给定一个向量范数，我们总是可以构造出矩阵范数，并且满足与矩阵范数对矩阵与向量乘法的相容性。由此我们定义矩阵的算子范数</p>
+<p>定义：设 $|\bullet|_t$ 是 $\mathbb C^n $上的向量范数，我们定义矩阵范数 $|\bullet|_t$ 如下（容易验证满足条件(1)(2)(3)(4)）:</p>
+<script type="math/tex; mode=display">
+\|A\|_t=\max_{x\ne0}\frac{\|Ax\|_t}{\|x\|_t}</script><p>则称该矩阵范数是由向量范数 $|\bullet|_t$ 诱导出来的算子范数。此时 $|Ax|_t\le|A|_t|x|_t$</p>
+<p>事实上， </p>
+<script type="math/tex; mode=display">
+\|ABx\|_t\le\|A\|_t\|B\|_t\|x\|_t</script><p>从而 </p>
+<script type="math/tex; mode=display">
+\|AB\|_t=\max_{x\ne0}\frac{\|ABx\|_t}{\|x\|_t}\le\|A\|_t\|B\|_t</script><p>下面我们来看一看常见的算子范数</p>
+<p>定理：设 $A\in\mathbb C^{n\times n} , x\in\mathbb C^{n\times n}$ ,则</p>
+<ul>
+<li><p>(1) $|A|_\infty=\max_{1\le i\le n}\sum_{j=1}^{n}|x_{ij}|$ （行范数）</p>
+</li>
+<li><p>(2) $|A|_1=\max_{1\le j\le n}\sum_{i=1}^{n}|x_{ij}|$ （列范数）</p>
+</li>
+<li><p>(3) $|A|_2=\sqrt{\lambda_{\max}(A^HA)}$（2-范数），其中 $\lambda_{\max}(A^HA)$ 表示 $A^HA$ 的最大特征值</p>
+</li>
+</ul>
+<p>证：<br>(1)设 $x=(x_1,x_2,…,x_n)^T\ne 0$ ,<br>记 </p>
+<script type="math/tex; mode=display">
+\begin{align*}
+t &=\|x\|_\infty=\max_{1\le i\le n}|x_i|,\mu=\max_{1\le i\le n}\sum_{j=1}^{n}|a_{ij}| \\
+\|Ax\|_\infty &=\max_{1\le i\le n}|\sum_{j=1}^na_{ij}x_j|\le \max_{1\le i\le n}\sum_{j=1}^n|a_{ij}||x_j|\le t\max_{1\le i\le n}\sum_{j=1}^n|a_{ij}|=\|x\|_\infty \mu
+\end{align*}</script><p>则</p>
+<script type="math/tex; mode=display">
+\|A\|_\infty=\max_{x\ne0}\frac{\|Ax\|_\infty}{\|x\|_\infty}\le\mu</script><p>设 $\mu=\sum_{j=1}^n|a_{i_0j}| $,令 $x_0=(sgn{(a_{i_{0}1})},sgn{(a_{i_{0}2})},…,sgn{(a_{i_{0}n})})^T $,则 $Ax_0$ 的第 $i_0$ 个分量为 $\sum_{j=1}^na_{i_0j}sgn{(a_{i_0j})}=\sum_{j=1}^n|a_{i_0j}|=\mu ,且 |x_0|_\infty=1 ,从而 \frac{|Ax_0|_\infty}{|x_0|_\infty}=\mu$</p>
+<p>从而 $|A|_\infty=\mu=\max_{1\le i\le n}\sum_{j=1}^{n}|a_{ij}|$</p>
+<p>(2)设 $x=(x_1,x_2,…,x_n)^T\ne 0 $,记 $t=|x|_1=\sum_{j=1}^n|x_j|,\mu=\max_{1\le j\le n}\sum_{i=1}^{n}|a_{ij}|$，则</p>
+<script type="math/tex; mode=display">
+\begin{align*} \|Ax\|_1&=\sum_{i=1}^n|\sum_{j=1}^na_{ij}x_j|\\ &\le\sum_{i=1}^n\sum_{j=1}^n|a_{ij}||x_j|\\ &\le\sum_{j=1}^n\sum_{i=1}^n|a_{ij}||x_j|\\ &=\sum_{j=1}^n(\sum_{i=1}^n|a_{ij}|)|x_j|\\ &\le\sum_{j=1}^n \mu|x_j|=\mu t=\mu\|x\|_1 \end{align*}</script><p>则 $|A|_1=\max_{x\ne0}\frac{|Ax|_1}{|x|_1}\le\mu$</p>
+<p>令 $\mu=\sum_{i=1}^n|a_{ij_0}| , e_{j_0} $为第 $j_0$ 个分量为1，其余分量为0的列向量</p>
+<p>则 $|Ae_{j_0}|_1=\sum_{i=1}^n|a_{ij_0}|=\mu , |e_{j_0}|_1=1$</p>
+<p>故$|A|_1=\mu =\max_{1\le j\le n}\sum_{i=1}^{n}|a_{ij}|$</p>
+<p>(3)注意到 $A^HA$ 是Hermite矩阵，且$ x^HA^HAx=(Ax)^H(Ax)\ge 0 $,故$ A^HA$ 是半正定Hermite矩阵，从而 $A^HA $的特征值全为非负数，不妨设为</p>
+<script type="math/tex; mode=display">
+\lambda_1\ge\lambda_2\ge...\ge\lambda_n\ge0</script><p>则一定存在酉矩阵 $U$ 使得</p>
+<script type="math/tex; mode=display">
+U^HA^HAU=\begin{pmatrix} \lambda_1\\&\lambda_2\\&&\ddots\\&&&\lambda_n \end{pmatrix}</script><p>设 $x=Uy$ ,则 $|Ax|_2^2=(Ax)^H(Ax)=x^HA^HAx=y^HU^HA^HAUy=\sum_{j=1}^n\lambda_j|y_j|^2$</p>
+<p>|x|_2^2=x^Hx=y^HU^HUy=y^Hy=\sum_{j=1}^n|y_j|^2</p>
+<p>从而 </p>
+<script type="math/tex; mode=display">
+\|Ax\|^2_2\le\lambda_1\|x\|_2^2</script><p>而</p>
+<script type="math/tex; mode=display">
+\|AUe_1\|_2^2=\lambda_1\|Ue_1\|_2^2</script><p>故</p>
+<script type="math/tex; mode=display">
+\|A\|_2=\sqrt{\lambda_1}=\sqrt{\lambda_{\max}(A^HA)}</script><p>看起来矩阵的行范数以及列范数是容易计算的，编程起来比较容易实现（只需遍历矩阵中的元素，求和后弄一弄排序算法即可实现），而2-范数相对来说计算起来不太方便，通过编程实现不太好操作。但2-范数在理论上应用广泛，性质良好。</p>
+<h5 id="矩阵范数的等价性"><a href="#矩阵范数的等价性" class="headerlink" title="矩阵范数的等价性"></a>矩阵范数的等价性</h5><p>首先，与向量范数类似，矩阵范数同样也有等价性</p>
+<p>定理1：设 $|\bullet|_s,|\bullet|_t 均为 \mathbb C^{n\times n}$ 上的矩阵范数，则一定存在常数 $C_1,C_2$ 使得对任意的$ A\in \mathbb C^{n\times n}$ 有 $C_1|A|_s\le|A|_t\le C_2|A|_s$</p>
+<p>2.矩阵范数与特征值的模的比较<br>给定一个n阶矩阵，它的矩阵范数与特征值的模到底有什么联系？我们先看如下定义</p>
+<p>定义：设$ A\in \mathbb C^{n\times n} 的特征值为 \lambda_1,\lambda_2,…,\lambda_n $,称 $\rho(A)=\max_{1\le i\le n}|\lambda_i|$ 为矩阵 $A $的谱半径</p>
+<p>对于矩阵范数与矩阵的谱半径，我们有</p>
+<p>定理：设$\Vert\bullet\Vert为\mathbb C^{n\times n}$上的矩阵范数，则 $\forall{A}\in \mathbb C^{n\times n}$ ,有 $\rho(A)\le|A|$</p>
+<p>证：设 $\lambda$ 是 $A$ 的任意特征值，对应非零特征向量为 $\eta$ ,则 $O\ne \eta\eta^H\in\mathbb C^{n\times n}<br>$<br>则 </p>
+<script type="math/tex; mode=display">
+\|A\eta\eta^H\|=\|\lambda \eta\eta^H\|=|\lambda|\|\eta\eta^H\|
+\|A\eta\eta^H\|\le\|A\|\|\eta\eta^H\|</script><p>从而</p>
+<script type="math/tex; mode=display">
+|\lambda|\le\|A\| ,从而 \rho(A)\le\|A\|</script><p>特别的，我们有<br>定理：设 $A$ 是正规矩阵，则$ A$ 的2-范数 $|A|_2=\rho(A)$</p>
+<p>证：此时存在酉矩阵 $U$ 使得 $A=U^HDU$ ,其中 $D=diag(\lambda_1,\lambda_2,…,\lambda_n) $是对角矩阵</p>
+<p>不妨设 $|\lambda_1|\ge|\lambda_2|\ge…\ge|\lambda_n|$ ,则 $\rho(A)=|\lambda_1|$</p>
+<p>此时 $A^HA=U^HD^HDU$</p>
+<script type="math/tex; mode=display">
+D^HD=diag(|\lambda_1|^2,|\lambda_2|^2,...,|\lambda_n|^2)
+\|A\|_2=|\lambda_1|=\rho(A)</script><p>前面我们讨论的是一般的矩阵范数，以下我们要讨论矩阵的算子范数</p>
+<h5 id="E-A的可逆性"><a href="#E-A的可逆性" class="headerlink" title="E+A的可逆性"></a>E+A的可逆性</h5><p>我们先看一个引理，尽管这个引理非常简单</p>
+<p>引理：设$\Vert\bullet\Vert为\mathbb C^{n\times n}$上的算子范数，$E$ 为 n 阶单位阵，则 $|E|= 1$</p>
+<p>证：此时 $\frac{|Ex|}{|x|}=\frac{|x|}{|x|}=1$ ,故 $|E|=1$</p>
+<p>定理4：设$\Vert\bullet\Vert为\mathbb C^{n\times n}$上的算子范数， $A\in\mathbb C^{n\times n} $满足 $|A|&lt; 1 , E$ 为 n 阶单位阵，则$ E+A $可逆，且$ |(E+A)^{-1}|\le\frac{1}{1-|A|}$</p>
+<p>证：反设 $E+A $不可逆，则一定存在$ 0\ne x_0\in\mathbb C^n 满足 (E+A)x_0=0 $,即 $$<br>x_0=-Ax_0</p>
+<script type="math/tex; mode=display">
+此时</script><p>|x_0|=|-Ax_0|=|Ax_0|\le|A||x_0|&lt;|x_0|</p>
+<script type="math/tex; mode=display">
+矛盾，故 $E+A$ 可逆
+
+此时 $(E+A)(E+A)^{-1}=E$ ,即$ (E+A)^{-1}=E-A(E+A)^{-1}$
+
+则</script><p>|(E+A)^{-1}|\le|E|+|A(E+A)^{-1}|\le1+|A||(E+A)^{-1}|</p>
+<script type="math/tex; mode=display">
+即</script><p>(1-|A|)|(E+A)^{-1}|\le1</p>
+<script type="math/tex; mode=display">
+即</script><p>|(E+A)^{-1}|\le\frac{1}{1-|A|}</p>
+<script type="math/tex; mode=display">
+然而并不是所有的矩阵范数都是算子范数，下面我们就来介绍一个常用的非算子范数的矩阵范数。
+
+##### 非算子范数的矩阵范数示例——F范数
+定义：设 $A=(a_{ij})_{n \times n}\in \mathbb C^{n \times n} $,定义 $\|A\|_F=({\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2})^\frac{1}{2}$
+称 $\|\bullet\|_F 为\mathbb C^{n\times n}$ 上的Frobenius范数，简称F-范数
+
+容易验证F-范数满足正定性，齐次性，三角不等式。下面验证F-范数满足对乘法的相容性
+
+设 $A=(a_{ij})_{n\times n},B=(b_{ij})_{n\times n}$ ,则</script><p>\begin{align<em>} |AB|_F^2&amp;=\sum_{i=1}^{n}\sum_{j=1}^n(\sum_{k=1}^na_{ik}b_{kj})^2\\ &amp;\le\sum_{i=1}^{n}\sum_{j=1}^n(\sum_{k=1}^n|a_{ik}b_{kj}|)^2\\ &amp;\le \sum_{i=1}^{n}\sum_{j=1}^n\bigg((\sum_{k=1}^n|a_{ik}|^2)(\sum_{k=1}^n |b_{kj}|^2)\bigg)\\ &amp;=(\sum_{i=1}^n\sum_{k=1}^n|a_{ik}|^2)(\sum_{k=1}^n\sum_{j=1}^n|b_{kj}|^2)\\&amp;=|A|_F^2|B|_F^2 \end{align</em>}</p>
+<script type="math/tex; mode=display">
+从而F-范数是矩阵范数
+
+事实上，我们还可以验证</script><p>|A|_F=(tr(A^HA))^{\frac{1}{2}}=(tr(AA^H))^\frac{1}{2}</p>
+<script type="math/tex; mode=display">
+
+事实上，在 $n\ge2$ 时，由于 $\|E\|_F=n^\frac{1}{2} $,故 由前面的引理1可知F-范数不是 $\mathbb C^{n\times n} $上的算子范数。但我们有
+
+定理：对 $\forall{A}\in\mathbb C^{n\times n},x\in\mathbb C^n $，有 $\|Ax\|_2\le\|A\|_F\|x\|_2$
+
+证:</script><p>\begin{align<em>} |Ax|_2^2&amp;=\sum_{i=1}^n(\sum_{j=1}^na_{ij}x_j)^2\\ &amp;\le\sum_{i=1}^n(\sum_{j=1}^n|a_{ij}||x_j|)^2\\ &amp;\le(\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2)(\sum_{j=1}^n|x_j|^2)\\&amp; =|A|_F^2|x|_2^2 \end{align</em>}</p>
+<script type="math/tex; mode=display">
+故得证
+
+事实上，我们还可以得到F-范数的相关性质
+
+定理：设 $A\in\mathbb C^{n\times n} , U,V $均为 n 阶酉矩阵，则 $\|A\|_F=\|UA\|_F=\|AV\|_F$
+
+证：此时</script><p>|UA|_F=(tr((UA)^H(UA)))^\frac{1}{2}=(tr(A^HU^HUA))^\frac{1}{2}=(tr(A^HA))^\frac{1}{2}=|A|_F</p>
+<script type="math/tex; mode=display">
+</script><p>|AV|_F=(tr((AV)(AV)^H))^\frac{1}{2}=(tr(AVV^HA^H))^\frac{1}{2}=(tr(AA^H))^\frac{1}{2}=|A|_F<br>$$</p>
+]]></content>
+      <categories>
+        <category>矩阵分析</category>
+      </categories>
+      <tags>
+        <tag>范式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>图像分类任务介绍</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/1.%20%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h3 id="图像分类"><a href="#图像分类" class="headerlink" title="图像分类"></a>图像分类</h3><h4 id="1-什么是图像分类任务？"><a href="#1-什么是图像分类任务？" class="headerlink" title="1. 什么是图像分类任务？"></a>1. 什么是图像分类任务？</h4><p>图像分类：从一至的类别标签中为给定的输入图片选定一个标签。eg：标签：{狗，猫，卡车，飞机，…}</p>
@@ -550,6 +1480,83 @@ D_2 = K</script><code>作用：保持输入、输出尺寸的一致</code></li>
       </tags>
   </entry>
   <entry>
+    <title>图像分割&amp;目标检测</title>
+    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
+    <content><![CDATA[<h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
+<ul>
+<li>分类：不考虑空间位置</li>
+<li>语义分割：像素的类别</li>
+<li>目标检测：多目标</li>
+<li>实例分割：多目标</li>
+</ul>
+<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
+<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/滑动窗口示例.gif" alt="滑动窗口示例"></p>
+<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/滑动窗口.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
+<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN网络结构.jpg" alt="FCN网络结构"></p>
+<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
+<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <strong><em>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</em></strong> 。</p>
+<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN工作过程.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
+<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
+<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
+<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/全卷积.png" alt="全卷积"></p>
+<p><code>问题：什么是上采样呢？</code></p>
+<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
+<ul>
+<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
+</li>
+<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
+</li>
+<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：</p>
+<script type="math/tex; mode=display">
+input = \begin{bmatrix}
+x_1 & x_2 & x_3 & x_4 \\
+x_6 & x_7 & x_8 & x_9 \\
+x_{10} & x_{11} & x_{12} & x_{13} \\
+x_{14} & x_{15} & x_{16} & x_{17} \\
+\end{bmatrix} 
+\\
+kernel = \begin{bmatrix}
+w_{0,0} & w_{0,1} & w_{0,2} \\
+w_{1,0} & w_{1,1} & w_{1,2} \\
+w_{2,0} & w_{2,1} & w_{2,2} \\
+\end{bmatrix}</script><p>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output</p>
+<script type="math/tex; mode=display">
+output=\begin{bmatrix}
+y_0 & y_1 \\
+y_2 & y_3 \\
+\end{bmatrix}</script><p>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：</p>
+<script type="math/tex; mode=display">
+X = \begin{bmatrix}
+x_1 \\ x_2 \\...\\x_17
+\end{bmatrix}
+\\
+Y = \begin{bmatrix}
+y_0 \\ y_1 \\ y_2 \\y_3
+\end{bmatrix}</script><p>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：</p>
+<script type="math/tex; mode=display">
+Y = C X</script><p>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：</p>
+<script type="math/tex; mode=display">
+C = \begin{bmatrix}
+w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0 & 0\\
+0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0\\
+0 & 0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2}\\
+\end{bmatrix}</script></li>
+</ul>
+<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：</p>
+<script type="math/tex; mode=display">
+X = C^T Y</script><p>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
+<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
+]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
+      <tags>
+        <tag>图像分割</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CNN经典神经网络解析</title>
     <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/5.%20CNN%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h2 id="经典网络解析"><a href="#经典网络解析" class="headerlink" title="经典网络解析"></a>经典网络解析</h2><ul>
@@ -726,83 +1733,6 @@ F(X) = H(X) - X</script><p>残差(F(x))也是由此得来</p>
       </categories>
       <tags>
         <tag>论文</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图像分割&amp;目标检测</title>
-    <url>/2022/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/6.%20%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2&amp;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</url>
-    <content><![CDATA[<h3 id="视觉识别"><a href="#视觉识别" class="headerlink" title="视觉识别"></a>视觉识别</h3><p>视觉识别任务</p>
-<ul>
-<li>分类：不考虑空间位置</li>
-<li>语义分割：像素的类别</li>
-<li>目标检测：多目标</li>
-<li>实例分割：多目标</li>
-</ul>
-<h4 id="语义分割"><a href="#语义分割" class="headerlink" title="语义分割"></a>语义分割</h4><p>给每个像素分配类别标签，不区分实例，只考虑像素类别。</p>
-<h6 id="分割思路：滑动窗口"><a href="#分割思路：滑动窗口" class="headerlink" title="分割思路：滑动窗口"></a>分割思路：滑动窗口</h6><p>简单来说，就是那个框，在图片上移动，就看框里面有没有你要找的目标，<br><img src="./images/滑动窗口示例.gif" alt="滑动窗口示例"></p>
-<p>利用CNN对中心点像素分类,如下所示<br><img src="./images/滑动窗口.png" alt="滑动窗口"><br><code>问题: 效率太低 重叠区域的特征反复被计算</code></p>
-<h6 id="分割思路：全卷积"><a href="#分割思路：全卷积" class="headerlink" title="分割思路：全卷积"></a>分割思路：全卷积</h6><p>让整个网络只包含卷积层，一次性输出所有像素的类别预测。如下所示<br><img src="./images/FCN网络结构.jpg" alt="FCN网络结构"></p>
-<p>该网络在前面两步跟CNN的结构是一样的，但是在CNN网络Flatten的时候，FCN网络将之换成了一个卷积核size为5x5，输出通道为50的卷积层，之后的全连接层都换成了1x1的卷积层。我们知道1x1的卷积其实就相当于全连接操作。</p>
-<p>换成全卷积操作后，由于没有了全连接层的输入层神经元个数的限制，所以卷积层的输入可以 <strong><em>接受不同尺寸的图像，也就不用要求训练图像和测试图像size一致</em></strong> 。</p>
-<p>我们将网络放到一个正常的28x28x3的图像上，考虑上特征图的通道数，看下输出值的对应情况，如下图：<br><img src="./images/FCN工作过程.jpg" alt="FCN网络结构"><br>因为这是一个猫狗和背景的三分类任务，所以最后输出的图像大小为8x8x3，以输出图像左上角绿色点为例，该点深度为3，对应输入图像的绿色区域，该点的3个值反应了输入图的绿色区域是分类为猫狗还是背景的得分情况。</p>
-<p>总的来说，FCN利用了输出结果和输入图像的对应关系，直接给出了输入图像相应区域的分类情况，取消了传统目标检测中的滑动窗口选取候选框。</p>
-<h6 id="FCN的优缺点"><a href="#FCN的优缺点" class="headerlink" title="FCN的优缺点"></a>FCN的优缺点</h6><p>输出结果的每个值映射到输入图像上的感受野的窗口是固定的，也就是检测窗口是固定的，导致检测效果没那么好，但是速度却得到了很大的提升，而且可以输入任意尺寸的图片，为目标检测提供了一种新思路。</p>
-<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p><code>问题：FCN处理过程中一直保持原始分辨率，对于显存的需求会非常庞大</code></p>
-<p>解决方案：让整个网络只包含卷积层，并在网络中嵌入下采样与上采样过程。<br><img src="./images/全卷积.png" alt="全卷积"></p>
-<p><code>问题：什么是上采样呢？</code></p>
-<h6 id="FCN上采样理论"><a href="#FCN上采样理论" class="headerlink" title="FCN上采样理论"></a>FCN上采样理论</h6><p>FCN网络一般是用来对图像进行语义分割的，于是就需要对图像上的各个像素进行分类，这就需要一个上采样将最后得到的输出上采样到原图的大小。上采样对于低分辨率的特征图，常常采用上采样的方式将它还原高分辨率，这里陈述上采样的三种方法。</p>
-<ul>
-<li><p>反池化操作Unpooling<br>上采样不保留位置信息直接复制.<br><img src="./images/Unpooling.png" alt="Unpooling"></p>
-</li>
-<li><p>反池化操作: “Max Unpooling”<br>上池化保留位置信息补0<br><img src="./images/MaxPooling.png" alt="Unpooling"></p>
-</li>
-<li><p>上采样: 转置卷积(Transpose Convolution)<br>即通过卷积核和输出将输入还原出来。<br>如：</p>
-<script type="math/tex; mode=display">
-input = \begin{bmatrix}
-x_1 & x_2 & x_3 & x_4 \\
-x_6 & x_7 & x_8 & x_9 \\
-x_{10} & x_{11} & x_{12} & x_{13} \\
-x_{14} & x_{15} & x_{16} & x_{17} \\
-\end{bmatrix} 
-\\
-kernel = \begin{bmatrix}
-w_{0,0} & w_{0,1} & w_{0,2} \\
-w_{1,0} & w_{1,1} & w_{1,2} \\
-w_{2,0} & w_{2,1} & w_{2,2} \\
-\end{bmatrix}</script><p>设 步长 stride=1、填充 padding=0，则按 “valid” 卷积模式，可得 2×2 输出矩阵 output</p>
-<script type="math/tex; mode=display">
-output=\begin{bmatrix}
-y_0 & y_1 \\
-y_2 & y_3 \\
-\end{bmatrix}</script><p>这里，换一个表达方式，将输入矩阵 input 和输出矩阵 output 展开成 16×1 列向量 X 和 4×1 列向量 Y，可分别表示为：</p>
-<script type="math/tex; mode=display">
-X = \begin{bmatrix}
-x_1 \\ x_2 \\...\\x_17
-\end{bmatrix}
-\\
-Y = \begin{bmatrix}
-y_0 \\ y_1 \\ y_2 \\y_3
-\end{bmatrix}</script><p>接着，再用矩阵运算来描述标准卷积运算，设有 新卷积核矩阵 C：</p>
-<script type="math/tex; mode=display">
-Y = C X</script><p>经推导 (卷积运算关系)，可得 4×16 稀疏矩阵 C：</p>
-<script type="math/tex; mode=display">
-C = \begin{bmatrix}
-w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0 & 0\\
-0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2} & 0\\
-0 & 0 & 0 & 0 & 0 & w_{0,0} & w_{0,1} & w_{0,2} & 0 & w_{1,0} & w_{1,1} & w_{1,2} & 0 & w_{2,0} & w_{2,1} & w_{2,2}\\
-\end{bmatrix}</script></li>
-</ul>
-<p>而转置卷积其实就是要对这个过程进行逆运算，即 通过 C 和 Y 得到 X：</p>
-<script type="math/tex; mode=display">
-X = C^T Y</script><p>此时，即为新的 16×4 稀疏矩阵。以下通过转置后的卷积矩阵运算。此处，用于转置卷积的权重矩阵不一定来自于原卷积矩阵(通常不会如此恰巧)，但其形状和原卷积矩阵的转置相同。</p>
-<p>最后，将 16×1 的输出结果重新排序，即可通过 2×2 输入矩阵得到 4×4 输出矩阵。</p>
-]]></content>
-      <categories>
-        <category>cv</category>
-      </categories>
-      <tags>
-        <tag>图像分割</tag>
       </tags>
   </entry>
 </search>
